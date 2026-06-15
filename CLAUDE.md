@@ -40,19 +40,22 @@
 
 | 阶段 | 任务 | 主责 Sub-Agent | 产物 |
 |---|---|---|---|
-| **1a. 需求** | AI 脑暴 PRD → 技术选型 → 契约定义 | Architect | `docs/PRD.md`、`docs/API.md`、`docs/DB-Schema.md` |
-| **1b. UI/UX 设计** | 据 App 类型出设计规范 | UI/UX Designer | `docs/UI-DESIGN.md` |
+| **1a. 需求** | AI 脑暴 PRD → 合规交互设计 → 给 UI 视觉提示词 | Product Manager | `docs/PRD.md` |
+| **1b. 技术选型 + 契约** | 审 PRD → 动态选型 → 冻结 API/DB 契约 | Architect | `docs/API.md`、`docs/DB-Schema.md` |
+| **1c. UI/UX 设计** | 据 App 类型出设计规范 + 合规视觉 | UI/UX Designer | `docs/UI-DESIGN.md` |
 | **2. 多 Agent 编排(核心)** | Plan 模式 + Sub-Agent 做架构与业务编码 | Architect 指挥 + 各 Engineer | 前后端代码 |
-| **3. 功能补全** | 登录、支付、i18n 等;**Worktree 分支隔离** | Frontend/Backend + i18n Specialist | 功能模块 |
-| **4. Bug 修复** | **严禁人工排查**:日志/截图/CDP 驱动 AI 自诊断 | QA + 对应 Engineer | 修复记录 |
-| **5. 工程部署** | Docker + SSH + Nginx + SSL 全自动 | DevOps / Release Manager | 部署脚本 + 公网链接 |
-| **6. 上架** | Release 包 + 元数据 + 隐私协议 | Release Manager | 可上架产物 |
+| **3. 功能补全** | 登录、支付、i18n 等;**Worktree 分支隔离** | Frontend / Backend | 功能模块 |
+| **4. Bug 修复 + 测试** | **严禁人工排查**:日志/截图/CDP/抓包驱动 AI 自诊断;合规专项 + 安全对抗复核 | QA + 对应 Engineer | 测试报告 + 修复记录 |
+| **5. 工程部署** | 安全加固 + TLS + CI/CD + Docker/Nginx/SSL 全自动 | DevOps / Release Manager | 部署脚本 + 公网链接 |
+| **6. 上架** | Release 包 + 元数据 + ASO + 隐私协议 | DevOps(打包/准入)+ ASO Operator(元数据/文案) | 可上架产物 |
 
 > 全程由架构师(人类)下指令,Sub-Agent 执行。每阶段产物入库,关键 Prompt/对话归档到 `docs/prompts/sessions/`。
 
 ---
 
-## 第 3 章 · 技术栈选型(已验证配方)
+## 第 3 章 · 技术栈选型(推荐默认配方,可由架构师按需替换)
+
+> 以下为**已验证的推荐默认配方**,复用现成工程基线、开局即跑。但**技术选型需求驱动**:架构师(`architect`)审阅 PRD 后,可针对客户端/后端/数据库/测试框架动态替换,**替换须在 `docs/PRD.md` 之后的技术选型报告中给出充分论证**。无强理由时优先沿用本配方。
 
 ### 3.1 前端(移动端)
 - **Expo + React Native(最新稳定 SDK)**,TypeScript `strict: true`,禁 `any`。
@@ -84,7 +87,7 @@
 / (repo root)
 ├── CLAUDE.md                 # 本宪法
 ├── .env.example              # 环境变量样板(占位无真值)
-├── .claude/agents/           # 8 个 Sub-Agent 角色定义(本版新增落地)
+├── .claude/agents/           # 8 个 Sub-Agent 角色定义(产品/架构/UI/前端/后端/运维/测试/运营)
 ├── docs/
 │   ├── PRD.md / API.md / DB-Schema.md / UI-DESIGN.md   # 设计产物(定题后填充)
 │   ├── WORKFLOW.md           # 多 Agent 编排 + 契约先行 + worktree 操作手册
@@ -146,16 +149,18 @@
 
 ### 11.2 Sub-Agent 角色矩阵(对应 `.claude/agents/*.md`)
 
+> 共 **8 个角色**。原 `security-auditor`(安全对抗复核)职责并入 **qa-debugger**;原 `i18n-specialist`(文案抽离/语言包对齐)职责并入 **frontend-engineer / backend-engineer**。
+
 | 角色 | 职责 |
 |---|---|
-| **architect** | 需求拆解、PRD、技术选型、契约定义、指挥编排 |
-| **ui-ux-designer** | 据 App 类型定设计规范(风格/配色/组件/布局/交互) |
-| **frontend-engineer** | Expo/RN 实现、UI 三态、i18n 接入,严格遵循 `docs/UI-DESIGN.md` |
-| **backend-engineer** | 接口、Prisma、鉴权守卫、管理后台后端 |
-| **security-auditor** | 越权/密钥扫描/依赖审计/输入校验复核(对抗式) |
-| **i18n-specialist** | 文案抽离、语言包对齐、裸字符串扫描 |
-| **devops-release-manager** | Docker/Nginx/SSL 部署、EAS 打包、上架清单 |
-| **qa-debugger** | 跑测试、CDP 调试、对照宪法验收、Bug 自动修复 |
+| **product-manager** | 需求脑暴 → PRD;双端上架合规交互设计(知情同意/账号注销/按需索权/iOS ATT+Apple 登录);给 UI 的视觉提示词 |
+| **architect** | 审 PRD → 动态技术选型 → 系统架构与安全/鉴权规范 → 冻结 API/DB 契约 → 任务拆解与指挥编排 |
+| **ui-ux-designer** | 据 App 类型定设计规范(令牌/组件/线框/三态)+ 合规视觉(拒绝暗黑模式/44pt 点按/前置授权弹窗) |
+| **frontend-engineer** | 移动端实现(默认 Expo/RN)、UI 三态、i18n 接入、客户端合规硬落地,严格遵循 `docs/UI-DESIGN.md` 与契约 |
+| **backend-engineer** | API、数据层、纵向+横向鉴权守卫、隐私强加密、彻底/不可逆账号数据销毁、i18n messageKey、管理后台后端 |
+| **devops-release-manager** | 安全加固 + 全链路 TLS、CI/CD、Docker/Nginx/SSL、备份监控、SSH 幂等部署、EAS 打包与技术准入 |
+| **qa-debugger** | 测试用例、双端合规专项测试、安全对抗复核、CDP/抓包调试、对照宪法验收、Bug 自动修复 |
+| **aso-operator** | 双端商店元数据/ASO/本地化文案、截图脚本(交 UI)、商店侧合规审查、上线后评论与数据运营 |
 
 ### 11.3 Bug 自动化修复工作流
 > **严禁人工改 Bug**。循环:① 采集证据(日志/截图/CDP)→ ② 喂 Agent 自诊断定位根因 → ③ Agent 出修复 + 验证 → ④ 诊断对话存 `docs/prompts/sessions/`。

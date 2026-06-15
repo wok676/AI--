@@ -10,14 +10,16 @@
 
 | 角色 | 何时用 |
 |---|---|
-| `architect` | 新功能/新模块动工前,出 Plan + 冻结契约 |
-| `ui-ux-designer` | 前端写界面前,出 `docs/UI-DESIGN.md` |
-| `frontend-engineer` | 实现 Expo/RN 界面与交互 |
-| `backend-engineer` | 实现 NestJS 接口/Prisma/鉴权 |
-| `security-auditor` | 对抗式复核越权/密钥(独立于实现者) |
-| `i18n-specialist` | 抽离裸串、对齐语言包 |
-| `devops-release-manager` | 部署/打包/上架 |
-| `qa-debugger` | 跑测试、Bug 自动修复 |
+| `product-manager` | 一句话创意 → 出 `docs/PRD.md`(功能清单 + 合规交互 + 给 UI 视觉提示词) |
+| `architect` | PM 出 PRD 后、前后端动工前,动态选型 + 冻结契约 + 拆任务编排 |
+| `ui-ux-designer` | 前端写界面前,出 `docs/UI-DESIGN.md`(令牌 + 线框 + 合规视觉) |
+| `frontend-engineer` | 实现移动端界面与交互(默认 Expo/RN);含 i18n 接入 |
+| `backend-engineer` | 实现接口/数据层/双向鉴权/数据销毁;含 i18n messageKey |
+| `devops-release-manager` | 安全加固/TLS/CI/CD/部署/打包/技术准入 |
+| `qa-debugger` | 跑测试、合规专项、安全对抗复核、Bug 自动修复 |
+| `aso-operator` | 商店元数据/ASO/截图脚本/隐私 URL/上线后运营 |
+
+> 原 `security-auditor` 职责并入 `qa-debugger`;原 `i18n-specialist` 职责并入 `frontend-engineer` / `backend-engineer`。
 
 ---
 
@@ -64,15 +66,17 @@ git worktree remove .worktrees/frontend
 ## 4. 一次完整功能的编排节奏
 
 ```
-1. architect      → Plan 模式出方案 + 冻结契约(API/DB/types/messageKey)   [人类确认]
-2. ui-ux-designer → (若涉及新界面)出/更新 docs/UI-DESIGN.md
+0. product-manager → 出/更新 docs/PRD.md(功能清单 + 合规交互 + UI 提示词)     [人类确认]
+1. architect       → Plan 模式出方案 + 动态选型 + 冻结契约(API/DB/types/messageKey)  [人类确认]
+2. ui-ux-designer  → (若涉及新界面)出/更新 docs/UI-DESIGN.md
 3. 并行(worktree 隔离):
-     backend-engineer  → 接口 + Prisma + 鉴权 + 测试
-     frontend-engineer → 屏幕 + API client + 三态 + i18n
-4. i18n-specialist   → 扫裸串、对齐 zh/en
-5. security-auditor  → 对抗式复核(独立于实现者,发现必须复核后采信)
-6. qa-debugger       → 跑 tsc/lint/test + 端到端验收,Bug 走自动修复循环
-7. 合并 worktree → 小步 commit → 归档关键对话到 docs/prompts/sessions/
+     backend-engineer  → 接口 + 数据层 + 双向鉴权 + i18n messageKey + 测试
+     frontend-engineer → 屏幕 + API client + 三态 + i18n 接入
+4. qa-debugger     → 跑 tsc/lint/test + 端到端验收 + 合规专项 + 安全对抗复核;Bug 走自动修复循环
+5. 合并 worktree → 小步 commit → 归档关键对话到 docs/prompts/sessions/
+   ── 以下为上架阶段 ──
+6. devops-release-manager → 部署上线(TLS/CI/CD/Nginx)+ EAS 打包 + 技术准入
+7. aso-operator    → 商店元数据/ASO 文案/截图脚本(交 UI)+ 隐私政策 URL 部署(找 devops)
 ```
 
 ---
