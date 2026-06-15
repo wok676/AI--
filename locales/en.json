@@ -1,0 +1,27 @@
+{
+  "common": {
+    "appName": "TestAI",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "empty": "No data",
+    "save": "Save",
+    "delete": "Delete"
+  },
+  "errors": {
+    "unknown": "Something went wrong, please try again",
+    "network": "Network error, please check your connection",
+    "unauthorized": "Session expired, please log in again",
+    "forbidden": "You are not allowed to perform this action",
+    "notFound": "Resource not found",
+    "validation": "Invalid input, please check and retry"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "username": "Username",
+    "password": "Password"
+  }
+}

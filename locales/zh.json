@@ -1,0 +1,27 @@
+{
+  "common": {
+    "appName": "TestAI",
+    "ok": "确定",
+    "cancel": "取消",
+    "retry": "重试",
+    "loading": "加载中…",
+    "empty": "暂无数据",
+    "save": "保存",
+    "delete": "删除"
+  },
+  "errors": {
+    "unknown": "出错了,请稍后重试",
+    "network": "网络异常,请检查连接",
+    "unauthorized": "登录已过期,请重新登录",
+    "forbidden": "无权进行此操作",
+    "notFound": "未找到资源",
+    "validation": "输入有误,请检查后重试"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出登录",
+    "username": "用户名",
+    "password": "密码"
+  }
+}

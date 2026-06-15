@@ -1,0 +1,62 @@
+# ---- Secrets (零硬编码密钥铁律) ----
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p8
+*.p12
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# ---- Build / dist ----
+dist/
+build/
+*.tsbuildinfo
+
+# ---- Expo / React Native ----
+.expo/
+.expo-shared/
+*.apk
+*.aab
+*.ipa
+ios/
+android/
+
+# ---- Docker / runtime ----
+*.local
+pgdata/
+
+# ---- SQLite 本地库 ----
+*.db
+*.db-journal
+*.sqlite
+
+# ---- Prisma 生成产物 ----
+generated/
+
+# ---- Git worktree 并行隔离目录(见 docs/WORKFLOW.md) ----
+.worktrees/
+
+# ---- Claude 本机设置 ----
+.claude/settings.local.json
+
+# ---- OS / IDE ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ---- Logs ----
+logs/
+*.log
