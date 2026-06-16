@@ -66,18 +66,31 @@ git worktree remove .worktrees/frontend
 ## 4. 一次完整功能的编排节奏
 
 ```
-0. product-manager → 出/更新 docs/PRD.md(功能清单 + 合规交互 + UI 提示词)     [人类确认]
-1. architect       → Plan 模式出方案 + 动态选型 + 冻结契约(API/DB/types/messageKey)  [人类确认]
-2. ui-ux-designer  → (若涉及新界面)出/更新 docs/UI-DESIGN.md
+0. product-manager → 出/更新 docs/PRD.md + 给人类一份《需求确认清单》          [人类确认 ✋]
+1. architect       → Plan 模式出方案 + 动态选型 + 冻结契约(API/DB/types/messageKey)  [人类确认 ✋]
+2. ui-ux-designer  → (若涉及新界面)出/更新 docs/UI-DESIGN.md + 给人类一份《设计确认清单》  [人类确认 ✋]
 3. 并行(worktree 隔离):
      backend-engineer  → 接口 + 数据层 + 双向鉴权 + i18n messageKey + 测试
      frontend-engineer → 屏幕 + API client + 三态 + i18n 接入
 4. qa-debugger     → 跑 tsc/lint/test + 端到端验收 + 合规专项 + 安全对抗复核;Bug 走自动修复循环
 5. 合并 worktree → 小步 commit → 归档关键对话到 docs/prompts/sessions/
    ── 以下为上架阶段 ──
-6. devops-release-manager → 部署上线(TLS/CI/CD/Nginx)+ EAS 打包 + 技术准入
+6. devops-release-manager → 部署上线(TLS/CI/CD/Nginx)+ EAS 打包 + 技术准入  [发布/提交前 人类确认 ✋]
 7. aso-operator    → 商店元数据/ASO 文案/截图脚本(交 UI)+ 隐私政策 URL 部署(找 devops)
 ```
+
+### 4.1 人类确认门(`[人类确认 ✋]`)
+
+标 `✋` 的阶段产出后**必须停下,把一份简短清单交架构师(人类)逐项确认,得到明确"通过"才进入下一阶段**。不得自行跳过、不得边等确认边往下做。
+
+| 门 | 谁出 | 交付给人类的确认清单(各项一句话 + ✅/❓) |
+|---|---|---|
+| **需求门** | product-manager | 《需求确认清单》:核心功能闭环、Must/Should/Could 划分、合规四项(知情同意/账号注销/按需索权/iOS 特有)、待澄清的存疑点 |
+| **契约门** | architect | 技术选型理由、API/DB 契约冻结点、三处强耦合点(messageKey / API 响应结构 / JWT 结构) |
+| **设计门** | ui-ux-designer | 《设计确认清单》:对标 App 与气质、覆盖的 Must 页面、设计令牌关键值、合规三项视觉、待人类拍板的风格选项 |
+| **发布门** | devops-release-manager | 《发布确认清单》:目标环境与地址、发布内容与版本号、回滚方案、密钥/证书与 TLS 就位、商店提交包与隐私表单、存疑点 |
+
+> 清单是给人类**快速决策**用的摘要,不是把整份文档复述一遍。存疑/多方案处用 ❓ 标出并给推荐项,让人类一眼能拍板。
 
 ---
 
