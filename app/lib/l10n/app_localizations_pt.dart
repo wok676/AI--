@@ -311,4 +311,187 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get privacy_photo_retention =>
       'Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data.';
+
+  @override
+  String get auth_signup_switchToLogin => 'Already have an account? Log in';
+
+  @override
+  String get auth_login_switchToSignup => 'No account yet? Sign up';
+
+  @override
+  String get auth_field_emailHint => 'you@example.com';
+
+  @override
+  String get auth_orDivider => 'or';
+
+  @override
+  String get today_dateStreakSeparator => '·';
+
+  @override
+  String get summary_unit_kcal => 'kcal';
+
+  @override
+  String get summary_goalNotSet => 'No goal set yet';
+
+  @override
+  String get today_mealNotLogged => 'Not logged';
+
+  @override
+  String today_mealItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+      zero: 'No items',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get capture_title => 'Log a meal';
+
+  @override
+  String get capture_text_title => 'Describe your meal';
+
+  @override
+  String get capture_camera_unavailable =>
+      'Camera is unavailable on this device. Try the gallery or text instead.';
+
+  @override
+  String get capture_gallery_unavailable => 'No photo selected.';
+
+  @override
+  String get recognize_item_serving_unit_serving => 'serving';
+
+  @override
+  String get recognize_item_serving_unit_piece => 'piece';
+
+  @override
+  String get recognize_item_serving_unit_gram => 'g';
+
+  @override
+  String get recognize_editItem_title => 'Edit item';
+
+  @override
+  String get recognize_field_name => 'Food name';
+
+  @override
+  String get recognize_field_quantity => 'Quantity';
+
+  @override
+  String get recognize_field_unit => 'Unit';
+
+  @override
+  String get recognize_mealType_label => 'Meal';
+
+  @override
+  String get recognize_save_success => 'Meal saved';
+
+  @override
+  String get recognize_emptyItems => 'Add at least one item before saving';
+
+  @override
+  String get history_prevDay => 'Previous day';
+
+  @override
+  String get history_nextDay => 'Next day';
+
+  @override
+  String get history_trend_title => 'Last 7 days';
+
+  @override
+  String get history_trend_caloriesLegend => 'Calories';
+
+  @override
+  String get history_trend_goalLegend => 'Goal';
+
+  @override
+  String get meal_delete_confirm => 'Delete this meal? This cannot be undone.';
+
+  @override
+  String get meal_delete_success => 'Meal deleted';
+
+  @override
+  String get goal_field_kcal => 'Daily goal (kcal)';
+
+  @override
+  String get goal_sex_label => 'Sex';
+
+  @override
+  String get goal_sex_male => 'Male';
+
+  @override
+  String get goal_sex_female => 'Female';
+
+  @override
+  String get goal_field_age => 'Age';
+
+  @override
+  String get goal_activity_sedentary => 'Sedentary';
+
+  @override
+  String get goal_activity_light => 'Light';
+
+  @override
+  String get goal_activity_moderate => 'Moderate';
+
+  @override
+  String get goal_activity_active => 'Active';
+
+  @override
+  String get goal_activity_veryActive => 'Very active';
+
+  @override
+  String get goal_type_label => 'Goal';
+
+  @override
+  String get goal_type_lose => 'Lose';
+
+  @override
+  String get goal_type_maintain => 'Maintain';
+
+  @override
+  String get goal_type_gain => 'Gain';
+
+  @override
+  String goal_estimate_result(int kcal) {
+    return 'Suggested: $kcal kcal';
+  }
+
+  @override
+  String get goal_estimate_apply => 'Use this value';
+
+  @override
+  String get goal_save_success => 'Goal saved';
+
+  @override
+  String get settings_units_energy => 'Energy';
+
+  @override
+  String get settings_units_mass => 'Mass';
+
+  @override
+  String get settings_units_kcal => 'kcal';
+
+  @override
+  String get settings_units_kj => 'kJ';
+
+  @override
+  String get settings_units_g => 'grams';
+
+  @override
+  String get settings_units_oz => 'ounces';
+
+  @override
+  String get settings_account_section => 'Account';
+
+  @override
+  String get settings_dangerZone => 'Danger zone';
+
+  @override
+  String get account_delete_cancel => 'Cancel';
+
+  @override
+  String get logout_confirm => 'Log out of your account?';
 }

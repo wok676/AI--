@@ -114,5 +114,75 @@
   "account_delete_success": "你的账号与数据已彻底删除",
   "account_delete_web": "你也可以在网页端注销账号",
 
-  "privacy_photo_retention": "你的食物照片仅用于即时 AI 识别,识别后不会长期保存原图,我们仅保存识别出的结果数据。"
+  "privacy_photo_retention": "你的食物照片仅用于即时 AI 识别,识别后不会长期保存原图,我们仅保存识别出的结果数据。",
+
+  "auth_signup_switchToLogin": "已有账号?去登录",
+  "auth_login_switchToSignup": "还没有账号?去注册",
+  "auth_field_emailHint": "you@example.com",
+  "auth_orDivider": "或",
+
+  "today_dateStreakSeparator": "·",
+  "summary_unit_kcal": "千卡",
+  "summary_goalNotSet": "尚未设置目标",
+  "today_mealNotLogged": "未记录",
+  "today_mealItemCount": "{count, plural, =0{无条目} =1{1 项} other{{count} 项}}",
+  "@today_mealItemCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "capture_title": "记录一餐",
+  "capture_text_title": "描述你的食物",
+  "capture_camera_unavailable": "此设备无法使用相机,请改用相册或文字录入。",
+  "capture_gallery_unavailable": "未选择任何照片。",
+
+  "recognize_item_serving_unit_serving": "份",
+  "recognize_item_serving_unit_piece": "个",
+  "recognize_item_serving_unit_gram": "克",
+  "recognize_editItem_title": "编辑食物项",
+  "recognize_field_name": "食物名称",
+  "recognize_field_quantity": "数量",
+  "recognize_field_unit": "单位",
+  "recognize_mealType_label": "餐次",
+  "recognize_save_success": "已保存这一餐",
+  "recognize_emptyItems": "保存前请至少保留一项",
+
+  "history_prevDay": "前一天",
+  "history_nextDay": "后一天",
+  "history_trend_title": "近 7 天",
+  "history_trend_caloriesLegend": "热量",
+  "history_trend_goalLegend": "目标",
+  "meal_delete_confirm": "删除这一餐?此操作不可撤销。",
+  "meal_delete_success": "已删除这一餐",
+
+  "goal_field_kcal": "每日目标(千卡)",
+  "goal_sex_label": "性别",
+  "goal_sex_male": "男",
+  "goal_sex_female": "女",
+  "goal_field_age": "年龄",
+  "goal_activity_sedentary": "久坐",
+  "goal_activity_light": "轻度",
+  "goal_activity_moderate": "中度",
+  "goal_activity_active": "活跃",
+  "goal_activity_veryActive": "非常活跃",
+  "goal_type_label": "目标",
+  "goal_type_lose": "减重",
+  "goal_type_maintain": "维持",
+  "goal_type_gain": "增重",
+  "goal_estimate_result": "建议参考值:{kcal} 千卡",
+  "@goal_estimate_result": {
+    "placeholders": { "kcal": { "type": "int" } }
+  },
+  "goal_estimate_apply": "采用此值",
+  "goal_save_success": "目标已保存",
+
+  "settings_units_energy": "能量",
+  "settings_units_mass": "质量",
+  "settings_units_kcal": "千卡",
+  "settings_units_kj": "千焦",
+  "settings_units_g": "克",
+  "settings_units_oz": "盎司",
+  "settings_account_section": "账号",
+  "settings_dangerZone": "危险操作",
+  "account_delete_cancel": "取消",
+  "logout_confirm": "确认退出登录?"
 }

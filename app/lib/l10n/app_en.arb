@@ -118,5 +118,75 @@
   "account_delete_success": "Your account and data have been permanently deleted",
   "account_delete_web": "You can also delete your account on the web",
 
-  "privacy_photo_retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+  "privacy_photo_retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data.",
+
+  "auth_signup_switchToLogin": "Already have an account? Log in",
+  "auth_login_switchToSignup": "No account yet? Sign up",
+  "auth_field_emailHint": "you@example.com",
+  "auth_orDivider": "or",
+
+  "today_dateStreakSeparator": "·",
+  "summary_unit_kcal": "kcal",
+  "summary_goalNotSet": "No goal set yet",
+  "today_mealNotLogged": "Not logged",
+  "today_mealItemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@today_mealItemCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "capture_title": "Log a meal",
+  "capture_text_title": "Describe your meal",
+  "capture_camera_unavailable": "Camera is unavailable on this device. Try the gallery or text instead.",
+  "capture_gallery_unavailable": "No photo selected.",
+
+  "recognize_item_serving_unit_serving": "serving",
+  "recognize_item_serving_unit_piece": "piece",
+  "recognize_item_serving_unit_gram": "g",
+  "recognize_editItem_title": "Edit item",
+  "recognize_field_name": "Food name",
+  "recognize_field_quantity": "Quantity",
+  "recognize_field_unit": "Unit",
+  "recognize_mealType_label": "Meal",
+  "recognize_save_success": "Meal saved",
+  "recognize_emptyItems": "Add at least one item before saving",
+
+  "history_prevDay": "Previous day",
+  "history_nextDay": "Next day",
+  "history_trend_title": "Last 7 days",
+  "history_trend_caloriesLegend": "Calories",
+  "history_trend_goalLegend": "Goal",
+  "meal_delete_confirm": "Delete this meal? This cannot be undone.",
+  "meal_delete_success": "Meal deleted",
+
+  "goal_field_kcal": "Daily goal (kcal)",
+  "goal_sex_label": "Sex",
+  "goal_sex_male": "Male",
+  "goal_sex_female": "Female",
+  "goal_field_age": "Age",
+  "goal_activity_sedentary": "Sedentary",
+  "goal_activity_light": "Light",
+  "goal_activity_moderate": "Moderate",
+  "goal_activity_active": "Active",
+  "goal_activity_veryActive": "Very active",
+  "goal_type_label": "Goal",
+  "goal_type_lose": "Lose",
+  "goal_type_maintain": "Maintain",
+  "goal_type_gain": "Gain",
+  "goal_estimate_result": "Suggested: {kcal} kcal",
+  "@goal_estimate_result": {
+    "placeholders": { "kcal": { "type": "int" } }
+  },
+  "goal_estimate_apply": "Use this value",
+  "goal_save_success": "Goal saved",
+
+  "settings_units_energy": "Energy",
+  "settings_units_mass": "Mass",
+  "settings_units_kcal": "kcal",
+  "settings_units_kj": "kJ",
+  "settings_units_g": "grams",
+  "settings_units_oz": "ounces",
+  "settings_account_section": "Account",
+  "settings_dangerZone": "Danger zone",
+  "account_delete_cancel": "Cancel",
+  "logout_confirm": "Log out of your account?"
 }

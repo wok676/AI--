@@ -206,6 +206,219 @@ class RecognitionResult {
       );
 }
 
+/// 已保存的餐次条目(API §4.11 响应 / §4.12 entries[])。
+@immutable
+class MealItem {
+  const MealItem({
+    this.id,
+    required this.name,
+    required this.quantity,
+    required this.unit,
+    required this.kcal,
+    required this.proteinG,
+    required this.carbsG,
+    required this.fatG,
+    this.confidence,
+    this.isManual = false,
+  });
+
+  final String? id;
+  final String name;
+  final num quantity;
+  final String unit;
+  final num kcal;
+  final num proteinG;
+  final num carbsG;
+  final num fatG;
+  final double? confidence;
+  final bool isManual;
+
+  factory MealItem.fromJson(Map<String, Object?> json) => MealItem(
+        id: json['id'] as String?,
+        name: json['name'] as String? ?? '',
+        quantity: json['quantity'] as num? ?? 1,
+        unit: json['unit'] as String? ?? '',
+        kcal: json['kcal'] as num? ?? 0,
+        proteinG: json['proteinG'] as num? ?? 0,
+        carbsG: json['carbsG'] as num? ?? 0,
+        fatG: json['fatG'] as num? ?? 0,
+        confidence: (json['confidence'] as num?)?.toDouble(),
+        isManual: json['isManual'] as bool? ?? false,
+      );
+
+  /// 由识别项构造(确认页保存用)。
+  factory MealItem.fromRecognized(RecognizedItem r) => MealItem(
+        name: r.name,
+        quantity: r.quantity,
+        unit: r.unit,
+        kcal: r.kcal,
+        proteinG: r.proteinG,
+        carbsG: r.carbsG,
+        fatG: r.fatG,
+        confidence: r.confidence,
+        isManual: r.isManual,
+      );
+
+  Map<String, Object?> toJson() => <String, Object?>{
+        'name': name,
+        'quantity': quantity,
+        'unit': unit,
+        'kcal': kcal,
+        'proteinG': proteinG,
+        'carbsG': carbsG,
+        'fatG': fatG,
+        if (confidence != null) 'confidence': confidence,
+        'isManual': isManual,
+      };
+
+  MealItem copyWith({
+    String? name,
+    num? quantity,
+    String? unit,
+    num? kcal,
+    num? proteinG,
+    num? carbsG,
+    num? fatG,
+  }) =>
+      MealItem(
+        id: id,
+        name: name ?? this.name,
+        quantity: quantity ?? this.quantity,
+        unit: unit ?? this.unit,
+        kcal: kcal ?? this.kcal,
+        proteinG: proteinG ?? this.proteinG,
+        carbsG: carbsG ?? this.carbsG,
+        fatG: fatG ?? this.fatG,
+        confidence: confidence,
+        isManual: isManual,
+      );
+}
+
+/// 一餐记录(API §4.11/§4.12)。
+@immutable
+class MealEntry {
+  const MealEntry({
+    required this.id,
+    required this.mealType,
+    required this.consumedAt,
+    required this.localDate,
+    required this.totalKcal,
+    required this.items,
+    this.note,
+  });
+
+  final String id;
+  final MealType mealType;
+  final String consumedAt;
+  final String localDate;
+  final num totalKcal;
+  final List<MealItem> items;
+  final String? note;
+
+  factory MealEntry.fromJson(Map<String, Object?> json) => MealEntry(
+        id: json['id'] as String? ?? '',
+        mealType: MealType.fromJson(json['mealType']),
+        consumedAt: json['consumedAt'] as String? ?? '',
+        localDate: json['localDate'] as String? ?? '',
+        totalKcal: json['totalKcal'] as num? ?? 0,
+        note: json['note'] as String?,
+        items: ((json['items'] as List<Object?>?) ?? const <Object?>[])
+            .whereType<Map<String, Object?>>()
+            .map(MealItem.fromJson)
+            .toList(growable: false),
+      );
+}
+
+/// 趋势单日(API §4.15 days[])。
+@immutable
+class TrendDay {
+  const TrendDay({
+    required this.date,
+    required this.consumedKcal,
+    required this.goalKcal,
+    required this.proteinG,
+    required this.carbsG,
+    required this.fatG,
+  });
+
+  final String date;
+  final num consumedKcal;
+  final num goalKcal;
+  final num proteinG;
+  final num carbsG;
+  final num fatG;
+
+  factory TrendDay.fromJson(Map<String, Object?> json) => TrendDay(
+        date: json['date'] as String? ?? '',
+        consumedKcal: json['consumedKcal'] as num? ?? 0,
+        goalKcal: json['goalKcal'] as num? ?? 0,
+        proteinG: json['proteinG'] as num? ?? 0,
+        carbsG: json['carbsG'] as num? ?? 0,
+        fatG: json['fatG'] as num? ?? 0,
+      );
+}
+
+/// 每日目标(API §4.16)。
+@immutable
+class Goal {
+  const Goal({
+    required this.targetKcal,
+    required this.effectiveFrom,
+    required this.source,
+  });
+
+  final num targetKcal;
+  final String effectiveFrom;
+  final String source; // manual | estimated
+
+  factory Goal.fromJson(Map<String, Object?> json) => Goal(
+        targetKcal: json['targetKcal'] as num? ?? 0,
+        effectiveFrom: json['effectiveFrom'] as String? ?? '',
+        source: json['source'] as String? ?? 'manual',
+      );
+
+  Map<String, Object?> toJson() => <String, Object?>{
+        'targetKcal': targetKcal,
+        'effectiveFrom': effectiveFrom,
+        'source': source,
+      };
+}
+
+/// 当前用户 + 偏好 + profile(API §4.9 GET /me)。
+@immutable
+class MeProfile {
+  const MeProfile({
+    required this.id,
+    required this.username,
+    required this.role,
+    this.email,
+    this.locale,
+    this.unitEnergy = 'kcal',
+    this.unitMass = 'g',
+    this.notifyEnabled = false,
+  });
+
+  final String id;
+  final String username;
+  final UserRole role;
+  final String? email;
+  final String? locale;
+  final String unitEnergy; // kcal | kJ
+  final String unitMass; // g | oz
+  final bool notifyEnabled;
+
+  factory MeProfile.fromJson(Map<String, Object?> json) => MeProfile(
+        id: json['id'] as String? ?? '',
+        username: json['username'] as String? ?? '',
+        role: UserRole.fromJson(json['role']),
+        email: json['email'] as String?,
+        locale: json['locale'] as String?,
+        unitEnergy: json['unitEnergy'] as String? ?? 'kcal',
+        unitMass: json['unitMass'] as String? ?? 'g',
+        notifyEnabled: json['notifyEnabled'] as bool? ?? false,
+      );
+}
+
 /// 每日汇总(进度环,API §4.14)。
 @immutable
 class DailySummary {

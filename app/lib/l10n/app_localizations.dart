@@ -687,6 +687,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data.'**
   String get privacy_photo_retention;
+
+  /// No description provided for @auth_signup_switchToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Log in'**
+  String get auth_signup_switchToLogin;
+
+  /// No description provided for @auth_login_switchToSignup.
+  ///
+  /// In en, this message translates to:
+  /// **'No account yet? Sign up'**
+  String get auth_login_switchToSignup;
+
+  /// No description provided for @auth_field_emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get auth_field_emailHint;
+
+  /// No description provided for @auth_orDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get auth_orDivider;
+
+  /// No description provided for @today_dateStreakSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'·'**
+  String get today_dateStreakSeparator;
+
+  /// No description provided for @summary_unit_kcal.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal'**
+  String get summary_unit_kcal;
+
+  /// No description provided for @summary_goalNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No goal set yet'**
+  String get summary_goalNotSet;
+
+  /// No description provided for @today_mealNotLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged'**
+  String get today_mealNotLogged;
+
+  /// No description provided for @today_mealItemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No items} =1{1 item} other{{count} items}}'**
+  String today_mealItemCount(int count);
+
+  /// No description provided for @capture_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a meal'**
+  String get capture_title;
+
+  /// No description provided for @capture_text_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your meal'**
+  String get capture_text_title;
+
+  /// No description provided for @capture_camera_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera is unavailable on this device. Try the gallery or text instead.'**
+  String get capture_camera_unavailable;
+
+  /// No description provided for @capture_gallery_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No photo selected.'**
+  String get capture_gallery_unavailable;
+
+  /// No description provided for @recognize_item_serving_unit_serving.
+  ///
+  /// In en, this message translates to:
+  /// **'serving'**
+  String get recognize_item_serving_unit_serving;
+
+  /// No description provided for @recognize_item_serving_unit_piece.
+  ///
+  /// In en, this message translates to:
+  /// **'piece'**
+  String get recognize_item_serving_unit_piece;
+
+  /// No description provided for @recognize_item_serving_unit_gram.
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get recognize_item_serving_unit_gram;
+
+  /// No description provided for @recognize_editItem_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit item'**
+  String get recognize_editItem_title;
+
+  /// No description provided for @recognize_field_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Food name'**
+  String get recognize_field_name;
+
+  /// No description provided for @recognize_field_quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get recognize_field_quantity;
+
+  /// No description provided for @recognize_field_unit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get recognize_field_unit;
+
+  /// No description provided for @recognize_mealType_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal'**
+  String get recognize_mealType_label;
+
+  /// No description provided for @recognize_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal saved'**
+  String get recognize_save_success;
+
+  /// No description provided for @recognize_emptyItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one item before saving'**
+  String get recognize_emptyItems;
+
+  /// No description provided for @history_prevDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous day'**
+  String get history_prevDay;
+
+  /// No description provided for @history_nextDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Next day'**
+  String get history_nextDay;
+
+  /// No description provided for @history_trend_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get history_trend_title;
+
+  /// No description provided for @history_trend_caloriesLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories'**
+  String get history_trend_caloriesLegend;
+
+  /// No description provided for @history_trend_goalLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get history_trend_goalLegend;
+
+  /// No description provided for @meal_delete_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this meal? This cannot be undone.'**
+  String get meal_delete_confirm;
+
+  /// No description provided for @meal_delete_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal deleted'**
+  String get meal_delete_success;
+
+  /// No description provided for @goal_field_kcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily goal (kcal)'**
+  String get goal_field_kcal;
+
+  /// No description provided for @goal_sex_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex'**
+  String get goal_sex_label;
+
+  /// No description provided for @goal_sex_male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get goal_sex_male;
+
+  /// No description provided for @goal_sex_female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get goal_sex_female;
+
+  /// No description provided for @goal_field_age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get goal_field_age;
+
+  /// No description provided for @goal_activity_sedentary.
+  ///
+  /// In en, this message translates to:
+  /// **'Sedentary'**
+  String get goal_activity_sedentary;
+
+  /// No description provided for @goal_activity_light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get goal_activity_light;
+
+  /// No description provided for @goal_activity_moderate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get goal_activity_moderate;
+
+  /// No description provided for @goal_activity_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get goal_activity_active;
+
+  /// No description provided for @goal_activity_veryActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Very active'**
+  String get goal_activity_veryActive;
+
+  /// No description provided for @goal_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get goal_type_label;
+
+  /// No description provided for @goal_type_lose.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose'**
+  String get goal_type_lose;
+
+  /// No description provided for @goal_type_maintain.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintain'**
+  String get goal_type_maintain;
+
+  /// No description provided for @goal_type_gain.
+  ///
+  /// In en, this message translates to:
+  /// **'Gain'**
+  String get goal_type_gain;
+
+  /// No description provided for @goal_estimate_result.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested: {kcal} kcal'**
+  String goal_estimate_result(int kcal);
+
+  /// No description provided for @goal_estimate_apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this value'**
+  String get goal_estimate_apply;
+
+  /// No description provided for @goal_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal saved'**
+  String get goal_save_success;
+
+  /// No description provided for @settings_units_energy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get settings_units_energy;
+
+  /// No description provided for @settings_units_mass.
+  ///
+  /// In en, this message translates to:
+  /// **'Mass'**
+  String get settings_units_mass;
+
+  /// No description provided for @settings_units_kcal.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal'**
+  String get settings_units_kcal;
+
+  /// No description provided for @settings_units_kj.
+  ///
+  /// In en, this message translates to:
+  /// **'kJ'**
+  String get settings_units_kj;
+
+  /// No description provided for @settings_units_g.
+  ///
+  /// In en, this message translates to:
+  /// **'grams'**
+  String get settings_units_g;
+
+  /// No description provided for @settings_units_oz.
+  ///
+  /// In en, this message translates to:
+  /// **'ounces'**
+  String get settings_units_oz;
+
+  /// No description provided for @settings_account_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settings_account_section;
+
+  /// No description provided for @settings_dangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger zone'**
+  String get settings_dangerZone;
+
+  /// No description provided for @account_delete_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get account_delete_cancel;
+
+  /// No description provided for @logout_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out of your account?'**
+  String get logout_confirm;
 }
 
 class _AppLocalizationsDelegate

@@ -298,4 +298,186 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get privacy_photo_retention =>
       '你的食物照片仅用于即时 AI 识别,识别后不会长期保存原图,我们仅保存识别出的结果数据。';
+
+  @override
+  String get auth_signup_switchToLogin => '已有账号?去登录';
+
+  @override
+  String get auth_login_switchToSignup => '还没有账号?去注册';
+
+  @override
+  String get auth_field_emailHint => 'you@example.com';
+
+  @override
+  String get auth_orDivider => '或';
+
+  @override
+  String get today_dateStreakSeparator => '·';
+
+  @override
+  String get summary_unit_kcal => '千卡';
+
+  @override
+  String get summary_goalNotSet => '尚未设置目标';
+
+  @override
+  String get today_mealNotLogged => '未记录';
+
+  @override
+  String today_mealItemCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 项',
+      one: '1 项',
+      zero: '无条目',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get capture_title => '记录一餐';
+
+  @override
+  String get capture_text_title => '描述你的食物';
+
+  @override
+  String get capture_camera_unavailable => '此设备无法使用相机,请改用相册或文字录入。';
+
+  @override
+  String get capture_gallery_unavailable => '未选择任何照片。';
+
+  @override
+  String get recognize_item_serving_unit_serving => '份';
+
+  @override
+  String get recognize_item_serving_unit_piece => '个';
+
+  @override
+  String get recognize_item_serving_unit_gram => '克';
+
+  @override
+  String get recognize_editItem_title => '编辑食物项';
+
+  @override
+  String get recognize_field_name => '食物名称';
+
+  @override
+  String get recognize_field_quantity => '数量';
+
+  @override
+  String get recognize_field_unit => '单位';
+
+  @override
+  String get recognize_mealType_label => '餐次';
+
+  @override
+  String get recognize_save_success => '已保存这一餐';
+
+  @override
+  String get recognize_emptyItems => '保存前请至少保留一项';
+
+  @override
+  String get history_prevDay => '前一天';
+
+  @override
+  String get history_nextDay => '后一天';
+
+  @override
+  String get history_trend_title => '近 7 天';
+
+  @override
+  String get history_trend_caloriesLegend => '热量';
+
+  @override
+  String get history_trend_goalLegend => '目标';
+
+  @override
+  String get meal_delete_confirm => '删除这一餐?此操作不可撤销。';
+
+  @override
+  String get meal_delete_success => '已删除这一餐';
+
+  @override
+  String get goal_field_kcal => '每日目标(千卡)';
+
+  @override
+  String get goal_sex_label => '性别';
+
+  @override
+  String get goal_sex_male => '男';
+
+  @override
+  String get goal_sex_female => '女';
+
+  @override
+  String get goal_field_age => '年龄';
+
+  @override
+  String get goal_activity_sedentary => '久坐';
+
+  @override
+  String get goal_activity_light => '轻度';
+
+  @override
+  String get goal_activity_moderate => '中度';
+
+  @override
+  String get goal_activity_active => '活跃';
+
+  @override
+  String get goal_activity_veryActive => '非常活跃';
+
+  @override
+  String get goal_type_label => '目标';
+
+  @override
+  String get goal_type_lose => '减重';
+
+  @override
+  String get goal_type_maintain => '维持';
+
+  @override
+  String get goal_type_gain => '增重';
+
+  @override
+  String goal_estimate_result(int kcal) {
+    return '建议参考值:$kcal 千卡';
+  }
+
+  @override
+  String get goal_estimate_apply => '采用此值';
+
+  @override
+  String get goal_save_success => '目标已保存';
+
+  @override
+  String get settings_units_energy => '能量';
+
+  @override
+  String get settings_units_mass => '质量';
+
+  @override
+  String get settings_units_kcal => '千卡';
+
+  @override
+  String get settings_units_kj => '千焦';
+
+  @override
+  String get settings_units_g => '克';
+
+  @override
+  String get settings_units_oz => '盎司';
+
+  @override
+  String get settings_account_section => '账号';
+
+  @override
+  String get settings_dangerZone => '危险操作';
+
+  @override
+  String get account_delete_cancel => '取消';
+
+  @override
+  String get logout_confirm => '确认退出登录?';
 }
