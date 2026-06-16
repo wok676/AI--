@@ -58,13 +58,15 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
         return loc == AppRoutes.splash ? null : AppRoutes.splash;
       }
 
-      final bool atGuest = loc == AppRoutes.splash || loc == AppRoutes.auth;
+      // 已解析:splash 仅是过渡页,绝不能停留,必须按登录态离开
+      // (修复:未登录停 splash 时旧逻辑返回 null 导致永久卡启动页)。
       if (auth.isAuthenticated) {
-        // 已登录却停在游客区 → 进主 Shell。
+        // 已登录却停在游客区(splash/auth)→ 进主 Shell;受保护页放行。
+        final bool atGuest = loc == AppRoutes.splash || loc == AppRoutes.auth;
         return atGuest ? AppRoutes.today : null;
       }
-      // 未登录访问受保护区 → 回登录。
-      return atGuest ? null : AppRoutes.auth;
+      // 未登录:停在登录页放行;其余(含 splash)一律回登录页。
+      return loc == AppRoutes.auth ? null : AppRoutes.auth;
     },
     routes: <RouteBase>[
       GoRoute(
