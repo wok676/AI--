@@ -23,14 +23,23 @@ dist/
 build/
 *.tsbuildinfo
 
-# ---- Expo / React Native ----
-.expo/
-.expo-shared/
+# ---- 构建出的移动安装包(不提交二进制) ----
 *.apk
 *.aab
 *.ipa
-ios/
-android/
+
+# ---- Flutter 原生工程:保留配置,仅忽略机器相关/构建产物 ----
+# 注:app/android、app/ios 的源码配置必须入库(Flutter 不像 Expo 靠 prebuild 重生成)
+**/android/local.properties
+**/android/.gradle/
+**/android/.kotlin/
+**/android/captures/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/**/xcuserdata/
 
 # ---- Docker / runtime ----
 *.local

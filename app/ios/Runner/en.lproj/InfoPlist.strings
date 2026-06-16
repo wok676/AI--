@@ -1,0 +1,3 @@
+/* iOS 权限用途文案 · en(PRD §4.3,中英双语 + 其余 locale 人工翻译) */
+"NSCameraUsageDescription" = "To take photos of your food for AI calorie analysis. Used only when you take a photo.";
+"NSPhotoLibraryUsageDescription" = "To pick a food photo for AI calorie analysis. Only the photo you select is read.";
