@@ -14,8 +14,6 @@ docs/prompts/
 │   ├── 01b-ui-design.md          # UI/UX 设计规范(编码前)
 │   ├── 02-feature-build.md       # 功能编码(Sub-Agent)
 │   ├── 03-bug-autofix.md         # Bug 自动化修复(日志/截图/CDP)
-│   ├── 04-i18n-extract.md        # 国际化抽离
-│   ├── 05-security-audit.md      # 安全/越权审计
 │   └── 06-deploy.md              # 部署(Docker/Nginx/SSL)
 └── sessions/                 # 实际对话历史归档(按阶段/日期)
     └── YYYY-MM-DD-阶段-主题.md
