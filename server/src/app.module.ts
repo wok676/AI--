@@ -14,6 +14,7 @@ import { RecognitionModule } from './modules/recognition/recognition.module';
 import { MealsModule } from './modules/meals/meals.module';
 import { SummaryModule } from './modules/summary/summary.module';
 import { GoalModule } from './modules/goal/goal.module';
+import { AdminModule } from './modules/admin/admin.module';
 import { HealthController } from './modules/health/health.controller';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -38,6 +39,7 @@ import { JwtModule } from '@nestjs/jwt';
     MealsModule,
     GoalModule,
     SummaryModule,
+    AdminModule,
   ],
   controllers: [HealthController],
   providers: [
