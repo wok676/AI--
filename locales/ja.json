@@ -1,4 +1,9 @@
 {
+  "_meta": {
+    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
+    "status": "TRANSLATION_PENDING",
+    "baseline": "en"
+  },
   "common": {
     "appName": "TestAI",
     "ok": "OK",
@@ -24,22 +29,39 @@
     "validation": "Invalid input, please check and retry"
   },
   "auth": {
-    "signup": { "title": "Sign up" },
-    "login": { "title": "Log in" },
-    "field": { "email": "Email", "password": "Password" },
-    "password": { "weak": "Weak password. Use letters and numbers." },
-    "email": { "invalid": "Invalid email address" },
+    "signup": {
+      "title": "Sign up"
+    },
+    "login": {
+      "title": "Log in"
+    },
+    "field": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "password": {
+      "weak": "Weak password. Use letters and numbers."
+    },
+    "email": {
+      "invalid": "Invalid email address"
+    },
     "consent": {
       "label": "I have read and agree to the Terms of Service and Privacy Policy",
       "terms": "Terms of Service",
       "privacy": "Privacy Policy",
       "required": "Please read and accept the Terms and Privacy Policy first"
     },
-    "apple": { "signin": "Sign in with Apple" },
-    "google": { "signin": "Sign in with Google" },
+    "apple": {
+      "signin": "Sign in with Apple"
+    },
+    "google": {
+      "signin": "Sign in with Google"
+    },
     "logout": "Log out",
     "forgotPassword": "Forgot password",
-    "error": { "invalidCredentials": "Incorrect email or password" }
+    "error": {
+      "invalidCredentials": "Incorrect email or password"
+    }
   },
   "capture": {
     "method": {
@@ -47,12 +69,18 @@
       "gallery": "Choose from gallery",
       "text": "Describe in text"
     },
-    "text": { "placeholder": "e.g. a bowl of beef noodles + a fried egg" },
-    "cta": { "recognize": "Analyze" }
+    "text": {
+      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+    },
+    "cta": {
+      "recognize": "Analyze"
+    }
   },
   "recognize": {
     "loading": "Analyzing your food…",
-    "result": { "title": "Results" },
+    "result": {
+      "title": "Results"
+    },
     "item": {
       "calories": "Calories",
       "protein": "Protein",
@@ -63,8 +91,12 @@
     },
     "lowConfidence": "Low confidence — please double-check",
     "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
-    "error": { "failed": "Couldn't recognize this image. Try another photo or add manually." },
-    "limit": { "reached": "Daily recognition limit reached. Please try again tomorrow." }
+    "error": {
+      "failed": "Couldn't recognize this image. Try another photo or add manually."
+    },
+    "limit": {
+      "reached": "Daily recognition limit reached. Please try again tomorrow."
+    }
   },
   "meal": {
     "breakfast": "Breakfast",
@@ -75,8 +107,12 @@
   "home": {
     "today": "Today",
     "streak": "{{count}}-day streak",
-    "empty": { "cta": "Log your first meal" },
-    "fab": { "addMeal": "Log a meal" }
+    "empty": {
+      "cta": "Log your first meal"
+    },
+    "fab": {
+      "addMeal": "Log a meal"
+    }
   },
   "summary": {
     "consumed": "Consumed",
@@ -84,12 +120,21 @@
     "remaining": "{{kcal}} kcal left"
   },
   "history": {
-    "tab": { "day": "Day", "trend": "Trend" }
+    "tab": {
+      "day": "Day",
+      "trend": "Trend"
+    }
   },
   "goal": {
     "title": "Daily calorie goal",
-    "estimate": { "cta": "Estimate for me" },
-    "field": { "height": "Height", "weight": "Weight", "activity": "Activity level" },
+    "estimate": {
+      "cta": "Estimate for me"
+    },
+    "field": {
+      "height": "Height",
+      "weight": "Weight",
+      "activity": "Activity level"
+    },
     "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
   },
   "perm": {
