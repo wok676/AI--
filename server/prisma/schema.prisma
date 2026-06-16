@@ -9,6 +9,9 @@
 
 generator client {
   provider = "prisma-client-js"
+  // native = 本机开发引擎;debian-openssl-3.0.x = 容器运行时(node:22-bookworm-slim)所需
+  // 否则容器内 Prisma Client 找不到匹配 Query Engine(见 deploy 联调实测)。
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {

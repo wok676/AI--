@@ -1,0 +1,82 @@
+# ============================================================
+# TestAI 本地 dev 起栈(localhost,明文 http 仅限本机联调)
+# 上位法 CLAUDE.md §3.3。本文件仅用于本机开发联调:
+#   - 不含 nginx / TLS / 公网域名(那是后续完整部署)。
+#   - server 直接暴露 3000:3000,供手机 adb reverse / 模拟器 10.0.2.2 直连。
+#
+# 用法:
+#   1) cp deploy/.env.example deploy/.env  并填入真实值
+#   2) docker compose -f deploy/docker-compose.dev.yml up -d --build
+#   3) curl http://localhost:3000/api/v1/health
+#
+# 服务:db(postgres,healthcheck + 数据卷) + server(依赖 db healthy 后启动)
+# ============================================================
+
+name: testai-dev
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # 仅绑定到本机回环,不对局域网/公网暴露 DB 端口(§6 最小暴露面)
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: "3000"
+      # 容器内访问 db 服务用服务名 db:5432(不是 localhost)
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
+      REFRESH_TOKEN_TTL_DAYS: ${REFRESH_TOKEN_TTL_DAYS:-30}
+      # 本地联调放行(留空 = 代码侧放行所有 origin,见 server/src/main.ts)
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      THROTTLE_TTL_SECONDS: ${THROTTLE_TTL_SECONDS:-60}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-120}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en}
+      APPLE_AUDIENCE: ${APPLE_AUDIENCE:-com.testai.app}
+      APPLE_ISSUER: ${APPLE_ISSUER:-https://appleid.apple.com}
+      RECOGNITION_DAILY_LIMIT: ${RECOGNITION_DAILY_LIMIT:-30}
+      RECOGNITION_MAX_IMAGE_BYTES: ${RECOGNITION_MAX_IMAGE_BYTES:-8388608}
+      # 识别功能需要;缺失则仅识别相关端点不可用,其余功能正常
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-4-20250514}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-https://api.anthropic.com}
+      ANTHROPIC_TIMEOUT_MS: ${ANTHROPIC_TIMEOUT_MS:-20000}
+    volumes:
+      # 后端 i18n 从 /locales 读语言包(I18nService 解析 dist/../../../../locales = /locales)。
+      # 本地 dev 用只读 bind mount 挂入仓库根 locales/,免把 locales 拷进镜像(契约共享语言包,§7)。
+      # 注:locales 不属于本轮工作边界,仅以只读挂载方式消费,不修改其内容。
+      - ../locales:/locales:ro
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  pgdata:
