@@ -10,6 +10,10 @@ import { JwtAuthGuard } from './common/auth/jwt-auth.guard';
 import { RolesGuard } from './common/auth/roles.guard';
 import { TraceMiddleware } from './common/trace/trace.middleware';
 import { AuthModule } from './modules/auth/auth.module';
+import { RecognitionModule } from './modules/recognition/recognition.module';
+import { MealsModule } from './modules/meals/meals.module';
+import { SummaryModule } from './modules/summary/summary.module';
+import { GoalModule } from './modules/goal/goal.module';
 import { HealthController } from './modules/health/health.controller';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -30,6 +34,10 @@ import { JwtModule } from '@nestjs/jwt';
     PrismaModule,
     I18nModule,
     AuthModule,
+    RecognitionModule,
+    MealsModule,
+    GoalModule,
+    SummaryModule,
   ],
   controllers: [HealthController],
   providers: [
