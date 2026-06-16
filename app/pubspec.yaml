@@ -1,0 +1,54 @@
+name: calorie_app
+description: "AI Calorie / Diet Tracker — Flutter client (iOS + Android)."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management (Architect selection: Riverpod 2)
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Routing
+  go_router: ^14.6.2
+
+  # Networking
+  dio: ^5.7.0
+
+  # Secure storage (tokens) — never AsyncStorage/SharedPreferences for credentials
+  flutter_secure_storage: ^9.2.2
+
+  # i18n
+  intl: any
+
+  # Charts (trend view, T5/T6)
+  fl_chart: ^0.69.2
+
+  # Media & permissions (just-in-time, with pre-permission prompts)
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
+
+  # Sign in with Apple (iOS, Must)
+  sign_in_with_apple: ^6.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+  # Codegen for Riverpod
+  build_runner: ^2.4.13
+  riverpod_generator: ^2.6.3
+  custom_lint: ^0.7.0
+  riverpod_lint: ^2.6.3
+
+flutter:
+  uses-material-design: true
+  generate: true   # enable gen-l10n (flutter_localizations)

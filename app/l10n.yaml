@@ -1,0 +1,9 @@
+# gen-l10n 配置(flutter_localizations)。
+# ARB key 与 PRD §6 / API §0.3 messageKey 一一对应:点号命名空间扁平化为下划线
+# (ARB key 不允许含 '.'),如 auth.error.invalidCredentials -> auth_error_invalidCredentials。
+# 与后端 /locales/*.json 共享同一套语义 key。
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
