@@ -39,7 +39,7 @@ class TodayScreen extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('${l10n.home_today} · ${DateFmt.medium(now, localeCode)}'),
+        title: Text(l10n.home_today),
       ),
       floatingActionButton: showFab
           ? FloatingActionButton.extended(

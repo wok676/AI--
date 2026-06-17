@@ -692,3 +692,29 @@ hitTarget: ≥48dp(合规勾选/弹窗按钮强制)
 - [x] 组件基于 Material 3(NavigationBar/SegmentedButton/FilledButton/Checkbox/Chip 等),不从零造控件。
 
 > **下一步**:本规范处于「人类确认门」,未经人类明确确认**不得交 `frontend-engineer`**。确认清单见交付消息。
+
+---
+
+## 11. 视觉增强层 v1.1(真机走查后,人类确认方向:清新渐变+柔光色斑+图标)
+
+> 背景:首版功能到位但留白偏多。增强原则——**全部代码绘制、零位图素材**(规避版权、可上架、任意分辨率清晰),克制不过度,不破坏对比度(WCAG AA)与「不焦虑」气质。所有色值集中 `app_colors` token,禁逐页 hardcode。
+
+### 11.1 渐变背景 + 柔光色斑(`AppGradientBackground`)
+- 极淡垂直渐变:`surface → primaryContainer`(约 18–25% alpha),作页面底。
+- 2–3 个柔光色斑:`RadialGradient`(中心色→透明,柔边,**不用模糊滤镜**省性能);右上 `primary @ 6–8%`、左下 `tertiary @ 6%`;位于内容下层,`IgnorePointer` 不拦手势。
+- 应用范围:登录/注册、今日、历史、目标、个人中心。
+- token:`gradientTop / gradientBottom / blobPrimary(+Transparent) / blobTertiary(+Transparent)`。
+
+### 11.2 今日页 hero
+- **问候条**:按本地时段「早上好/下午好/晚上好 👋」(i18n `home_greeting_morning/afternoon/evening`)作页面 hero;日期只在顶栏出现一次(避免重复)。
+- **进度环**:描边用 `primary→tertiary` `SweepGradient`(超目标仍转暖橙单色,不报警红)。
+- **宏量行**:每项名称前加对应宏量色小圆点(蛋白蓝/碳水橙/脂肪黄)。
+
+### 11.3 图标与质感
+- 主操作配图标:记录一餐 `photo_camera`、保存 `check`、目标 `local_fire_department`。
+- logo 置于 `primaryContainer` 圆形底 + 柔阴影;个人中心顶部用户区做浅色卡片。
+- 空态升级:`primaryContainer` 圆底 + 主图标插画组合;CTA 可带图标。
+- 卡片柔和阴影(elevation 1–2)+ 16 圆角,保持一致。
+
+### 11.4 不回退红线(增强不得破坏)
+历史标题=历史/History、注册同意行内联可点链接(无重复)、注销入口居中红色显著可发现、空态隐藏 FAB、合规三项视觉、RTL 方向无关。
