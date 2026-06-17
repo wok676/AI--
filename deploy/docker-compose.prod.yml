@@ -1,0 +1,137 @@
+# ============================================================
+# TestAI 生产起栈模板(占位,绝不含真实值)· 上位法 CLAUDE.md §3.3 / §6
+#
+# 与 dev 的差异只在「地址 / 域名 / 密钥」—— 全部来自 deploy/.env.production
+# (从 .env.production.example 复制后填真值;该文件已被 .gitignore 忽略,严禁提交)。
+#
+# 拓扑(对外只暴露 nginx 的 80/443,server 与 db 不发布主机端口):
+#   internet --443/TLS--> nginx (反代, HTTP->HTTPS 强制跳转, 仅 TLS1.2/1.3)
+#                           └--> server:3000 (NestJS, 仅内网)
+#                                  └--> db:5432 (Postgres, 仅内网)
+#
+# 用法(部署机上,确认《发布确认清单》通过后才执行 —— 见 README-prod.md):
+#   1) cp deploy/.env.production.example deploy/.env.production && 填真值
+#   2) 证书就位:deploy/nginx/certs/{fullchain.pem,privkey.pem}(certbot/Cloudflare origin)
+#   3) docker compose -f deploy/docker-compose.prod.yml --env-file deploy/.env.production up -d --build
+#   4) 健康检查:curl https://<DOMAIN>/api/v1/health
+# ============================================================
+
+name: testai-prod
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # 生产 DB 绝不发布主机端口,仅在 compose 内网可达(§6 最小暴露面)。
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # 容器内连库走服务名 db:5432;凭据全部来自 .env.production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-15m}
+      REFRESH_TOKEN_TTL_DAYS: ${REFRESH_TOKEN_TTL_DAYS:-30}
+      # 生产必须收紧 CORS 到管理后台/前端真实来源(逗号分隔),禁止放行 *。
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      THROTTLE_TTL_SECONDS: ${THROTTLE_TTL_SECONDS:-60}
+      THROTTLE_LIMIT: ${THROTTLE_LIMIT:-120}
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en}
+      APPLE_AUDIENCE: ${APPLE_AUDIENCE:-com.testai.app}
+      APPLE_ISSUER: ${APPLE_ISSUER:-https://appleid.apple.com}
+      RECOGNITION_DAILY_LIMIT: ${RECOGNITION_DAILY_LIMIT:-30}
+      RECOGNITION_MAX_IMAGE_BYTES: ${RECOGNITION_MAX_IMAGE_BYTES:-8388608}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-4-20250514}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-https://api.anthropic.com}
+      ANTHROPIC_TIMEOUT_MS: ${ANTHROPIC_TIMEOUT_MS:-20000}
+    volumes:
+      # i18n 语言包按 §7 只读挂载(与 dev 一致),不拷进镜像。
+      - ../locales:/locales:ro
+    # 生产不发布主机端口,只在内网暴露给 nginx。
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/v1/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: always
+    depends_on:
+      server:
+        condition: service_healthy
+    ports:
+      # 唯一对公网开放的入口:80(仅做 ->443 跳转)+ 443(TLS)
+      - "80:80"
+      - "443:443"
+    volumes:
+      # 反代配置(模板,占位域名见 nginx/prod.conf.template,部署时 envsubst 或直接改 server_name)
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+      # TLS 证书目录(certbot / Cloudflare origin 证书);该目录已 .gitignore 忽略,绝不入库
+      - ./nginx/certs:/etc/nginx/certs:ro
+      # ACME http-01 挑战回写目录(用 certbot webroot 时)
+      - ./nginx/acme-challenge:/var/www/acme-challenge:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/healthz || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # ----------------------------------------------------------
+  # backup · 每日加密备份(占位模板,profile=backup,默认不随 up 启动)
+  #   - pg_dump 后用 GPG 对称加密(口令来自 .env.production 的 BACKUP_GPG_PASSPHRASE),
+  #     加密产物落到挂载卷;明文绝不落盘(§ 备份加密保存)。
+  #   - 真实定时建议用宿主 cron / systemd timer 调本服务,或换 managed 备份。
+  # ----------------------------------------------------------
+  backup:
+    profiles: ["backup"]
+    image: postgres:16-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      PGHOST: db
+      BACKUP_GPG_PASSPHRASE: ${BACKUP_GPG_PASSPHRASE}
+    volumes:
+      - ./backups:/backups
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >
+        apk add --no-cache gnupg >/dev/null &&
+        ts=$$(date +%Y%m%d_%H%M%S) &&
+        pg_dump | gpg --batch --yes --symmetric --cipher-algo AES256
+        --passphrase "$$BACKUP_GPG_PASSPHRASE" -o /backups/testai_$$ts.sql.gpg &&
+        echo "[backup] wrote /backups/testai_$$ts.sql.gpg (AES256 encrypted)"
+
+volumes:
+  pgdata:
