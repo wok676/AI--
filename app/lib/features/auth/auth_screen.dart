@@ -4,11 +4,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../common/widgets/app_snackbar.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/locale_controller.dart';
+import '../../router/app_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_dimens.dart';
 import 'auth_controller.dart';
@@ -289,7 +291,7 @@ class _ConsentRow extends StatelessWidget {
             ),
             Expanded(
               child: Text.rich(
-                _consentSpan(theme, l10n),
+                _consentSpan(context, theme, l10n),
                 style: theme.textTheme.bodyMedium,
               ),
             ),
@@ -300,8 +302,10 @@ class _ConsentRow extends StatelessWidget {
   }
 
   /// 标签内嵌《用户协议》《隐私政策》为 primary 色可点链接(§7.1)。
-  /// 此处链接点击打开应用内政策页(占位:实际跳转由后续接公网 URL / WebView)。
-  InlineSpan _consentSpan(ThemeData theme, AppLocalizations l10n) {
+  /// 点击导航到应用内政策页(/legal/terms、/legal/privacy),不依赖未部署的公网 URL。
+  /// 注:这两个 recognizer 随该 TextSpan 一同被 RichText 持有,page dispose 时一并回收,无需手动管理。
+  InlineSpan _consentSpan(
+      BuildContext context, ThemeData theme, AppLocalizations l10n) {
     final String label = l10n.auth_consent_label;
     final TextStyle linkStyle = theme.textTheme.bodyMedium!
         .copyWith(color: theme.colorScheme.primary, decoration: TextDecoration.underline);
@@ -313,13 +317,15 @@ class _ConsentRow extends StatelessWidget {
         TextSpan(
           text: l10n.auth_consent_terms,
           style: linkStyle,
-          recognizer: TapGestureRecognizer()..onTap = () {/* open Terms */},
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => context.push(AppRoutes.legalTerms),
         ),
         const TextSpan(text: '  ·  '),
         TextSpan(
           text: l10n.auth_consent_privacy,
           style: linkStyle,
-          recognizer: TapGestureRecognizer()..onTap = () {/* open Privacy */},
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => context.push(AppRoutes.legalPrivacy),
         ),
       ],
     );

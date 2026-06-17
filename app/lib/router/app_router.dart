@@ -9,6 +9,7 @@ import '../features/capture/text_capture_screen.dart';
 import '../features/goal/goal_screen.dart';
 import '../features/history/history_screen.dart';
 import '../features/home/today_screen.dart';
+import '../features/legal/legal_screen.dart';
 import '../features/profile/language_picker_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/shell/app_shell.dart';
@@ -26,6 +27,8 @@ abstract final class AppRoutes {
   static const String recognitionConfirm = '/capture/confirm';
   static const String goal = '/goal';
   static const String language = '/profile/language';
+  static const String legalTerms = '/legal/terms';
+  static const String legalPrivacy = '/legal/privacy';
 }
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -52,6 +55,12 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
     redirect: (BuildContext context, GoRouterState state) {
       final AuthState auth = ref.read(authControllerProvider);
       final String loc = state.matchedLocation;
+
+      // 法律文档页(用户协议/隐私政策)为公开页:无论登录与否、会话是否恢复完成,
+      // 都必须可直达(注册页知情同意链接 + 个人中心入口都会进这里),不参与鉴权重定向。
+      final bool isLegal =
+          loc == AppRoutes.legalTerms || loc == AppRoutes.legalPrivacy;
+      if (isLegal) return null;
 
       // 会话恢复中:停在 splash,等解析完成再跳。
       if (!auth.isResolved) {
@@ -101,6 +110,15 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
       GoRoute(
         path: AppRoutes.language,
         builder: (BuildContext context, GoRouterState state) => const LanguagePickerScreen(),
+      ),
+      // 应用内法律文档(公开,游客/已登录均可访问)。
+      GoRoute(
+        path: AppRoutes.legalTerms,
+        builder: (BuildContext context, GoRouterState state) => const TermsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.legalPrivacy,
+        builder: (BuildContext context, GoRouterState state) => const PrivacyScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (BuildContext context, GoRouterState state,

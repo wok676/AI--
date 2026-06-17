@@ -494,4 +494,116 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logout_confirm => 'Log out of your account?';
+
+  @override
+  String get legal_draftNotice =>
+      'Draft for in-app review. This is a placeholder version: the final legal text will be provided by Product/Operations, and an official public URL will be published after deployment. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_lastUpdated =>
+      'Last updated: 2026-06-17 (draft) [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_contact_h => 'Contact Us [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_contact_b =>
+      'Questions about these terms or your data? Contact us at support@example.com (placeholder; final contact details pending). We aim to respond within a reasonable time. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_title => 'Terms of Service [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s1_h => '1. Acceptance of Terms [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s1_b =>
+      'By creating an account or using Calorie Tracker (the \"App\"), you agree to these Terms of Service. If you do not agree, please do not use the App. You must be old enough to consent to data processing in your jurisdiction. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s2_h => '2. The Service [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s2_b =>
+      'The App lets you log meals via photo, gallery image, or text, and uses AI to estimate calories and macronutrients (protein, carbohydrates, fat). All AI estimates are approximations for general informational purposes only. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s3_h =>
+      '3. AI Estimate Disclaimer [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s3_b =>
+      'Calorie and nutrient figures are automatically estimated and may be inaccurate. They are NOT medical, dietary, or health advice and must not be used for diagnosis or treatment. Always verify important values and consult a qualified professional for medical or nutritional decisions. You remain in control of and responsible for the data you save. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s4_h =>
+      '4. Your Responsibilities [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s4_b =>
+      'You are responsible for keeping your credentials secure, for the accuracy of information you enter, and for using the App lawfully. Do not misuse the App, attempt unauthorized access, or upload unlawful content. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s5_h => '5. Account Deletion [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s5_b =>
+      'You may delete your account at any time from Settings. Deletion is irreversible and permanently removes your meal logs, goals, and profile from our active systems, subject to limited retention required by law. See the Privacy Policy for details. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s6_h =>
+      '6. Changes & Limitation of Liability [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_terms_s6_b =>
+      'We may update the App and these Terms; material changes will be communicated in-app. To the extent permitted by law, the App is provided \"as is\" without warranties, and we are not liable for decisions made based on AI estimates. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_title => 'Privacy Policy [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s1_h => '1. Data We Collect [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s1_b =>
+      'We collect: account data (email, or Apple ID identifier if you use Sign in with Apple); content you create (meal entries, food names, portions, calorie/macro values, optional thumbnails); preferences (language, units, daily goal, notification setting); and limited technical data needed to operate the service. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s2_h =>
+      '2. How We Use Your Data [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s2_b =>
+      'We use your data to provide core features (logging meals, generating AI calorie/macro estimates, tracking history and goals), to authenticate you, to remember your preferences, and to secure and improve the service. We do not sell your personal data. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s3_h =>
+      '3. Third-Party Services & Consent [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s3_b =>
+      'Photo/text content may be processed by an AI recognition provider solely to return an estimate. Any optional analytics or push services remain disabled until you actively consent to this Policy; we do not initialize non-essential third-party SDKs before consent. Permissions (camera, photos, notifications) are requested only when you use the related feature. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s4_h =>
+      '4. Storage & Security [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s4_b =>
+      'Data is stored on secured servers and transmitted over encrypted (HTTPS) connections. Authentication tokens are kept in the device\'s secure storage. We apply access controls and retain data only as long as your account is active or as required by law. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s5_h =>
+      '5. Account & Data Deletion [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s5_b =>
+      'Deleting your account (Settings > Delete account, with confirmation) permanently and irreversibly removes your profile, meal logs, and goals from our active systems, and clears all credentials stored on your device. A web-based deletion channel is also available where required. [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s6_h => '6. Your Rights [TRANSLATION_PENDING]';
+
+  @override
+  String get legal_privacy_s6_b =>
+      'Subject to your local laws, you may access, correct, export, or delete your data. To exercise these rights, use the in-app controls or contact us. We will respond consistent with applicable data-protection law. [TRANSLATION_PENDING]';
 }

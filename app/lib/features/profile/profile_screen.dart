@@ -98,13 +98,13 @@ class ProfileScreen extends ConsumerWidget {
               leading: const Icon(Icons.description_outlined),
               title: Text(l10n.settings_terms),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () => context.push(AppRoutes.legalTerms),
             ),
             ListTile(
               leading: const Icon(Icons.lock_outline),
               title: Text(l10n.settings_privacy),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () => context.push(AppRoutes.legalPrivacy),
             ),
             ListTile(
               leading: const Icon(Icons.info_outline),
