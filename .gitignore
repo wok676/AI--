@@ -56,6 +56,9 @@ generated/
 # ---- Git worktree 并行隔离目录(见 docs/WORKFLOW.md) ----
 .worktrees/
 
+# ---- UI 走查截图(本机工作产物,勿入库) ----
+.ui-review/
+
 # ---- Claude 本机设置 ----
 .claude/settings.local.json
 
