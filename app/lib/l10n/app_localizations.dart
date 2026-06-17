@@ -460,6 +460,24 @@ abstract class AppLocalizations {
   /// **'Log a meal'**
   String get home_fab_addMeal;
 
+  /// Greeting bar shown 05:00-11:59 local time (UI visual enhancement)
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning 👋'**
+  String get home_greeting_morning;
+
+  /// Greeting bar shown 12:00-17:59 local time
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon 👋'**
+  String get home_greeting_afternoon;
+
+  /// Greeting bar shown 18:00-04:59 local time
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening 👋'**
+  String get home_greeting_evening;
+
   /// No description provided for @summary_consumed.
   ///
   /// In en, this message translates to:

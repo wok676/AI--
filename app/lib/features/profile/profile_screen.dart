@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
+import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/skeleton.dart';
 import '../../common/widgets/state_views.dart';
@@ -36,29 +37,49 @@ class ProfileScreen extends ConsumerWidget {
         : (SupportedLocales.nativeNames[localeState.effective.languageCode] ?? '');
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settings_profile)),
-      body: me.when(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(l10n.settings_profile),
+      ),
+      body: AppGradientBackground(
+        child: me.when(
         skipLoadingOnReload: true,
         loading: () => const _ProfileSkeleton(),
         error: (Object e, _) =>
             ErrorView(error: e, onRetry: () => ref.invalidate(meProvider)),
         data: (MeProfile profile) => ListView(
           children: <Widget>[
-            // —— 头像 + 昵称 ——
+            // —— 头像 + 昵称:浅色卡片质感(头像圆底 + 名称),视觉增强 ——
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Row(
-                children: <Widget>[
-                  const CircleAvatar(radius: 28, child: Icon(Icons.person)),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Text(profile.username,
-                        style: Theme.of(context).textTheme.titleLarge),
+              padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryContainer,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.person,
+                            color: AppColors.onPrimaryContainer, size: 28),
+                      ),
+                      const SizedBox(width: AppSpacing.md),
+                      Expanded(
+                        child: Text(profile.username,
+                            style: Theme.of(context).textTheme.titleLarge),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-            const Divider(height: 1),
 
             // —— 设置项 ——
             ListTile(
@@ -142,6 +163,7 @@ class ProfileScreen extends ConsumerWidget {
             const SizedBox(height: AppSpacing.lg),
           ],
         ),
+      ),
       ),
     );
   }

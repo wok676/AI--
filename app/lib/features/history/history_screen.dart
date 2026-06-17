@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/skeleton.dart';
 import '../../common/widgets/state_views.dart';
@@ -34,8 +35,13 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.history_title)),
-      body: Column(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(l10n.history_title),
+      ),
+      body: AppGradientBackground(
+        child: Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(AppSpacing.md),
@@ -60,6 +66,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 : const _TrendView(),
           ),
         ],
+      ),
       ),
     );
   }

@@ -182,6 +182,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get home_fab_addMeal => '记录一餐';
 
   @override
+  String get home_greeting_morning => '早上好 👋';
+
+  @override
+  String get home_greeting_afternoon => '下午好 👋';
+
+  @override
+  String get home_greeting_evening => '晚上好 👋';
+
+  @override
   String get summary_consumed => '已摄入';
 
   @override

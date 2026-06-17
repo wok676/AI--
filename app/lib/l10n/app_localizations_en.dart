@@ -189,6 +189,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_fab_addMeal => 'Log a meal';
 
   @override
+  String get home_greeting_morning => 'Good morning 👋';
+
+  @override
+  String get home_greeting_afternoon => 'Good afternoon 👋';
+
+  @override
+  String get home_greeting_evening => 'Good evening 👋';
+
+  @override
   String get summary_consumed => 'Consumed';
 
   @override

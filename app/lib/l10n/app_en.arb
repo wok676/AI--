@@ -70,6 +70,12 @@
   },
   "home_empty_cta": "Log your first meal",
   "home_fab_addMeal": "Log a meal",
+  "home_greeting_morning": "Good morning 👋",
+  "@home_greeting_morning": { "description": "Greeting bar shown 05:00-11:59 local time (UI visual enhancement)" },
+  "home_greeting_afternoon": "Good afternoon 👋",
+  "@home_greeting_afternoon": { "description": "Greeting bar shown 12:00-17:59 local time" },
+  "home_greeting_evening": "Good evening 👋",
+  "@home_greeting_evening": { "description": "Greeting bar shown 18:00-04:59 local time" },
 
   "summary_consumed": "Consumed",
   "summary_goal": "Goal",

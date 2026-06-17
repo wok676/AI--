@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/locale_controller.dart';
@@ -119,8 +120,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final bool ctaEnabled = !_submitting && (!_isSignup || _consent);
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+      backgroundColor: Colors.transparent,
+      body: AppGradientBackground(
+        child: SafeArea(
+          child: SingleChildScrollView(
           // 顶对齐 + 适度顶部留白:logo 上移、垂直更平衡;内容仍可滚动适配小屏。
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -134,9 +137,27 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    // —— Logo + 价值主张 ——
-                    const Icon(Icons.restaurant, size: 64, color: AppColors.primary),
-                    const SizedBox(height: AppSpacing.sm),
+                    // —— Logo:primaryContainer 圆形底 + 柔和阴影(视觉增强)——
+                    Center(
+                      child: Container(
+                        width: 96,
+                        height: 96,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryContainer,
+                          shape: BoxShape.circle,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.18),
+                              blurRadius: 24,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(Icons.restaurant,
+                            size: 48, color: AppColors.onPrimaryContainer),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
                     Text(l10n.appTitle,
                         textAlign: TextAlign.center, style: theme.textTheme.headlineSmall),
                     const SizedBox(height: AppSpacing.xxs),
@@ -201,6 +222,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       onPressed: ctaEnabled ? _submit : null,
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
+                        // 胶囊主按钮加轻微浮起,按压有反馈(视觉增强)。
+                        elevation: AppElevation.level2,
                       ),
                       child: _submitting
                           ? const SizedBox(
@@ -240,6 +263,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 ),
               ),
             ),
+          ),
           ),
         ),
       ),

@@ -1,11 +1,11 @@
 {
   "@@locale": "pt",
-  "@@x-translation-status": "PENDING: values are English placeholders, awaiting human translation (PRD §4.8.3 compliance copy must be human-translated)",
+  "@@x-translation-status": "PENDING: values are English placeholders, awaiting human translation (PRD Â§4.8.3 compliance copy must be human-translated)",
 
   "appTitle": "Calorie Tracker",
   "@appTitle": { "description": "App display name" },
   "brandTagline": "Snap your meal. Know your calories.",
-  "@brandTagline": { "description": "Login screen value proposition (UI §5.1)" },
+  "@brandTagline": { "description": "Login screen value proposition (UI Â§5.1)" },
 
   "common_continue": "Continue",
   "common_save": "Save",
@@ -14,7 +14,7 @@
   "common_delete": "Delete",
   "common_edit": "Edit",
   "common_retry": "Retry",
-  "common_loading": "Loading…",
+  "common_loading": "Loadingâ¦",
   "common_empty": "Nothing here yet",
   "common_error_generic": "Something went wrong. Please try again.",
   "common_error_network": "Network error. Please check your connection.",
@@ -45,7 +45,7 @@
   "capture_method_text": "Describe in text",
   "capture_text_placeholder": "e.g. a bowl of beef noodles + a fried egg",
   "capture_cta_recognize": "Analyze",
-  "recognize_loading": "Analyzing your food…",
+  "recognize_loading": "Analyzing your foodâ¦",
   "recognize_result_title": "Results",
   "recognize_item_calories": "Calories",
   "recognize_item_protein": "Protein",
@@ -53,7 +53,7 @@
   "recognize_item_fat": "Fat",
   "recognize_item_serving": "Serving",
   "recognize_item_addManual": "Add item manually",
-  "recognize_lowConfidence": "Low confidence — please double-check",
+  "recognize_lowConfidence": "Low confidence â please double-check",
   "recognize_disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
   "recognize_error_failed": "Couldn't recognize this image. Try another photo or add manually.",
   "recognize_limit_reached": "Daily recognition limit reached. Please try again tomorrow.",
@@ -66,11 +66,14 @@
   "home_today": "Today",
   "home_streak": "{count}-day streak",
   "@home_streak": {
-    "description": "Consecutive logging days (UI §5.2)",
+    "description": "Consecutive logging days (UI Â§5.2)",
     "placeholders": { "count": { "type": "int" } }
   },
   "home_empty_cta": "Log your first meal",
   "home_fab_addMeal": "Log a meal",
+  "home_greeting_morning": "Good morning 👋",
+  "home_greeting_afternoon": "Good afternoon 👋",
+  "home_greeting_evening": "Good evening 👋",
 
   "summary_consumed": "Consumed",
   "summary_goal": "Goal",
@@ -127,7 +130,7 @@
   "auth_field_emailHint": "you@example.com",
   "auth_orDivider": "or",
 
-  "today_dateStreakSeparator": "·",
+  "today_dateStreakSeparator": "Â·",
   "summary_unit_kcal": "kcal",
   "summary_goalNotSet": "No goal set yet",
   "today_mealNotLogged": "Not logged",

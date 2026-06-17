@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/macro_bars.dart';
 import '../../common/widgets/progress_ring.dart';
 import '../../common/widgets/skeleton.dart';
@@ -35,39 +36,77 @@ class TodayScreen extends ConsumerWidget {
     );
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text('${l10n.home_today} · ${DateFmt.medium(now, localeCode)}'),
       ),
       floatingActionButton: showFab
           ? FloatingActionButton.extended(
               onPressed: () => CaptureFlow.showMethodSheet(context, ref),
-              icon: const Icon(Icons.add),
+              icon: const Icon(Icons.photo_camera),
               label: Text(l10n.home_fab_addMeal),
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.onPrimary,
             )
           : null,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(dailySummaryProvider(date));
-          ref.invalidate(mealsByDateProvider(date));
-          await ref.read(dailySummaryProvider(date).future).catchError((_) {
-            return const DailySummary(
-              date: '', goalKcal: 0, consumedKcal: 0, remainingKcal: 0,
-              proteinG: 0, carbsG: 0, fatG: 0,
-            );
-          });
-        },
-        child: ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          children: <Widget>[
-            _SummarySection(date: date),
-            const SizedBox(height: AppSpacing.lg),
-            _MealsSection(date: date),
-            const SizedBox(height: AppSpacing.xxl), // 给 FAB 留出空间
-          ],
+      body: AppGradientBackground(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(dailySummaryProvider(date));
+            ref.invalidate(mealsByDateProvider(date));
+            await ref.read(dailySummaryProvider(date).future).catchError((_) {
+              return const DailySummary(
+                date: '', goalKcal: 0, consumedKcal: 0, remainingKcal: 0,
+                proteinG: 0, carbsG: 0, fatG: 0,
+              );
+            });
+          },
+          child: ListView(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            children: <Widget>[
+              // 按时段问候条:早上好/下午好/晚上好 👋 · 已格式化日期(视觉增强)。
+              _GreetingBar(now: now, localeCode: localeCode),
+              const SizedBox(height: AppSpacing.lg),
+              _SummarySection(date: date),
+              const SizedBox(height: AppSpacing.lg),
+              _MealsSection(date: date),
+              const SizedBox(height: AppSpacing.xxl), // 给 FAB 留出空间
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+/// 问候条:按本地时间判断时段选用对应 i18n 文案 + 格式化日期。
+class _GreetingBar extends StatelessWidget {
+  const _GreetingBar({required this.now, required this.localeCode});
+  final DateTime now;
+  final String localeCode;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    final int h = now.hour;
+    final String greeting = h >= 5 && h < 12
+        ? l10n.home_greeting_morning
+        : (h >= 12 && h < 18
+            ? l10n.home_greeting_afternoon
+            : l10n.home_greeting_evening);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(greeting, style: theme.textTheme.headlineSmall),
+        const SizedBox(height: AppSpacing.xxs),
+        Text(
+          DateFmt.medium(now, localeCode),
+          style: theme.textTheme.bodyMedium
+              ?.copyWith(color: AppColors.onSurfaceVariant),
+        ),
+      ],
     );
   }
 }
@@ -144,6 +183,7 @@ class _MealsSection extends ConsumerWidget {
             message: l10n.home_empty_cta,
             icon: Icons.restaurant_outlined,
             actionLabel: l10n.home_fab_addMeal,
+            actionIcon: Icons.photo_camera,
             onAction: () => CaptureFlow.showMethodSheet(context, ref),
           );
         }

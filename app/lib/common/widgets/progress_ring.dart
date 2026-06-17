@@ -100,14 +100,28 @@ class _RingPainter extends CustomPainter {
 
     if (progress <= 0) return;
 
+    const double start = -math.pi / 2; // 12 点钟
+    final double sweep = 2 * math.pi * progress * (clockwise ? 1 : -1);
+
     final Paint arc = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = AppSizes.progressRingStroke
-      ..color = over ? AppColors.progressRingOver : AppColors.primary
       ..strokeCap = StrokeCap.round;
 
-    const double start = -math.pi / 2; // 12 点钟
-    final double sweep = 2 * math.pi * progress * (clockwise ? 1 : -1);
+    if (over) {
+      // 超目标:整弧转暖橙(不报警红,UI §3.7)。
+      arc.color = AppColors.progressRingOver;
+    } else {
+      // 描边用 primary → tertiary 渐变(SweepGradient),数值更生动、清晰(视觉增强)。
+      // 渐变从弧起点开始扫,跟随方向(clockwise/RTL);用 GradientRotation 把 0° 对到 12 点。
+      arc.shader = const SweepGradient(
+        colors: <Color>[AppColors.primary, AppColors.tertiary],
+        startAngle: 0,
+        endAngle: 2 * math.pi,
+        transform: GradientRotation(-math.pi / 2),
+      ).createShader(rect);
+    }
+
     canvas.drawArc(rect, start, sweep, false, arc);
   }
 

@@ -78,10 +78,25 @@ class _MacroColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          '$label  ${grams.round()}g',
-          style: theme.textTheme.labelSmall,
-          maxLines: 1,
+        // 名称前加对应宏量色小圆点(蛋白蓝/碳水橙/脂肪黄),增强可读性(视觉增强)。
+        Row(
+          children: <Widget>[
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: AppSpacing.xxs),
+            Flexible(
+              child: Text(
+                '$label  ${grams.round()}g',
+                style: theme.textTheme.labelSmall,
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.xxs),
         ClipRRect(

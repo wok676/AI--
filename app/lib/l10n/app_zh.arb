@@ -67,6 +67,9 @@
   },
   "home_empty_cta": "拍下你的第一餐",
   "home_fab_addMeal": "记录一餐",
+  "home_greeting_morning": "早上好 👋",
+  "home_greeting_afternoon": "下午好 👋",
+  "home_greeting_evening": "晚上好 👋",
 
   "summary_consumed": "已摄入",
   "summary_goal": "目标",

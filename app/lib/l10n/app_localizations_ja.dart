@@ -36,7 +36,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get common_retry => 'Retry';
 
   @override
-  String get common_loading => 'Loading…';
+  String get common_loading => 'Loadingâ¦';
 
   @override
   String get common_empty => 'Nothing here yet';
@@ -124,7 +124,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get capture_cta_recognize => 'Analyze';
 
   @override
-  String get recognize_loading => 'Analyzing your food…';
+  String get recognize_loading => 'Analyzing your foodâ¦';
 
   @override
   String get recognize_result_title => 'Results';
@@ -148,7 +148,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get recognize_item_addManual => 'Add item manually';
 
   @override
-  String get recognize_lowConfidence => 'Low confidence — please double-check';
+  String get recognize_lowConfidence =>
+      'Low confidence â please double-check';
 
   @override
   String get recognize_disclaimer =>
@@ -187,6 +188,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get home_fab_addMeal => 'Log a meal';
+
+  @override
+  String get home_greeting_morning => 'Good morning 👋';
+
+  @override
+  String get home_greeting_afternoon => 'Good afternoon 👋';
+
+  @override
+  String get home_greeting_evening => 'Good evening 👋';
 
   @override
   String get summary_consumed => 'Consumed';
@@ -328,7 +338,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get auth_orDivider => 'or';
 
   @override
-  String get today_dateStreakSeparator => '·';
+  String get today_dateStreakSeparator => 'Â·';
 
   @override
   String get summary_unit_kcal => 'kcal';

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/disclaimer_banner.dart';
 import '../../l10n/app_localizations.dart';
@@ -119,17 +120,43 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.goal_title)),
-      body: ListView(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(l10n.goal_title),
+      ),
+      body: AppGradientBackground(
+        child: ListView(
         padding: const EdgeInsets.all(AppSpacing.md),
         children: <Widget>[
-          // —— 大数字输入 ——
-          TextField(
-            controller: _kcal,
-            keyboardType: TextInputType.number,
-            style: Theme.of(context).textTheme.displaySmall,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(labelText: l10n.goal_field_kcal),
+          // —— 大数字输入(卡片质感:白底圆角,带图标说明)——
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      const Icon(Icons.local_fire_department,
+                          color: AppColors.tertiary),
+                      const SizedBox(width: AppSpacing.xs),
+                      Text(l10n.goal_field_kcal,
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ],
+                  ),
+                  TextField(
+                    controller: _kcal,
+                    keyboardType: TextInputType.number,
+                    style: Theme.of(context).textTheme.displaySmall,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      filled: false,
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: AppSpacing.md),
 
@@ -153,21 +180,31 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
           DisclaimerBanner(text: l10n.goal_disclaimer),
           const SizedBox(height: AppSpacing.sm),
 
-          FilledButton(
-            onPressed: _saving ? null : _save,
-            style: FilledButton.styleFrom(
-              minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
-            ),
-            child: _saving
-                ? const SizedBox(
+          _saving
+              ? FilledButton(
+                  onPressed: null,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
+                    elevation: AppElevation.level2,
+                  ),
+                  child: const SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: AppColors.onPrimary),
-                  )
-                : Text(l10n.common_save),
-          ),
+                  ),
+                )
+              : FilledButton.icon(
+                  onPressed: _save,
+                  icon: const Icon(Icons.check),
+                  label: Text(l10n.common_save),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
+                    elevation: AppElevation.level2,
+                  ),
+                ),
         ],
+      ),
       ),
     );
   }

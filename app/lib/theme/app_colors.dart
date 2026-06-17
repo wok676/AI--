@@ -63,4 +63,21 @@ abstract final class AppColors {
 
   static const Color progressRingTrack = Color(0xFFE8EDE6);
   static const Color progressRingOver = Color(0xFFE07A3F); // 超目标转暖橙(不报警红)
+
+  // —— 视觉增强:清新渐变 + 柔光色斑(全部用代码画,零位图素材)——
+  // 设计约束(用户验收 · 视觉增强):极淡、克制、健康工具气质;不影响 WCAG AA 对比度。
+  // 所有数值集中于此,严禁逐页 hardcode。
+
+  /// 页面背景垂直渐变:从 surface(顶)→ primaryContainer 极淡(底)。
+  /// 起点用 surface 原色,终点用 primaryContainer @ ~22% 叠在 surface 上的近似浅绿,
+  /// 保证整体仍极浅、文字清晰。
+  static const Color gradientTop = surface; // #FCFDFB
+  static const Color gradientBottom = Color(0xFFEAF4EE); // surface 上叠 primaryContainer ~22%
+
+  /// 柔光色斑(RadialGradient 中心色 → 透明,做柔边,不用模糊滤镜省性能)。
+  /// 右上斑:primary @ ~7%;左下斑:tertiary @ ~6%。透明端为同色 0 alpha。
+  static const Color blobPrimary = Color(0x122E7D5B); // primary @ ~7%
+  static const Color blobPrimaryTransparent = Color(0x002E7D5B);
+  static const Color blobTertiary = Color(0x0FE07A3F); // tertiary @ ~6%
+  static const Color blobTertiaryTransparent = Color(0x00E07A3F);
 }
