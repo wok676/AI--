@@ -32,7 +32,7 @@ class AppShell extends StatelessWidget {
           NavigationDestination(
             icon: const Icon(Icons.history_outlined),
             selectedIcon: const Icon(Icons.history),
-            label: l10n.history_tab_day,
+            label: l10n.history_title,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person_outline),

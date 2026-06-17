@@ -80,6 +80,7 @@
     "placeholders": { "kcal": { "type": "int" } }
   },
 
+  "history_title": "History",
   "history_tab_day": "Day",
   "history_tab_trend": "Trend",
 

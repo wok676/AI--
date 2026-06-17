@@ -120,9 +120,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+        child: SingleChildScrollView(
+          // 顶对齐 + 适度顶部留白:logo 上移、垂直更平衡;内容仍可滚动适配小屏。
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xl,
+          ),
+          child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 440),
               child: Form(
@@ -266,6 +270,13 @@ extension _NullIfEmpty on String {
   String? nullIfEmpty() => isEmpty ? null : this;
 }
 
+/// 同意行内联可点链接词 → 目标应用内政策路由。
+class _ConsentLink {
+  const _ConsentLink(this.word, this.route);
+  final String word;
+  final String route;
+}
+
 /// 知情同意行:Checkbox + 富文本协议链接;整行点按区 ≥48dp(§7.1)。
 class _ConsentRow extends StatelessWidget {
   const _ConsentRow({required this.value, required this.onChanged});
@@ -301,34 +312,56 @@ class _ConsentRow extends StatelessWidget {
     );
   }
 
-  /// 标签内嵌《用户协议》《隐私政策》为 primary 色可点链接(§7.1)。
-  /// 点击导航到应用内政策页(/legal/terms、/legal/privacy),不依赖未部署的公网 URL。
-  /// 注:这两个 recognizer 随该 TextSpan 一同被 RichText 持有,page dispose 时一并回收,无需手动管理。
+  /// 将整句同意文案中**内联的**「用户协议」「隐私政策」两个词本身做成可点链接
+  /// (分别 push /legal/terms、/legal/privacy),不在句末重复追加独立链接(§7.1)。
+  /// 实现:在 label 文本中定位两个协议名子串,切片重组为「普通文本 + 可点链接 + 普通文本」。
+  /// zh 的《用户协议》《隐私政策》书名号会被保留为普通文本,仅词本身高亮可点。
+  /// 注:recognizer 随 TextSpan 一同被 RichText 持有,page dispose 时一并回收,无需手动管理。
   InlineSpan _consentSpan(
       BuildContext context, ThemeData theme, AppLocalizations l10n) {
-    final String label = l10n.auth_consent_label;
-    final TextStyle linkStyle = theme.textTheme.bodyMedium!
-        .copyWith(color: theme.colorScheme.primary, decoration: TextDecoration.underline);
+    final TextStyle linkStyle = theme.textTheme.bodyMedium!.copyWith(
+        color: theme.colorScheme.primary,
+        decoration: TextDecoration.underline);
 
-    // 将 label 中的协议名作为可点片段高亮(简化:整体文案 + 末尾两个独立链接)。
-    return TextSpan(
-      children: <InlineSpan>[
-        TextSpan(text: '$label  '),
-        TextSpan(
-          text: l10n.auth_consent_terms,
-          style: linkStyle,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => context.push(AppRoutes.legalTerms),
-        ),
-        const TextSpan(text: '  ·  '),
-        TextSpan(
-          text: l10n.auth_consent_privacy,
-          style: linkStyle,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => context.push(AppRoutes.legalPrivacy),
-        ),
-      ],
-    );
+    // 两个内联链接词及其各自的目标路由,按在文案中出现的位置排序后切片。
+    final List<_ConsentLink> links = <_ConsentLink>[
+      _ConsentLink(l10n.auth_consent_terms, AppRoutes.legalTerms),
+      _ConsentLink(l10n.auth_consent_privacy, AppRoutes.legalPrivacy),
+    ];
+
+    final String label = l10n.auth_consent_label;
+    final List<InlineSpan> spans = <InlineSpan>[];
+    int cursor = 0;
+
+    // 按词在 label 中的实际位置逐个切片,保证顺序与多语言文案一致。
+    while (cursor < label.length) {
+      int nextIndex = -1;
+      _ConsentLink? nextLink;
+      for (final _ConsentLink link in links) {
+        if (link.word.isEmpty) continue;
+        final int idx = label.indexOf(link.word, cursor);
+        if (idx >= 0 && (nextIndex < 0 || idx < nextIndex)) {
+          nextIndex = idx;
+          nextLink = link;
+        }
+      }
+      if (nextLink == null || nextIndex < 0) {
+        spans.add(TextSpan(text: label.substring(cursor)));
+        break;
+      }
+      if (nextIndex > cursor) {
+        spans.add(TextSpan(text: label.substring(cursor, nextIndex)));
+      }
+      spans.add(TextSpan(
+        text: nextLink.word,
+        style: linkStyle,
+        recognizer: TapGestureRecognizer()
+          ..onTap = () => context.push(nextLink!.route),
+      ));
+      cursor = nextIndex + nextLink.word.length;
+    }
+
+    return TextSpan(children: spans);
   }
 }
 

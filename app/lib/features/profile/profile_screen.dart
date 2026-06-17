@@ -36,7 +36,7 @@ class ProfileScreen extends ConsumerWidget {
         : (SupportedLocales.nativeNames[localeState.effective.languageCode] ?? '');
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settings_title)),
+      appBar: AppBar(title: Text(l10n.settings_profile)),
       body: me.when(
         skipLoadingOnReload: true,
         loading: () => const _ProfileSkeleton(),
@@ -158,8 +158,11 @@ class ProfileScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext ctx) => AlertDialog(
         content: Text(l10n.logout_confirm),
+        // 取消与确认两按钮视觉等权(参考注销弹窗风格,避免取消是不起眼小链接):
+        // 取消用 OutlinedButton 更可见,确认用 FilledButton,两者同高、左右平衡。
+        actionsPadding: const EdgeInsets.all(AppSpacing.md),
         actions: <Widget>[
-          TextButton(
+          OutlinedButton(
             onPressed: () => Navigator.of(ctx).pop(false),
             child: Text(l10n.common_cancel),
           ),

@@ -34,7 +34,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.history_tab_day)),
+      appBar: AppBar(title: Text(l10n.history_title)),
       body: Column(
         children: <Widget>[
           Padding(

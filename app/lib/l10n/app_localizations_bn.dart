@@ -200,6 +200,9 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String get history_title => 'History';
+
+  @override
   String get history_tab_day => 'Day';
 
   @override

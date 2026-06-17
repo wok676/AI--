@@ -26,17 +26,27 @@ class TodayScreen extends ConsumerWidget {
     final String localeCode = ref.watch(localeControllerProvider).effective.languageCode;
     final DateTime now = DateTime.now();
 
+    // 避免同屏出现两个同义主操作(空态中部 CTA + 右下 FAB):
+    // 空态(当日无记录)只保留中部 CTA、隐藏 FAB;有数据/加载/错误时保留 FAB。
+    final AsyncValue<List<MealEntry>> mealsForFab = ref.watch(mealsByDateProvider(date));
+    final bool showFab = mealsForFab.maybeWhen(
+      data: (List<MealEntry> list) => list.isNotEmpty,
+      orElse: () => true,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${l10n.home_today} · ${DateFmt.medium(now, localeCode)}'),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => CaptureFlow.showMethodSheet(context, ref),
-        icon: const Icon(Icons.add),
-        label: Text(l10n.home_fab_addMeal),
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.onPrimary,
-      ),
+      floatingActionButton: showFab
+          ? FloatingActionButton.extended(
+              onPressed: () => CaptureFlow.showMethodSheet(context, ref),
+              icon: const Icon(Icons.add),
+              label: Text(l10n.home_fab_addMeal),
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.onPrimary,
+            )
+          : null,
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(dailySummaryProvider(date));

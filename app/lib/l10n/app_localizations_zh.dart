@@ -193,7 +193,10 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get history_tab_day => '日';
+  String get history_title => '历史';
+
+  @override
+  String get history_tab_day => '每日';
 
   @override
   String get history_tab_trend => '趋势';
@@ -214,7 +217,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get goal_field_activity => '活动量';
 
   @override
-  String get goal_disclaimer => '估算值仅供参考,可自行调整,非医疗建议';
+  String get goal_disclaimer => '估算值仅供参考，可自行调整，非医疗建议';
 
   @override
   String get perm_camera_title => '需要使用相机';

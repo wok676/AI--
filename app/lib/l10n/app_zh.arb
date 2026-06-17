@@ -75,7 +75,8 @@
     "placeholders": { "kcal": { "type": "int" } }
   },
 
-  "history_tab_day": "日",
+  "history_title": "历史",
+  "history_tab_day": "每日",
   "history_tab_trend": "趋势",
 
   "goal_title": "每日热量目标",
@@ -83,7 +84,7 @@
   "goal_field_height": "身高",
   "goal_field_weight": "体重",
   "goal_field_activity": "活动量",
-  "goal_disclaimer": "估算值仅供参考,可自行调整,非医疗建议",
+  "goal_disclaimer": "估算值仅供参考，可自行调整，非医疗建议",
 
   "perm_camera_title": "需要使用相机",
   "perm_camera_body": "用于拍摄你的食物以进行 AI 识别。仅在你主动拍照时使用。",

@@ -478,6 +478,12 @@ abstract class AppLocalizations {
   /// **'{kcal} kcal left'**
   String summary_remaining(int kcal);
 
+  /// History screen AppBar title & bottom nav tab (UI §4.1/§5.5)
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history_title;
+
   /// No description provided for @history_tab_day.
   ///
   /// In en, this message translates to:
