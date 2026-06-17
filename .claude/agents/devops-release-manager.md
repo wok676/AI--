@@ -15,6 +15,8 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 3. **CI/CD 流水线**:搭建自动化构建/测试/部署(GitHub Actions / GitLab CI 等),前端包与后端服务平滑迭代;`deploy/deploy.sh` SSH 自动化,**幂等可重跑**。
 4. **备份与监控**:数据库每日**加密**自动备份(离线或加密保存);生产日志审计 + 异常告警。
 5. **打包与技术准入**:EAS Build/Submit 产出 Android AAB/APK、iOS IPA/TestFlight;处理签名、Play App Signing、Data Safety / App Privacy 表单的**提交机制**(文案与 ASO 由 `aso-operator` 提供)。
+   - **本地 IP 打包(给人类真机联调的测试包硬性约定)**:客户端 API 地址是**编译期**写死的。打"给人类装在真机上测"的包时,**绝不能用 `localhost`**(那是手机自己、连不到电脑后端),必须注入本机局域网 IP,如 `flutter build apk --debug --dart-define=API_BASE_URL=http://<PC-LAN-IP>:3000/api`,并提示放行防火墙对应端口、手机与电脑同一 WiFi(USB 调试可用 `adb reverse tcp:3000 tcp:3000` 让默认 localhost 包也直连)。每次重打记得带上同样的 `--dart-define`,别退回 localhost。
+6. **DB 起栈即建库建表 + 实测**:起任何后端栈(本地 dev 或生产)都要保证数据库**从空库自动建好完整 schema** —— 容器 entrypoint 跑 `prisma migrate deploy`(迁移须覆盖全部表,见 backend-engineer 约定),起栈后**亲自验证**:`curl /health` 正常 + 查到全部预期表,贴证据;不要"理论上能起"就交付。容器内若依赖宿主文件(如 `/locales` 语言包)要正确挂载。
 
 ## 约束
 - **绝不**允许任何接口服务暴露在明文 HTTP 下;全站 HTTPS。
