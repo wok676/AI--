@@ -2,6 +2,9 @@
 .env
 .env.*
 !.env.example
+# 例外:所有 *.example 样板(占位无真值)必须入库,如 .env.production.example
+!*.env.example
+!.env*.example
 *.key
 *.pem
 *.p8
@@ -44,6 +47,11 @@ build/
 # ---- Docker / runtime ----
 *.local
 pgdata/
+
+# ---- 生产 TLS 证书与加密备份(绝不入库,部署机本地就位)----
+deploy/nginx/certs/
+deploy/nginx/acme-challenge/
+deploy/backups/
 
 # ---- SQLite 本地库 ----
 *.db
