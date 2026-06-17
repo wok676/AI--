@@ -126,15 +126,18 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
 
-            // —— 注销账号(error 色,显著不隐藏,§7.2)——
-            ListTile(
-              leading: const Icon(Icons.warning_amber, color: AppColors.error),
-              title: Text(
-                l10n.account_delete_entry,
-                style: Theme.of(context).textTheme.titleMedium
-                    ?.copyWith(color: AppColors.error),
+            // —— 注销账号(error 色,显著不隐藏,§7.2;居中略小,仍带警告图标保持可发现)——
+            Center(
+              child: TextButton.icon(
+                onPressed: () => AccountDeleteFlow.show(context, ref),
+                icon: const Icon(Icons.warning_amber, size: 18, color: AppColors.error),
+                label: Text(
+                  l10n.account_delete_entry,
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: AppColors.error),
+                ),
+                style: TextButton.styleFrom(foregroundColor: AppColors.error),
               ),
-              onTap: () => AccountDeleteFlow.show(context, ref),
             ),
             const SizedBox(height: AppSpacing.lg),
           ],
