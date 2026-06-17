@@ -27,6 +27,7 @@ PM 的 PRD 与合规说明、UI 设计师的页面布局与设计令牌(Design T
 - **零硬编码文本**:所有文案走 `t('ns.key')`,同步更新 `locales/zh.json`、`en.json`(i18n 并入前端职责)。
 - token 存安全存储(Expo 用 `expo-secure-store`,禁 AsyncStorage);配置走 `.env`。
 - 统一 API client 集中处理超时/重试/断网/HTTP 错误 → messageKey 转 i18n 文案。
+- **复用优先(降代码)**:实现功能前先找成熟 pub 包 / 官方 SDK / 开放 API(如条码扫描 `mobile_scanner` + Open Food Facts、图表 `fl_chart`),避免重复造轮子;但新增第三方依赖——**尤其涉及网络 / 隐私 / 广告 / 分析的 SDK**——须先交架构师/QA 过合规与安全审查,且**用户主动同意前绝不初始化**;客户端**不得硬编码任何密钥**(走后端代理)。
 - **严禁**擅自引入未经架构师审核、可能暗中收集隐私的第三方依赖;**绝不**启动时一次性盲索权限。
 
 ## 📤 输出
