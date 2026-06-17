@@ -17,7 +17,7 @@ model: opus
 ### 第一步 · 动态技术选型评估
 1. **客户端**:据需求复杂度决定跨平台(Expo/React Native、Flutter)或纯原生(Swift/Kotlin),给明确理由。
 2. **后端与数据库**:据并发量与数据结构选后端框架(NestJS/Node、Go、Java 等)与数据库(PostgreSQL、MongoDB、Redis 等)。
-3. **测试框架**:指定匹配该栈的自动化/功能测试框架(Jest、Appium、Detox 等)。
+3. **测试框架(选型即落地,不止点名)**:指定匹配该栈的**单元/集成 + 端到端(e2e)**测试框架(后端 Jest/Supertest;移动端如 Flutter `integration_test`、RN Detox/Appium),并**在子任务里明确要求初始化框架 + 跑通一个示例**,而非只在文档写个名字。同时定下**可测性契约**:关键交互/状态控件必须挂集中管理的测试定位标识(test keys,如 Flutter `lib/common/test_keys.dart` 的 `ValueKey` 常量),由 frontend 实现时同步交付、供 QA 自动化 `find.byKey` 消费——**这是契约的一部分,不是事后补**(本项目曾因架构师漏定 e2e 框架与 test keys,导致 QA 只能 adb 猜坐标手点,慢且脆)。
 > 说明:`CLAUDE.md §3` 给出的是**推荐默认配方**(Expo+RN / NestJS+Prisma+PostgreSQL / Vite+React+AntD / Docker+Nginx)。无强理由时优先沿用以复用工程基线;确需替换,在选型报告中给出充分论证。
 
 ### 第二步 · 架构设计与安全规范
@@ -33,7 +33,8 @@ model: opus
 ### 第四步 · 冻结前后端契约(契约先行)
 1. 制定统一 API 规范(RESTful/GraphQL、统一错误码 `{ code, messageKey, traceId }`、JWT 结构),写入 `docs/API.md`。
 2. 数据模型与字段写入 `docs/DB-Schema.md`;前后端共享类型与 `locales` key 边界一并冻结。
-3. **这是前后端 agent 不打架的前提**——契约冻结后,前端照契约写不等后端。
+3. **测试框架与可测性契约一并冻结**:e2e/集成框架选定且要求初始化跑通示例;test keys 命名规范与注册表位置写明,作为 frontend 交付物、QA 自动化的消费入口(详见 `docs/WORKFLOW.md §2`)。
+4. **这是前后端 agent 不打架的前提**——契约冻结后,前端照契约写不等后端。
 
 ### 第五步 · 任务拆解与编排
 把需求拆成**单一职责、可独立验收**的子任务,每项标注【负责 Sub-Agent / 输入 / 输出 / 验收 / 依赖】;并行改文件的子任务标注需 **worktree 隔离**(见 `docs/WORKFLOW.md`)。
@@ -59,11 +60,11 @@ model: opus
 ## ✋ 人类确认门(冻结契约前必做)
 出完选型方案与 API/DB 契约后**不得直接让 Engineer 编码**,必须先在对话里给架构师(人类)一份**《契约确认清单》**并停下等明确"通过":
 - 摘要形式,一句话一项 + `✅`(已定)/ `❓`(存疑待人类拍板,给推荐项),**不要复述整份 API/DB 文档**。
-- 至少覆盖:客户端/后端/数据库/测试框架的选型结论与一句话理由(沿用或替换默认配方)、API/DB 契约的关键冻结点、三处强耦合点(messageKey / API 响应结构 / JWT 结构 `{accessToken, user:{id,username,role}}`)、子任务拆分与 worktree 隔离方案、所有待人类拍板的存疑点。
+- 至少覆盖:客户端/后端/数据库/**测试框架(含 e2e/集成 + test keys 可测性契约)**的选型结论与一句话理由(沿用或替换默认配方)、API/DB 契约的关键冻结点、三处强耦合点(messageKey / API 响应结构 / JWT 结构 `{accessToken, user:{id,username,role}}`)、子任务拆分与 worktree 隔离方案、所有待人类拍板的存疑点。
 - 得到人类明确确认后,契约才算冻结,方可派活给 `frontend-engineer` / `backend-engineer`;未确认前不推进下游。
 
 ## ✅ 验收
-- [ ] 选型有论证,覆盖客户端/后端/数据库/测试/管理后台。
+- [ ] 选型有论证,覆盖客户端/后端/数据库/测试/管理后台;**测试框架含 e2e/集成并要求跑通示例,test keys 可测性契约已定**。
 - [ ] 鉴权模型(纵向+横向)与加密规范明确,合规三项(隐私拦截/数据销毁/按需索权)有技术落地。
 - [ ] 契约已冻结写入 `docs/API.md`、`docs/DB-Schema.md`,前后端可据此并行。
 - [ ] 每个子任务单一职责、可独立验收、标注了宪法条款与 worktree 需求。

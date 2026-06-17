@@ -31,6 +31,7 @@
 2. **`docs/DB-Schema.md`** —— Prisma 模型(表/字段/关系/索引)。
 3. **共享类型** —— `app/src/api/types.ts`(前端手写 interface)必须和后端 service 返回值**逐字段对齐**。
 4. **messageKey 命名** —— 后端报错返回的 `messageKey` 必须在 `locales/{zh,en}.json` 中存在。
+5. **测试框架 + 可测性契约** —— Architect 在契约阶段必须**选定并冻结测试框架**(单元/集成 + e2e,移动端如 Flutter `integration_test`),并定下**测试定位标识(test keys)规范**:前端实现界面时同步给关键控件挂集中管理的 `ValueKey`(`lib/common/test_keys.dart`),key 清单与 API 契约同级交付,供 QA 自动化 `find.byKey` 直接消费。**测试框架与 test keys 缺失 = 契约缺口**,QA 有权退回。
 
 > **三处强耦合点**(改任一处都要前后端同步,详见 [[fullstack-workflow-playbook]] 记忆):
 > ① messageKey(i18n) ② API 响应字段名/结构 ③ JWT 返回结构 `{accessToken, user:{id,username,role}}`。
@@ -122,3 +123,4 @@ Rule-Refs: §6.2 鉴权, §3.2 技术栈
 | localhost 包在手机上连不到后端 | 给人类真机测试的包**禁用 localhost**,必须 `--dart-define=API_BASE_URL=http://<PC-LAN-IP>:3000/api`;配防火墙放行 + 同 WiFi(或 USB `adb reverse`) | devops(打包)/ qa(测试) |
 | 起栈后只建了 auth 表、业务表缺失 | 迁移须能**从空库一键建起完整 schema**(全表/枚举/索引);起栈即 `migrate deploy` 并实测 `health` + 全表;降级库(SQLite)不当基线 | backend(迁移)/ devops(起栈) |
 | 界面功能到位但空荡/有重复元素/标签错 | **真机截图逐屏走查**(空荡/重复/标签/标点);视觉增强**优先代码绘制(渐变/柔光斑/图标),禁位图素材**(规避版权、可上架) | ui-ux-designer |
+| 漏定 e2e/集成框架与 test keys,QA 只能 adb 猜坐标手点(慢且脆) | 契约阶段**冻结 e2e 框架并要求跑通示例**;定 test keys 命名+注册表,**前端开发时同步挂 `ValueKey` 交付**,QA 用 `find.byKey` 自动化;缺失视为契约缺口可退回 | architect(冻结)/ frontend(挂 key)/ qa(消费) |
