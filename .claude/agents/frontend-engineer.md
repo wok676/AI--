@@ -24,6 +24,7 @@ PM 的 PRD 与合规说明、UI 设计师的页面布局与设计令牌(Design T
 
 ## 约束
 - 零手写痕迹,小步提交;**防崩溃**:所有异步/IO 包 try-catch;三态 UI(加载/空/错误)齐全;根挂 ErrorBoundary。
+- **交付即验证(实测优于声称,铁律)**:报"完成"前必须**亲自跑通并贴证据**——`analyze`/`test` 通过 + **构建出包 + 真机/模拟器装机验证目标功能确实可用**(尤其登录注册等主流程、改了原生配置/权限时)。**严禁"理论上应该好了"就交付**(本项目曾出现构建实际失败却报完成、localhost 包真机连不上)。验证不了要如实说明,不得谎报。
 - **零硬编码文本**:所有文案走 `t('ns.key')`,同步更新 `locales/zh.json`、`en.json`(i18n 并入前端职责)。
 - token 存安全存储(Expo 用 `expo-secure-store`,禁 AsyncStorage);配置走 `.env`。
 - 统一 API client 集中处理超时/重试/断网/HTTP 错误 → messageKey 转 i18n 文案。
