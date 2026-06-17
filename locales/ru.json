@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
-    "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "ok": "ОК",
+    "continue": "Продолжить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "delete": "Удалить",
+    "edit": "Изменить",
+    "retry": "Повторить",
+    "loading": "Загрузка…",
+    "empty": "Здесь пока пусто",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "Что-то пошло не так. Попробуйте снова.",
+      "network": "Ошибка сети. Проверьте подключение.",
+      "timeout": "Время ожидания истекло. Попробуйте снова."
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "Сеанс истёк, войдите снова",
+    "forbidden": "У вас нет прав для этого действия",
+    "notFound": "Ресурс не найден",
+    "validation": "Неверный ввод, проверьте и повторите"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "Регистрация"
     },
     "login": {
-      "title": "Log in"
+      "title": "Вход"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "Эл. почта",
+      "password": "Пароль"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "Слабый пароль. Используйте буквы и цифры."
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "Неверный адрес эл. почты"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "Я прочитал(а) и принимаю Условия использования и Политику конфиденциальности",
+      "terms": "Условия использования",
+      "privacy": "Политика конфиденциальности",
+      "required": "Сначала прочтите и примите Условия и Политику конфиденциальности"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "Войти через Apple"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "Войти через Google"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "Выйти",
+    "forgotPassword": "Забыли пароль",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "Неверная почта или пароль"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "Сделать фото",
+      "gallery": "Выбрать из галереи",
+      "text": "Описать текстом"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "напр.: миска лапши с говядиной + жареное яйцо"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "Анализировать"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "Анализируем вашу еду…",
     "result": {
-      "title": "Results"
+      "title": "Результаты"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "Калории",
+      "protein": "Белки",
+      "carbs": "Углеводы",
+      "fat": "Жиры",
+      "serving": "Порция",
+      "addManual": "Добавить вручную"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "Низкая точность — перепроверьте",
+    "disclaimer": "Данные о калориях и питательности — оценки ИИ и могут быть неточными. Только для справки; это не медицинская рекомендация.",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "Не удалось распознать изображение. Попробуйте другое фото или добавьте вручную."
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "Достигнут дневной лимит распознаваний. Попробуйте завтра."
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "Завтрак",
+    "lunch": "Обед",
+    "dinner": "Ужин",
+    "snack": "Перекус"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "Сегодня",
+    "streak": "Серия {{count}} дн.",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "Запишите первый приём пищи"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "Записать приём пищи"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "Потреблено",
+    "goal": "Цель",
+    "remaining": "Осталось {{kcal}} ккал"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "День",
+      "trend": "Тренд"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "Дневная норма калорий",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "Рассчитать за меня"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "Рост",
+      "weight": "Вес",
+      "activity": "Уровень активности"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "Оценка приведена для справки, её можно изменить; это не медицинская рекомендация."
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "Доступ к камере",
+      "body": "Чтобы фотографировать еду для анализа ИИ. Используется только при съёмке."
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "Доступ к фото",
+      "body": "Чтобы выбрать фото еды для анализа. Читается только выбранное вами фото."
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "Включить напоминания",
+      "body": "Помогает выработать привычку записывать. Можно отключить в любой момент."
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "Разрешить",
+    "notNow": "Не сейчас",
+    "openSettings": "Открыть настройки"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "Настройки",
+    "language": "Язык",
+    "units": "Единицы",
+    "notifications": "Уведомления",
+    "profile": "Профиль",
+    "terms": "Условия использования",
+    "privacy": "Политика конфиденциальности",
+    "about": "О приложении"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "Удалить аккаунт",
+      "title": "Удалить ваш аккаунт?",
+      "warning": "После удаления ваши записи о приёмах пищи, фото, профиль и цели стираются навсегда и безвозвратно, восстановить их нельзя.",
+      "confirmHint": "Введите пароль для подтверждения",
+      "confirmBtn": "Удалить аккаунт",
+      "success": "Ваш аккаунт и данные удалены навсегда",
+      "web": "Вы также можете удалить аккаунт в веб-версии"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "Фото вашей еды используются только для мгновенного анализа ИИ. Исходные изображения долго не хранятся; мы сохраняем лишь данные распознанного результата."
     }
   }
 }

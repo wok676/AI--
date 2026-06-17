@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
     "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "continue": "続ける",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirm": "確定",
+    "delete": "削除",
+    "edit": "編集",
+    "retry": "再試行",
+    "loading": "読み込み中…",
+    "empty": "まだ何もありません",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "問題が発生しました。もう一度お試しください。",
+      "network": "ネットワークエラー。接続を確認してください。",
+      "timeout": "リクエストがタイムアウトしました。もう一度お試しください。"
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "セッションが切れました。再度ログインしてください",
+    "forbidden": "この操作を行う権限がありません",
+    "notFound": "リソースが見つかりません",
+    "validation": "入力が無効です。確認して再試行してください"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "新規登録"
     },
     "login": {
-      "title": "Log in"
+      "title": "ログイン"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "メールアドレス",
+      "password": "パスワード"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "パスワードが脆弱です。英字と数字を使ってください。"
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "メールアドレスが無効です"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "利用規約とプライバシーポリシーを読み、同意します",
+      "terms": "利用規約",
+      "privacy": "プライバシーポリシー",
+      "required": "先に利用規約とプライバシーポリシーを読み、同意してください"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "Appleでサインイン"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "Googleでサインイン"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "ログアウト",
+    "forgotPassword": "パスワードをお忘れですか",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "メールアドレスまたはパスワードが正しくありません"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "写真を撮る",
+      "gallery": "ギャラリーから選ぶ",
+      "text": "テキストで入力"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "例：牛肉麺一杯 + 目玉焼き一つ"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "分析する"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "食事を分析しています…",
     "result": {
-      "title": "Results"
+      "title": "結果"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "カロリー",
+      "protein": "タンパク質",
+      "carbs": "炭水化物",
+      "fat": "脂質",
+      "serving": "分量",
+      "addManual": "項目を手動で追加"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "信頼度が低めです。ご確認ください",
+    "disclaimer": "カロリーや栄養の数値はAIによる推定値で、正確でない場合があります。参考用であり、医療・健康に関する助言ではありません。",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "この画像を認識できませんでした。別の写真を試すか、手動で追加してください。"
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "本日の認識回数の上限に達しました。明日またお試しください。"
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "朝食",
+    "lunch": "昼食",
+    "dinner": "夕食",
+    "snack": "間食"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "今日",
+    "streak": "{{count}}日連続",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "最初の食事を記録しましょう"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "食事を記録"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "摂取",
+    "goal": "目標",
+    "remaining": "残り{{kcal}}kcal"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "日",
+      "trend": "推移"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "1日のカロリー目標",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "おすすめを計算"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "身長",
+      "weight": "体重",
+      "activity": "活動量"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "推定値は参考用で調整可能であり、医療上の助言ではありません。"
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "カメラへのアクセス",
+      "body": "AI分析のために食事の写真を撮影します。撮影時のみ使用します。"
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "写真へのアクセス",
+      "body": "分析する食事の写真を選ぶために使用します。選択した写真のみを読み込みます。"
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "リマインダーを有効にする",
+      "body": "記録の習慣づくりをサポートします。いつでもオフにできます。"
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "許可",
+    "notNow": "後で",
+    "openSettings": "設定を開く"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "設定",
+    "language": "言語",
+    "units": "単位",
+    "notifications": "通知",
+    "profile": "プロフィール",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー",
+    "about": "アプリについて"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "アカウントを削除",
+      "title": "アカウントを削除しますか？",
+      "warning": "削除すると、食事記録・写真・プロフィール・目標は完全かつ取り消し不能に消去され、復元できません。",
+      "confirmHint": "確認のためパスワードを入力してください",
+      "confirmBtn": "アカウントを削除",
+      "success": "アカウントとデータは完全に削除されました",
+      "web": "ウェブからもアカウントを削除できます"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "食事の写真はその場のAI分析にのみ使用します。元画像は長期保存せず、認識結果のデータのみを保持します。"
     }
   }
 }

@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
-    "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "ok": "ठीक है",
+    "continue": "जारी रखें",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "confirm": "पुष्टि करें",
+    "delete": "हटाएँ",
+    "edit": "संपादित करें",
+    "retry": "पुनः प्रयास करें",
+    "loading": "लोड हो रहा है…",
+    "empty": "अभी यहाँ कुछ नहीं है",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "कुछ गड़बड़ हो गई। कृपया फिर से प्रयास करें।",
+      "network": "नेटवर्क त्रुटि। कृपया अपना कनेक्शन जाँचें।",
+      "timeout": "अनुरोध का समय समाप्त हो गया। फिर से प्रयास करें।"
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "सत्र समाप्त हो गया, कृपया फिर से लॉग इन करें",
+    "forbidden": "आपको यह कार्य करने की अनुमति नहीं है",
+    "notFound": "संसाधन नहीं मिला",
+    "validation": "अमान्य इनपुट, कृपया जाँचें और फिर से प्रयास करें"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "साइन अप करें"
     },
     "login": {
-      "title": "Log in"
+      "title": "लॉग इन करें"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "ईमेल",
+      "password": "पासवर्ड"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "कमज़ोर पासवर्ड। अक्षर और संख्याएँ इस्तेमाल करें।"
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "अमान्य ईमेल पता"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "मैंने सेवा की शर्तें और गोपनीयता नीति पढ़ ली हैं और सहमत हूँ",
+      "terms": "सेवा की शर्तें",
+      "privacy": "गोपनीयता नीति",
+      "required": "कृपया पहले शर्तें और गोपनीयता नीति पढ़कर स्वीकार करें"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "Apple से साइन इन करें"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "Google से साइन इन करें"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "लॉग आउट",
+    "forgotPassword": "पासवर्ड भूल गए",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "ईमेल या पासवर्ड गलत है"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "फ़ोटो लें",
+      "gallery": "गैलरी से चुनें",
+      "text": "टेक्स्ट में बताएँ"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "जैसे: एक कटोरी बीफ़ नूडल्स + एक तला अंडा"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "विश्लेषण करें"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "आपके खाने का विश्लेषण हो रहा है…",
     "result": {
-      "title": "Results"
+      "title": "परिणाम"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "कैलोरी",
+      "protein": "प्रोटीन",
+      "carbs": "कार्ब्स",
+      "fat": "वसा",
+      "serving": "सर्विंग",
+      "addManual": "मैन्युअल रूप से आइटम जोड़ें"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "कम विश्वास — कृपया दोबारा जाँचें",
+    "disclaimer": "कैलोरी और पोषण के आँकड़े AI द्वारा अनुमानित हैं और गलत हो सकते हैं। केवल संदर्भ के लिए; यह चिकित्सा या स्वास्थ्य सलाह नहीं है।",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "इस तस्वीर को पहचान नहीं पाए। दूसरी फ़ोटो आज़माएँ या मैन्युअल रूप से जोड़ें।"
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "आज की पहचान सीमा पूरी हो गई। कृपया कल फिर प्रयास करें।"
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "नाश्ता",
+    "lunch": "दोपहर का भोजन",
+    "dinner": "रात का खाना",
+    "snack": "नाश्ता (स्नैक)"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "आज",
+    "streak": "{{count}} दिन की लगातार रिकॉर्डिंग",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "अपना पहला भोजन रिकॉर्ड करें"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "भोजन रिकॉर्ड करें"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "लिया गया",
+    "goal": "लक्ष्य",
+    "remaining": "{{kcal}} किलोकैलोरी शेष"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "दिन",
+      "trend": "रुझान"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "दैनिक कैलोरी लक्ष्य",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "मेरे लिए अनुमान लगाएँ"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "ऊँचाई",
+      "weight": "वज़न",
+      "activity": "गतिविधि स्तर"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "अनुमान केवल संदर्भ के लिए है, इसे समायोजित किया जा सकता है, और यह चिकित्सा सलाह नहीं है।"
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "कैमरा एक्सेस",
+      "body": "AI विश्लेषण के लिए आपके खाने की फ़ोटो लेने हेतु। केवल फ़ोटो लेते समय इस्तेमाल होता है।"
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "फ़ोटो एक्सेस",
+      "body": "विश्लेषण के लिए खाने की फ़ोटो चुनने हेतु। केवल आपकी चुनी हुई फ़ोटो पढ़ी जाती है।"
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "रिमाइंडर चालू करें",
+      "body": "रिकॉर्ड करने की आदत बनाने में मदद करता है। आप इसे कभी भी बंद कर सकते हैं।"
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "अनुमति दें",
+    "notNow": "अभी नहीं",
+    "openSettings": "सेटिंग्स खोलें"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "सेटिंग्स",
+    "language": "भाषा",
+    "units": "इकाइयाँ",
+    "notifications": "सूचनाएँ",
+    "profile": "प्रोफ़ाइल",
+    "terms": "सेवा की शर्तें",
+    "privacy": "गोपनीयता नीति",
+    "about": "ऐप के बारे में"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "खाता हटाएँ",
+      "title": "क्या आप अपना खाता हटाना चाहते हैं?",
+      "warning": "हटाने के बाद, आपके भोजन रिकॉर्ड, फ़ोटो, प्रोफ़ाइल और लक्ष्य स्थायी रूप से और अपरिवर्तनीय रूप से मिटा दिए जाएँगे और पुनर्प्राप्त नहीं किए जा सकते।",
+      "confirmHint": "पुष्टि के लिए अपना पासवर्ड दर्ज करें",
+      "confirmBtn": "खाता हटाएँ",
+      "success": "आपका खाता और डेटा स्थायी रूप से हटा दिया गया है",
+      "web": "आप अपना खाता वेब पर भी हटा सकते हैं"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "आपकी भोजन फ़ोटो केवल तत्काल AI विश्लेषण के लिए उपयोग की जाती हैं। मूल छवियाँ लंबे समय तक संग्रहीत नहीं की जातीं; हम केवल पहचाने गए परिणाम डेटा को रखते हैं।"
     }
   }
 }

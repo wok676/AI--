@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
-    "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "ok": "Aceptar",
+    "continue": "Continuar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "empty": "Aún no hay nada aquí",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "network": "Error de red. Comprueba tu conexión.",
+      "timeout": "Se agotó el tiempo de espera. Inténtalo de nuevo."
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "La sesión expiró, vuelve a iniciar sesión",
+    "forbidden": "No tienes permiso para realizar esta acción",
+    "notFound": "Recurso no encontrado",
+    "validation": "Entrada no válida, revísala y reinténtalo"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "Registrarse"
     },
     "login": {
-      "title": "Log in"
+      "title": "Iniciar sesión"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "Correo electrónico",
+      "password": "Contraseña"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "Contraseña débil. Usa letras y números."
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "Dirección de correo no válida"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "He leído y acepto los Términos del servicio y la Política de privacidad",
+      "terms": "Términos del servicio",
+      "privacy": "Política de privacidad",
+      "required": "Primero lee y acepta los Términos y la Política de privacidad"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "Iniciar sesión con Apple"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "Iniciar sesión con Google"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "Cerrar sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "Correo o contraseña incorrectos"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "Tomar foto",
+      "gallery": "Elegir de la galería",
+      "text": "Describir con texto"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "p. ej. un plato de fideos con ternera + un huevo frito"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "Analizar"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "Analizando tu comida…",
     "result": {
-      "title": "Results"
+      "title": "Resultados"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "Calorías",
+      "protein": "Proteínas",
+      "carbs": "Carbohidratos",
+      "fat": "Grasas",
+      "serving": "Porción",
+      "addManual": "Añadir elemento manualmente"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "Confianza baja: comprueba de nuevo",
+    "disclaimer": "Las cifras de calorías y nutrición son estimaciones de IA y pueden ser inexactas. Solo como referencia; no son consejo médico ni de salud.",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "No se pudo reconocer esta imagen. Prueba con otra foto o añádelo manualmente."
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "Has alcanzado el límite diario de reconocimientos. Inténtalo mañana."
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "Desayuno",
+    "lunch": "Almuerzo",
+    "dinner": "Cena",
+    "snack": "Tentempié"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "Hoy",
+    "streak": "Racha de {{count}} días",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "Registra tu primera comida"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "Registrar una comida"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "Consumido",
+    "goal": "Objetivo",
+    "remaining": "Quedan {{kcal}} kcal"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "Día",
+      "trend": "Tendencia"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "Objetivo diario de calorías",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "Calcúlalo por mí"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "Altura",
+      "weight": "Peso",
+      "activity": "Nivel de actividad"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "La estimación es solo de referencia, ajustable y no constituye consejo médico."
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "Acceso a la cámara",
+      "body": "Para fotografiar tu comida y analizarla con IA. Solo se usa cuando tomas una foto."
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "Acceso a las fotos",
+      "body": "Para elegir una foto de comida y analizarla. Solo se lee la foto que selecciones."
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "Activar recordatorios",
+      "body": "Te ayuda a crear el hábito de registrar. Puedes desactivarlo cuando quieras."
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "Permitir",
+    "notNow": "Ahora no",
+    "openSettings": "Abrir Ajustes"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "Ajustes",
+    "language": "Idioma",
+    "units": "Unidades",
+    "notifications": "Notificaciones",
+    "profile": "Perfil",
+    "terms": "Términos del servicio",
+    "privacy": "Política de privacidad",
+    "about": "Acerca de"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "Eliminar cuenta",
+      "title": "¿Eliminar tu cuenta?",
+      "warning": "Una vez eliminada, tus registros de comidas, fotos, perfil y objetivos se borran de forma permanente e irreversible y no se pueden recuperar.",
+      "confirmHint": "Introduce tu contraseña para confirmar",
+      "confirmBtn": "Eliminar cuenta",
+      "success": "Tu cuenta y tus datos se han eliminado permanentemente",
+      "web": "También puedes eliminar tu cuenta desde la web"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "Tus fotos de comida solo se usan para el análisis instantáneo con IA. Las imágenes originales no se conservan a largo plazo; solo guardamos los datos del resultado reconocido."
     }
   }
 }

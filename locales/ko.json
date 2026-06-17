@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
-    "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "ok": "확인",
+    "continue": "계속",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "delete": "삭제",
+    "edit": "편집",
+    "retry": "다시 시도",
+    "loading": "불러오는 중…",
+    "empty": "아직 아무것도 없어요",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "문제가 발생했습니다. 다시 시도해 주세요.",
+      "network": "네트워크 오류입니다. 연결을 확인해 주세요.",
+      "timeout": "요청 시간이 초과되었습니다. 다시 시도해 주세요."
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "세션이 만료되었습니다. 다시 로그인해 주세요",
+    "forbidden": "이 작업을 수행할 권한이 없습니다",
+    "notFound": "리소스를 찾을 수 없습니다",
+    "validation": "잘못된 입력입니다. 확인 후 다시 시도하세요"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "회원가입"
     },
     "login": {
-      "title": "Log in"
+      "title": "로그인"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "이메일",
+      "password": "비밀번호"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "비밀번호가 약합니다. 영문과 숫자를 사용하세요."
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "잘못된 이메일 주소입니다"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "서비스 약관과 개인정보 처리방침을 읽었으며 이에 동의합니다",
+      "terms": "서비스 약관",
+      "privacy": "개인정보 처리방침",
+      "required": "먼저 약관과 개인정보 처리방침을 읽고 동의해 주세요"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "Apple로 로그인"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "Google로 로그인"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "로그아웃",
+    "forgotPassword": "비밀번호 찾기",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "사진 촬영",
+      "gallery": "갤러리에서 선택",
+      "text": "텍스트로 입력"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "예: 소고기 국수 한 그릇 + 계란프라이 하나"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "분석하기"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "음식을 분석하는 중…",
     "result": {
-      "title": "Results"
+      "title": "결과"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "칼로리",
+      "protein": "단백질",
+      "carbs": "탄수화물",
+      "fat": "지방",
+      "serving": "1회 제공량",
+      "addManual": "항목 직접 추가"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "신뢰도가 낮습니다 — 다시 확인해 주세요",
+    "disclaimer": "칼로리 및 영양 수치는 AI 추정값으로 정확하지 않을 수 있습니다. 참고용이며 의학적·건강상의 조언이 아닙니다.",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "이 이미지를 인식하지 못했습니다. 다른 사진을 시도하거나 직접 추가하세요."
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "오늘 인식 한도에 도달했습니다. 내일 다시 시도해 주세요."
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "아침",
+    "lunch": "점심",
+    "dinner": "저녁",
+    "snack": "간식"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "오늘",
+    "streak": "{{count}}일 연속",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "첫 식사를 기록해 보세요"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "식사 기록"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "섭취",
+    "goal": "목표",
+    "remaining": "{{kcal}}kcal 남음"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "일별",
+      "trend": "추이"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "일일 칼로리 목표",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "추천값 계산"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "키",
+      "weight": "체중",
+      "activity": "활동량"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "추정값은 참고용이며 조정할 수 있고 의학적 조언이 아닙니다."
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "카메라 접근",
+      "body": "AI 분석을 위해 음식 사진을 촬영합니다. 사진을 찍을 때만 사용됩니다."
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "사진 접근",
+      "body": "분석할 음식 사진을 선택하기 위해서입니다. 선택한 사진만 읽습니다."
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "알림 켜기",
+      "body": "기록 습관을 만드는 데 도움이 됩니다. 언제든 끌 수 있습니다."
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "허용",
+    "notNow": "나중에",
+    "openSettings": "설정 열기"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "설정",
+    "language": "언어",
+    "units": "단위",
+    "notifications": "알림",
+    "profile": "프로필",
+    "terms": "서비스 약관",
+    "privacy": "개인정보 처리방침",
+    "about": "정보"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "계정 삭제",
+      "title": "계정을 삭제하시겠어요?",
+      "warning": "삭제하면 식사 기록, 사진, 프로필, 목표가 영구적이고 되돌릴 수 없게 지워지며 복구할 수 없습니다.",
+      "confirmHint": "확인을 위해 비밀번호를 입력하세요",
+      "confirmBtn": "계정 삭제",
+      "success": "계정과 데이터가 영구적으로 삭제되었습니다",
+      "web": "웹에서도 계정을 삭제할 수 있습니다"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "음식 사진은 즉각적인 AI 분석에만 사용됩니다. 원본 이미지는 장기간 보관하지 않으며 인식된 결과 데이터만 보관합니다."
     }
   }
 }

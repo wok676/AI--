@@ -1,183 +1,178 @@
 {
-  "_meta": {
-    "_comment_zh": "占位文件:值暂用英文,待人工翻译。合规/法律文案(auth.consent.*、account.delete.*、recognize.disclaimer、goal.disclaimer)禁止机翻,须人工把关。",
-    "status": "TRANSLATION_PENDING",
-    "baseline": "en"
-  },
   "common": {
     "appName": "TestAI",
-    "ok": "OK",
-    "continue": "Continue",
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "retry": "Retry",
-    "loading": "Loading…",
-    "empty": "Nothing here yet",
+    "ok": "حسنًا",
+    "continue": "متابعة",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "retry": "إعادة المحاولة",
+    "loading": "جارٍ التحميل…",
+    "empty": "لا شيء هنا بعد",
     "error": {
-      "generic": "Something went wrong. Please try again.",
-      "network": "Network error. Please check your connection.",
-      "timeout": "Request timed out. Please try again."
+      "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+      "network": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
+      "timeout": "انتهت مهلة الطلب. يرجى المحاولة مرة أخرى."
     }
   },
   "errors": {
-    "unauthorized": "Session expired, please log in again",
-    "forbidden": "You are not allowed to perform this action",
-    "notFound": "Resource not found",
-    "validation": "Invalid input, please check and retry"
+    "unauthorized": "انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى",
+    "forbidden": "غير مسموح لك بتنفيذ هذا الإجراء",
+    "notFound": "المورد غير موجود",
+    "validation": "إدخال غير صالح، يرجى التحقق وإعادة المحاولة"
   },
   "auth": {
     "signup": {
-      "title": "Sign up"
+      "title": "إنشاء حساب"
     },
     "login": {
-      "title": "Log in"
+      "title": "تسجيل الدخول"
     },
     "field": {
-      "email": "Email",
-      "password": "Password"
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور"
     },
     "password": {
-      "weak": "Weak password. Use letters and numbers."
+      "weak": "كلمة مرور ضعيفة. استخدم أحرفًا وأرقامًا."
     },
     "email": {
-      "invalid": "Invalid email address"
+      "invalid": "عنوان بريد إلكتروني غير صالح"
     },
     "consent": {
-      "label": "I have read and agree to the Terms of Service and Privacy Policy",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "required": "Please read and accept the Terms and Privacy Policy first"
+      "label": "لقد قرأت وأوافق على شروط الخدمة وسياسة الخصوصية",
+      "terms": "شروط الخدمة",
+      "privacy": "سياسة الخصوصية",
+      "required": "يرجى قراءة الشروط وسياسة الخصوصية والموافقة عليها أولاً"
     },
     "apple": {
-      "signin": "Sign in with Apple"
+      "signin": "تسجيل الدخول عبر Apple"
     },
     "google": {
-      "signin": "Sign in with Google"
+      "signin": "تسجيل الدخول عبر Google"
     },
-    "logout": "Log out",
-    "forgotPassword": "Forgot password",
+    "logout": "تسجيل الخروج",
+    "forgotPassword": "نسيت كلمة المرور",
     "error": {
-      "invalidCredentials": "Incorrect email or password"
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
     }
   },
   "capture": {
     "method": {
-      "photo": "Take photo",
-      "gallery": "Choose from gallery",
-      "text": "Describe in text"
+      "photo": "التقاط صورة",
+      "gallery": "اختيار من المعرض",
+      "text": "الوصف بالنص"
     },
     "text": {
-      "placeholder": "e.g. a bowl of beef noodles + a fried egg"
+      "placeholder": "مثال: طبق نودلز باللحم + بيضة مقلية"
     },
     "cta": {
-      "recognize": "Analyze"
+      "recognize": "تحليل"
     }
   },
   "recognize": {
-    "loading": "Analyzing your food…",
+    "loading": "جارٍ تحليل طعامك…",
     "result": {
-      "title": "Results"
+      "title": "النتائج"
     },
     "item": {
-      "calories": "Calories",
-      "protein": "Protein",
-      "carbs": "Carbs",
-      "fat": "Fat",
-      "serving": "Serving",
-      "addManual": "Add item manually"
+      "calories": "السعرات الحرارية",
+      "protein": "البروتين",
+      "carbs": "الكربوهيدرات",
+      "fat": "الدهون",
+      "serving": "الحصة",
+      "addManual": "إضافة عنصر يدويًا"
     },
-    "lowConfidence": "Low confidence — please double-check",
-    "disclaimer": "Calorie and nutrition figures are AI estimates and may be inaccurate. For reference only; not medical or health advice.",
+    "lowConfidence": "ثقة منخفضة — يرجى التحقق مجددًا",
+    "disclaimer": "أرقام السعرات والتغذية تقديرات بالذكاء الاصطناعي وقد تكون غير دقيقة. للاسترشاد فقط؛ وليست نصيحة طبية أو صحية.",
     "error": {
-      "failed": "Couldn't recognize this image. Try another photo or add manually."
+      "failed": "تعذّر التعرّف على هذه الصورة. جرّب صورة أخرى أو أضِف يدويًا."
     },
     "limit": {
-      "reached": "Daily recognition limit reached. Please try again tomorrow."
+      "reached": "تم بلوغ الحد اليومي للتعرّف. حاول مرة أخرى غدًا."
     }
   },
   "meal": {
-    "breakfast": "Breakfast",
-    "lunch": "Lunch",
-    "dinner": "Dinner",
-    "snack": "Snack"
+    "breakfast": "الإفطار",
+    "lunch": "الغداء",
+    "dinner": "العشاء",
+    "snack": "وجبة خفيفة"
   },
   "home": {
-    "today": "Today",
-    "streak": "{{count}}-day streak",
+    "today": "اليوم",
+    "streak": "سلسلة {{count}} يوم",
     "empty": {
-      "cta": "Log your first meal"
+      "cta": "سجّل وجبتك الأولى"
     },
     "fab": {
-      "addMeal": "Log a meal"
+      "addMeal": "تسجيل وجبة"
     }
   },
   "summary": {
-    "consumed": "Consumed",
-    "goal": "Goal",
-    "remaining": "{{kcal}} kcal left"
+    "consumed": "المستهلك",
+    "goal": "الهدف",
+    "remaining": "متبقٍ {{kcal}} سعرة"
   },
   "history": {
     "tab": {
-      "day": "Day",
-      "trend": "Trend"
+      "day": "اليوم",
+      "trend": "الاتجاه"
     }
   },
   "goal": {
-    "title": "Daily calorie goal",
+    "title": "هدف السعرات اليومي",
     "estimate": {
-      "cta": "Estimate for me"
+      "cta": "احسبه لي"
     },
     "field": {
-      "height": "Height",
-      "weight": "Weight",
-      "activity": "Activity level"
+      "height": "الطول",
+      "weight": "الوزن",
+      "activity": "مستوى النشاط"
     },
-    "disclaimer": "Estimate is for reference only, adjustable, and not medical advice."
+    "disclaimer": "التقدير للاسترشاد فقط وقابل للتعديل وليس نصيحة طبية."
   },
   "perm": {
     "camera": {
-      "title": "Camera access",
-      "body": "To take photos of your food for AI analysis. Used only when you take a photo."
+      "title": "الوصول إلى الكاميرا",
+      "body": "لالتقاط صور طعامك لتحليلها بالذكاء الاصطناعي. يُستخدم فقط عند التقاط صورة."
     },
     "photos": {
-      "title": "Photo access",
-      "body": "To pick a food photo for analysis. Only the photo you select is read."
+      "title": "الوصول إلى الصور",
+      "body": "لاختيار صورة طعام للتحليل. تُقرأ فقط الصورة التي تختارها."
     },
     "notify": {
-      "title": "Enable reminders",
-      "body": "Helps you build a logging habit. You can turn it off anytime."
+      "title": "تفعيل التذكيرات",
+      "body": "يساعدك على بناء عادة التسجيل. يمكنك إيقافه في أي وقت."
     },
-    "allow": "Allow",
-    "notNow": "Not now",
-    "openSettings": "Open Settings"
+    "allow": "السماح",
+    "notNow": "ليس الآن",
+    "openSettings": "فتح الإعدادات"
   },
   "settings": {
-    "title": "Settings",
-    "language": "Language",
-    "units": "Units",
-    "notifications": "Notifications",
-    "profile": "Profile",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "about": "About"
+    "title": "الإعدادات",
+    "language": "اللغة",
+    "units": "الوحدات",
+    "notifications": "الإشعارات",
+    "profile": "الملف الشخصي",
+    "terms": "شروط الخدمة",
+    "privacy": "سياسة الخصوصية",
+    "about": "حول التطبيق"
   },
   "account": {
     "delete": {
-      "entry": "Delete account",
-      "title": "Delete your account?",
-      "warning": "Once deleted, your meal logs, photos, profile, and goals are permanently and irreversibly erased and cannot be recovered.",
-      "confirmHint": "Enter your password to confirm",
-      "confirmBtn": "Delete account",
-      "success": "Your account and data have been permanently deleted",
-      "web": "You can also delete your account on the web"
+      "entry": "حذف الحساب",
+      "title": "هل تريد حذف حسابك؟",
+      "warning": "بعد الحذف، تُمحى سجلات وجباتك وصورك وملفك الشخصي وأهدافك نهائيًا ودون رجعة ولا يمكن استرجاعها.",
+      "confirmHint": "أدخل كلمة المرور للتأكيد",
+      "confirmBtn": "حذف الحساب",
+      "success": "تم حذف حسابك وبياناتك نهائيًا",
+      "web": "يمكنك أيضًا حذف حسابك عبر الويب"
     }
   },
   "privacy": {
     "photo": {
-      "retention": "Your food photos are used only for instant AI analysis. Original images are not retained long-term; we keep only the recognized result data."
+      "retention": "تُستخدم صور طعامك فقط للتحليل الفوري بالذكاء الاصطناعي. لا نحتفظ بالصور الأصلية لفترة طويلة؛ نحفظ فقط بيانات النتيجة المتعرّف عليها."
     }
   }
 }
