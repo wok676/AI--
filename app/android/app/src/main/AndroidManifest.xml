@@ -1,4 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 按需索取权限(运行时申请,用时再申;前置解释弹窗见 compliance/permission_prompt) -->
+    <!-- 相机:拍照识别食物(F1) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 相册/照片:Android 13+(API 33)用 READ_MEDIA_IMAGES,旧版回退 READ_EXTERNAL_STORAGE -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- 通知:Android 13+ 运行时申请(Should) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 相机非必需,避免无相机设备被商店过滤 -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application
         android:label="calorie_app"
         android:name="${applicationName}"
