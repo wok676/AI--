@@ -34,6 +34,42 @@ services:
       retries: 10
       start_period: 10s
 
+  # ----------------------------------------------------------
+  # pgAdmin · 浏览器图形化查看/管理数据库(本机测试用)
+  #   - 预置 servers.json 自动注册到 db 容器(免手动填 host/port/user)。
+  #   - 登录邮箱/口令为本地固定值(写进 README,非生产敏感凭据)。
+  #   - 首次连接 DB 时仍会提示输入 DB 密码 = deploy/.env 的 POSTGRES_PASSWORD。
+  #   - pgAdmin 自身配置持久化到命名卷 pgadmin_data。
+  #   - 仅绑定本机回环,不对局域网/公网暴露。
+  # ----------------------------------------------------------
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pgadmin_local_2026}
+      # 关闭首登强制改密 / 主密码弹窗,降低本机使用摩擦
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_SERVER_MODE: "True"
+      # 新版 pgAdmin 默认要求邮箱"全球可投递",会拒绝 .local 等保留域名导致启动崩溃。
+      # 本机测试关闭该校验,允许任意本地邮箱登录。
+      PGADMIN_CONFIG_CHECK_EMAIL_DELIVERABILITY: "False"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      # 预配置:自动注册 db 服务器(只读挂载)
+      - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "127.0.0.1:5050:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:80/misc/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
   server:
     build:
       context: ../server
@@ -78,5 +114,30 @@ services:
       retries: 10
       start_period: 30s
 
+  # ----------------------------------------------------------
+  # seed · 一次性灌入本机测试数据(profile=tools,默认不随 up 启动)
+  #   用法:
+  #     1) 先确保 server 镜像已构建(up --build server,或单独 build server)
+  #     2) docker compose -f deploy/docker-compose.dev.yml run --rm seed
+  #   - seed 镜像以生产 runtime 镜像 testai-dev-server:latest 为基线,
+  #     仅补 ts-node + seed.ts(见 server/Dockerfile.seed),复用现成 node_modules,
+  #     避免本机 Docker 下极慢的 npm ci。
+  #   - 跑完即退出(--rm 删容器),seed.ts 幂等可重复跑。
+  # ----------------------------------------------------------
+  seed:
+    profiles: ["tools"]
+    image: testai-dev-seed:latest
+    build:
+      context: ../server
+      dockerfile: Dockerfile.seed
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+    # transpile-only 见 Dockerfile.seed 的 ENV;用镜像内全局 ts-node 跑 seed。
+    command: ["ts-node", "--transpile-only", "prisma/seed.ts"]
+
 volumes:
   pgdata:
+  pgadmin_data:

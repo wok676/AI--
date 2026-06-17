@@ -1,0 +1,27 @@
+# ============================================================
+# TestAI · seed 工具镜像(仅本机灌测试数据用,绝不进生产)
+# 基线 = 生产 runtime 镜像(testai-dev-server:latest):已含 @prisma/client、
+# 已生成的查询引擎(debian-openssl-3.0.x)、linux argon2、openssl。
+# 这里只补两样:ts-node/typescript(跑 seed.ts)+ seed.ts 源码本身。
+# 复用现成 node_modules,避免本机 Docker 下极慢的 npm ci。
+#
+# 构建顺序(见 deploy/docker-compose.dev.yml seed 服务):先 build server 镜像,
+# 再以它为基线 build 本镜像;故 seed 服务 depends_on server 的镜像存在。
+# ============================================================
+FROM testai-dev-server:latest
+
+USER root
+WORKDIR /app
+
+# seed.ts 用 ts-node 跑(runtime 已 prune devDeps,这里单独全局补;纯 JS 安装,秒级)。
+RUN npm i -g --no-audit --no-fund ts-node@10.9.2 typescript@5.7.2 @types/node@22.10.2
+
+# 带入 seed 源码(runtime 镜像只保留 dist,不含 prisma/seed.ts)。
+COPY prisma/seed.ts ./prisma/seed.ts
+
+# seed.ts 不在 server tsconfig 的 include(只含 src/**):transpile-only 跳过类型/配置诊断,
+# 显式注入 node 类型,避免 "Cannot find name 'process'"。
+ENV TS_NODE_TRANSPILE_ONLY=true
+ENV TS_NODE_COMPILER_OPTIONS='{"types":["node"],"module":"commonjs"}'
+
+ENTRYPOINT []
