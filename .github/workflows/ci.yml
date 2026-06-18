@@ -88,6 +88,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      # 格式门禁:全量已 dart format,后续保持（lib/test/integration_test 均纳入）。
+      - run: dart format --output=none --set-exit-if-changed lib test integration_test
       - run: flutter analyze
       # 仅跑 test/（单元/组件）；integration_test/ 是设备级 e2e，单独工作流执行。
       - run: flutter test test/

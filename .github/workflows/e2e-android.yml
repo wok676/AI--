@@ -1,7 +1,8 @@
 name: E2E (Android · recognition)
 
-# 识别闭环端到端测试（integration_test/recognition_smoke_test.dart）：
-# 真 Android 模拟器 + 真后端 + **真实 AI 识别**（经中转站）。
+# 端到端测试（integration_test/ 全量）：真 Android 模拟器 + 真后端。
+# 含 trivial（纯渲染)、auth_smoke（注册/登录/注销,无需 AI)、
+# recognition_smoke（识别闭环,**真实 AI 识别**,经中转站)。
 #
 # 为何不进每次 PR 的 CI：会真实调用 AI（有成本、有延迟波动、需密钥），
 # 故仅【手动触发】或【每日定时】运行，作为发布前的闭环回归闸，而非逐 PR 门禁。
@@ -110,7 +111,9 @@ jobs:
           script: |
             adb reverse tcp:3000 tcp:3000
             cd app
-            flutter test integration_test/recognition_smoke_test.dart \
+            # 跑整个 integration_test/:trivial(纯渲染)、auth_smoke(注册/登录/注销,
+            # 无需 AI)、recognition_smoke(识别闭环,需 AI)。
+            flutter test integration_test/ \
               --dart-define=API_BASE_URL=http://localhost:3000/api
 
       - name: Dump backend log on failure
