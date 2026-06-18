@@ -142,7 +142,9 @@ abstract final class CaptureFlow {
     );
     try {
       final RecognitionResult result = await future;
-      if (context.mounted) Navigator.of(context).pop(); // 关闭进度遮罩
+      // 关闭进度遮罩:必须用 rootNavigator(showDialog 默认挂根 Navigator);
+      // 用 Navigator.of(context) 会命中 shell 嵌套 Navigator,弹错对象致黑屏(§5)。
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
       if (context.mounted) {
         context.push(
           AppRoutes.recognitionConfirm,
@@ -150,7 +152,7 @@ abstract final class CaptureFlow {
         );
       }
     } catch (e) {
-      if (context.mounted) Navigator.of(context).pop();
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
       if (context.mounted) AppSnackbar.showError(context, e);
     }
   }
