@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../api/types.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../compliance/permission_prompt.dart';
 import '../../compliance/permission_service.dart';
@@ -29,9 +30,11 @@ abstract final class CaptureFlow {
       builder: (BuildContext sheetCtx) {
         return SafeArea(
           child: Column(
+            key: const ValueKey<String>(TestKeys.captureMethodSheet),
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _MethodTile(
+                key: const ValueKey<String>(TestKeys.captureOptionPhoto),
                 icon: Icons.photo_camera,
                 label: l10n.capture_method_photo,
                 onTap: () {
@@ -40,6 +43,7 @@ abstract final class CaptureFlow {
                 },
               ),
               _MethodTile(
+                key: const ValueKey<String>(TestKeys.captureOptionGallery),
                 icon: Icons.photo_library,
                 label: l10n.capture_method_gallery,
                 onTap: () {
@@ -48,6 +52,7 @@ abstract final class CaptureFlow {
                 },
               ),
               _MethodTile(
+                key: const ValueKey<String>(TestKeys.captureOptionText),
                 icon: Icons.edit_note,
                 label: l10n.capture_method_text,
                 onTap: () {
@@ -152,7 +157,8 @@ abstract final class CaptureFlow {
 }
 
 class _MethodTile extends StatelessWidget {
-  const _MethodTile({required this.icon, required this.label, required this.onTap});
+  const _MethodTile(
+      {super.key, required this.icon, required this.label, required this.onTap});
 
   final IconData icon;
   final String label;

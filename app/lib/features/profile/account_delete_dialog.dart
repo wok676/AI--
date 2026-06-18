@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../compliance/account_deletion_service.dart';
 import '../../l10n/app_localizations.dart';
@@ -84,6 +85,8 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
     final bool canConfirm = !_busy && _password.text.isNotEmpty;
 
     return AlertDialog(
+      // 内容可滚动:窄高屏 / 关闭动画收缩高度时,避免 content Column 瞬时 RenderFlex 溢出(§5)。
+      scrollable: true,
       icon: const Icon(Icons.warning_amber, size: 40, color: AppColors.error),
       title: Text(l10n.account_delete_title),
       content: Column(
@@ -94,6 +97,7 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
           Text(l10n.account_delete_warning, style: theme.textTheme.bodyMedium),
           const SizedBox(height: AppSpacing.md),
           TextField(
+            key: const ValueKey<String>(TestKeys.deleteConfirmPasswordField),
             controller: _password,
             obscureText: true,
             enabled: !_busy,
@@ -111,10 +115,12 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
       actions: <Widget>[
         // 取消与确认等权(不放大取消诱导放弃,§7.2)。
         OutlinedButton(
+          key: const ValueKey<String>(TestKeys.deleteCancelBtn),
           onPressed: _busy ? null : () => Navigator.of(context).pop(false),
           child: Text(l10n.account_delete_cancel),
         ),
         FilledButton(
+          key: const ValueKey<String>(TestKeys.deleteConfirmBtn),
           style: FilledButton.styleFrom(
             backgroundColor: AppColors.error,
             foregroundColor: AppColors.onError,

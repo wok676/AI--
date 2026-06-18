@@ -41,6 +41,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # On-device integration tests (QA automation base; uses TestKeys from lib/common/test_keys.dart)
+  integration_test:
+    sdk: flutter
+
   flutter_lints: ^6.0.0
 
   # Codegen for Riverpod

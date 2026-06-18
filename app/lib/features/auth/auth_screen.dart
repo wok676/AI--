@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../l10n/app_localizations.dart';
@@ -167,6 +168,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
                     // —— 邮箱 ——
                     TextFormField(
+                      key: const ValueKey<String>(TestKeys.loginEmailField),
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
                       autocorrect: false,
@@ -181,12 +183,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
                     // —— 密码 ——
                     TextFormField(
+                      key: const ValueKey<String>(TestKeys.loginPasswordField),
                       controller: _password,
                       obscureText: _obscure,
                       enabled: !_submitting,
                       decoration: InputDecoration(
                         labelText: l10n.auth_field_password,
                         suffixIcon: IconButton(
+                          key: const ValueKey<String>(TestKeys.loginPasswordToggle),
                           onPressed: () => setState(() => _obscure = !_obscure),
                           icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
                         ),
@@ -198,6 +202,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       Align(
                         alignment: AlignmentDirectional.centerEnd,
                         child: TextButton(
+                          key: const ValueKey<String>(TestKeys.forgotPasswordBtn),
                           onPressed: _submitting ? null : () {},
                           child: Text(l10n.auth_forgotPassword),
                         ),
@@ -208,6 +213,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     if (_isSignup) ...<Widget>[
                       const SizedBox(height: AppSpacing.sm),
                       _ConsentRow(
+                        key: const ValueKey<String>(TestKeys.consentCheckbox),
                         value: _consent,
                         onChanged: _submitting
                             ? null
@@ -219,6 +225,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
                     // —— 主 CTA(注册未勾选 = disabled 灰)——
                     FilledButton(
+                      key: const ValueKey<String>(TestKeys.loginSubmitBtn),
                       onPressed: ctaEnabled ? _submit : null,
                       style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
@@ -241,6 +248,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       _OrDivider(label: l10n.auth_orDivider),
                       const SizedBox(height: AppSpacing.md),
                       SignInWithAppleButton(
+                        key: const ValueKey<String>(TestKeys.appleSignInBtn),
                         onPressed: _submitting ? () {} : _signInWithApple,
                         style: SignInWithAppleButtonStyle.black,
                         height: AppSizes.buttonHeightCta,
@@ -252,6 +260,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
                     // —— 登录/注册切换 ——
                     TextButton(
+                      key: const ValueKey<String>(TestKeys.authModeSwitch),
                       onPressed: _submitting
                           ? null
                           : () => setState(() => _isSignup = !_isSignup),
@@ -303,7 +312,7 @@ class _ConsentLink {
 
 /// 知情同意行:Checkbox + 富文本协议链接;整行点按区 ≥48dp(§7.1)。
 class _ConsentRow extends StatelessWidget {
-  const _ConsentRow({required this.value, required this.onChanged});
+  const _ConsentRow({super.key, required this.value, required this.onChanged});
 
   final bool value;
   final ValueChanged<bool>? onChanged;

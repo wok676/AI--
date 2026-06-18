@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/skeleton.dart';
@@ -49,6 +50,7 @@ class ProfileScreen extends ConsumerWidget {
         error: (Object e, _) =>
             ErrorView(error: e, onRetry: () => ref.invalidate(meProvider)),
         data: (MeProfile profile) => ListView(
+          key: const ValueKey<String>(TestKeys.profileScreen),
           children: <Widget>[
             // —— 头像 + 昵称:浅色卡片质感(头像圆底 + 名称),视觉增强 ——
             Padding(
@@ -102,6 +104,7 @@ class ProfileScreen extends ConsumerWidget {
             ),
             _UnitsTile(profile: profile),
             ListTile(
+              key: const ValueKey<String>(TestKeys.languageEntry),
               leading: const Icon(Icons.language),
               title: Text(l10n.settings_language),
               trailing: Row(
@@ -139,6 +142,7 @@ class ProfileScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
               child: OutlinedButton(
+                key: const ValueKey<String>(TestKeys.logoutBtn),
                 onPressed: () => _logout(context, ref),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size.fromHeight(AppSizes.buttonHeight),
@@ -150,6 +154,7 @@ class ProfileScreen extends ConsumerWidget {
             // —— 注销账号(error 色,显著不隐藏,§7.2;居中略小,仍带警告图标保持可发现)——
             Center(
               child: TextButton.icon(
+                key: const ValueKey<String>(TestKeys.deleteAccountBtn),
                 onPressed: () => AccountDeleteFlow.show(context, ref),
                 icon: const Icon(Icons.warning_amber, size: 18, color: AppColors.error),
                 label: Text(
@@ -188,10 +193,12 @@ class ProfileScreen extends ConsumerWidget {
         actionsPadding: const EdgeInsets.all(AppSpacing.md),
         actions: <Widget>[
           OutlinedButton(
+            key: const ValueKey<String>(TestKeys.logoutCancelBtn),
             onPressed: () => Navigator.of(ctx).pop(false),
             child: Text(l10n.common_cancel),
           ),
           FilledButton(
+            key: const ValueKey<String>(TestKeys.logoutConfirmBtn),
             onPressed: () => Navigator.of(ctx).pop(true),
             child: Text(l10n.auth_logout),
           ),
@@ -297,6 +304,7 @@ class _ProfileSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      key: const ValueKey<String>(TestKeys.stateLoading),
       padding: const EdgeInsets.all(AppSpacing.md),
       children: const <Widget>[
         Skeleton(width: double.infinity, height: 64, radius: AppRadius.md),

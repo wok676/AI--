@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../common/test_keys.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/locale_controller.dart';
 import '../../l10n/supported_locales.dart';
@@ -25,6 +26,7 @@ class LanguagePickerScreen extends ConsumerWidget {
         children: <Widget>[
           // 跟随系统
           _LangTile(
+            key: const ValueKey<String>(TestKeys.languageOptionSystem),
             label: l10n.settings_language_systemDefault,
             selected: followingSystem,
             onTap: () => controller.followSystem(),
@@ -32,6 +34,7 @@ class LanguagePickerScreen extends ConsumerWidget {
           const Divider(height: 1),
           for (final Locale locale in SupportedLocales.all)
             _LangTile(
+              key: ValueKey<String>(TestKeys.languageOption(locale.languageCode)),
               label: SupportedLocales.nativeNames[locale.languageCode] ?? locale.languageCode,
               selected: !followingSystem && currentCode == locale.languageCode,
               onTap: () => controller.setLocale(locale),
@@ -43,7 +46,11 @@ class LanguagePickerScreen extends ConsumerWidget {
 }
 
 class _LangTile extends StatelessWidget {
-  const _LangTile({required this.label, required this.selected, required this.onTap});
+  const _LangTile(
+      {super.key,
+      required this.label,
+      required this.selected,
+      required this.onTap});
 
   final String label;
   final bool selected;

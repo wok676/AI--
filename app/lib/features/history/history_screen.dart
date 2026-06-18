@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/skeleton.dart';
@@ -46,6 +47,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           Padding(
             padding: const EdgeInsets.all(AppSpacing.md),
             child: SegmentedButton<_HistoryTab>(
+              key: const ValueKey<String>(TestKeys.historyTabSwitch),
               segments: <ButtonSegment<_HistoryTab>>[
                 ButtonSegment<_HistoryTab>(
                     value: _HistoryTab.day, label: Text(l10n.history_tab_day)),
@@ -91,6 +93,7 @@ class _DayView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             IconButton(
+              key: const ValueKey<String>(TestKeys.historyPrevDay),
               onPressed: () => onChangeDay(day.subtract(const Duration(days: 1))),
               icon: const Icon(Icons.chevron_left),
               tooltip: l10n.history_prevDay,
@@ -98,6 +101,7 @@ class _DayView extends ConsumerWidget {
             Text(DateFmt.medium(day, localeCode),
                 style: Theme.of(context).textTheme.titleMedium),
             IconButton(
+              key: const ValueKey<String>(TestKeys.historyNextDay),
               onPressed: () => onChangeDay(day.add(const Duration(days: 1))),
               icon: const Icon(Icons.chevron_right),
               tooltip: l10n.history_nextDay,
@@ -243,6 +247,7 @@ class _TrendView extends ConsumerWidget {
                   style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: AppSpacing.md),
               SizedBox(
+                key: const ValueKey<String>(TestKeys.historyTrendChart),
                 height: 240,
                 child: BarChart(
                   BarChartData(
@@ -333,6 +338,7 @@ class _ListSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      key: const ValueKey<String>(TestKeys.stateLoading),
       padding: const EdgeInsets.all(AppSpacing.md),
       children: const <Widget>[
         Skeleton(width: double.infinity, height: 72, radius: AppRadius.md),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/disclaimer_banner.dart';
@@ -145,6 +146,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                     ],
                   ),
                   TextField(
+                    key: const ValueKey<String>(TestKeys.goalKcalField),
                     controller: _kcal,
                     keyboardType: TextInputType.number,
                     style: Theme.of(context).textTheme.displaySmall,
@@ -165,6 +167,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
             child: Column(
               children: <Widget>[
                 ListTile(
+                  key: const ValueKey<String>(TestKeys.goalEstimateToggle),
                   leading: const Icon(Icons.calculate_outlined),
                   title: Text(l10n.goal_estimate_cta),
                   trailing: Icon(_estimateOpen ? Icons.expand_less : Icons.expand_more),
@@ -177,11 +180,15 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
 
           const SizedBox(height: AppSpacing.md),
           // —— 固定免责声明(§7.4)——
-          DisclaimerBanner(text: l10n.goal_disclaimer),
+          DisclaimerBanner(
+            key: const ValueKey<String>(TestKeys.goalDisclaimer),
+            text: l10n.goal_disclaimer,
+          ),
           const SizedBox(height: AppSpacing.sm),
 
           _saving
               ? FilledButton(
+                  key: const ValueKey<String>(TestKeys.goalSaveBtn),
                   onPressed: null,
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
@@ -195,6 +202,7 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                   ),
                 )
               : FilledButton.icon(
+                  key: const ValueKey<String>(TestKeys.goalSaveBtn),
                   onPressed: _save,
                   icon: const Icon(Icons.check),
                   label: Text(l10n.common_save),
@@ -307,11 +315,13 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                     ?.copyWith(color: AppColors.primary)),
             const SizedBox(height: AppSpacing.xs),
             OutlinedButton(
+              key: const ValueKey<String>(TestKeys.goalEstimateApplyBtn),
               onPressed: () => setState(() => _kcal.text = _estimated!.toString()),
               child: Text(l10n.goal_estimate_apply),
             ),
           ] else
             OutlinedButton(
+              key: const ValueKey<String>(TestKeys.goalEstimateBtn),
               onPressed: _estimating ? null : _estimate,
               child: _estimating
                   ? const SizedBox(

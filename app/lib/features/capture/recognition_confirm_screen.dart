@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../common/widgets/disclaimer_banner.dart';
 import '../../l10n/app_localizations.dart';
@@ -139,6 +140,7 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
+              key: const ValueKey<String>(TestKeys.recognitionAddManualBtn),
               onPressed: _saving ? null : _addManual,
               icon: const Icon(Icons.add),
               label: Text(l10n.recognize_item_addManual),
@@ -169,6 +171,7 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
 
           // —— 保存 ——
           FilledButton(
+            key: const ValueKey<String>(TestKeys.recognitionSaveBtn),
             onPressed: _saving ? null : _save,
             style: FilledButton.styleFrom(
               minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),

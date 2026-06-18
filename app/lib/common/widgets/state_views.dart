@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../api/types.dart';
+import '../test_keys.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/message_key.dart';
 import '../../theme/app_colors.dart';
@@ -29,6 +30,8 @@ class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Center(
+      // 空态可断言锚点(QA 自动化)。注:外层 key 由调用方决定,此处给内层稳定锚点。
+      key: const ValueKey<String>(TestKeys.stateEmpty),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xxl),
         child: Column(
@@ -41,6 +44,7 @@ class EmptyView extends StatelessWidget {
             if (actionLabel != null && onAction != null) ...<Widget>[
               const SizedBox(height: AppSpacing.lg),
               FilledButton.icon(
+                key: const ValueKey<String>(TestKeys.stateEmptyAction),
                 onPressed: onAction,
                 icon: Icon(actionIcon ?? Icons.add),
                 label: Text(actionLabel!),
@@ -105,6 +109,8 @@ class ErrorView extends StatelessWidget {
         : l10n.common_error_generic;
 
     return Center(
+      // 错误态可断言锚点(QA 自动化)。
+      key: const ValueKey<String>(TestKeys.stateError),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
@@ -116,6 +122,7 @@ class ErrorView extends StatelessWidget {
             if (onRetry != null) ...<Widget>[
               const SizedBox(height: AppSpacing.lg),
               OutlinedButton.icon(
+                key: const ValueKey<String>(TestKeys.stateErrorRetry),
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
                 label: Text(l10n.common_retry),

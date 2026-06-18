@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../api/types.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_snackbar.dart';
 import '../../l10n/app_localizations.dart';
 import '../../router/app_router.dart';
@@ -61,6 +62,7 @@ class _TextCaptureScreenState extends ConsumerState<TextCaptureScreen> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                key: const ValueKey<String>(TestKeys.captureTextField),
                 controller: _text,
                 enabled: !_submitting,
                 maxLines: null,
@@ -74,6 +76,7 @@ class _TextCaptureScreenState extends ConsumerState<TextCaptureScreen> {
             ),
             const SizedBox(height: AppSpacing.md),
             FilledButton(
+              key: const ValueKey<String>(TestKeys.captureRecognizeBtn),
               onPressed: _submitting ? null : _recognize,
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),

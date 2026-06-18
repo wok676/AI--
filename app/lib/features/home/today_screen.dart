@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../api/types.dart';
 import '../../common/l10n_helpers.dart';
+import '../../common/test_keys.dart';
 import '../../common/widgets/app_gradient_background.dart';
 import '../../common/widgets/macro_bars.dart';
 import '../../common/widgets/progress_ring.dart';
@@ -43,6 +44,7 @@ class TodayScreen extends ConsumerWidget {
       ),
       floatingActionButton: showFab
           ? FloatingActionButton.extended(
+              key: const ValueKey<String>(TestKeys.recordMealBtn),
               onPressed: () => CaptureFlow.showMethodSheet(context, ref),
               icon: const Icon(Icons.photo_camera),
               label: Text(l10n.home_fab_addMeal),
@@ -63,6 +65,7 @@ class TodayScreen extends ConsumerWidget {
             });
           },
           child: ListView(
+            key: const ValueKey<String>(TestKeys.todayScreen),
             padding: const EdgeInsets.all(AppSpacing.md),
             children: <Widget>[
               // 按时段问候条:早上好/下午好/晚上好 👋 · 已格式化日期(视觉增强)。
@@ -135,6 +138,7 @@ class _SummarySection extends ConsumerWidget {
         return Column(
           children: <Widget>[
             ProgressRing(
+              key: const ValueKey<String>(TestKeys.todayProgressRing),
               consumed: s.consumedKcal,
               goal: s.goalKcal,
               centerTop: s.consumedKcal.round().toString(),
@@ -180,6 +184,7 @@ class _MealsSection extends ConsumerWidget {
       data: (List<MealEntry> list) {
         if (list.isEmpty) {
           return EmptyView(
+            key: const ValueKey<String>(TestKeys.todayEmptyCta),
             message: l10n.home_empty_cta,
             icon: Icons.restaurant_outlined,
             actionLabel: l10n.home_fab_addMeal,
