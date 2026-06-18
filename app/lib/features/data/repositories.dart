@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../api/api_client.dart';
 import '../../api/error_mapper.dart';
 import '../../api/types.dart';
+import '../../config/app_config.dart';
 
 /// 仓储层(对照 docs/API.md FROZEN 端点)。
 ///
@@ -136,11 +137,17 @@ class MealRepository {
   Dio get _dio => _client.dio;
 
   /// 文字识别(API §4.10,JSON)。
+  /// 注意:文字走 **/recognition/text**(JSON);裸 /recognition 是图片(multipart)
+  /// 端点,文字打到那里后端会报"未上传图片"(bug 修复)。
   Future<RecognitionResult> recognizeText(String text) {
     return _guard(() async {
       final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/recognition',
+        '/recognition/text',
         data: <String, Object?>{'text': text, 'source': 'TEXT'},
+        // AI 识别延迟波动大,放宽接收超时,避免有效请求被 20s 默认超时误杀。
+        options: Options(
+          receiveTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
+        ),
       );
       return RecognitionResult.fromJson(resp.data ?? const <String, Object?>{});
     });
@@ -159,7 +166,12 @@ class MealRepository {
       final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
         '/recognition',
         data: form,
-        options: Options(contentType: 'multipart/form-data'),
+        // 图片上传 + AI 识别更慢:放宽发送/接收超时,避免有效请求被默认超时误杀。
+        options: Options(
+          contentType: 'multipart/form-data',
+          sendTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
+          receiveTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
+        ),
       );
       return RecognitionResult.fromJson(resp.data ?? const <String, Object?>{});
     });

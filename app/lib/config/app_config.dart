@@ -21,6 +21,11 @@ abstract final class AppConfig {
   static const int receiveTimeoutMs =
       int.fromEnvironment('API_RECEIVE_TIMEOUT_MS', defaultValue: 20000);
 
+  /// AI 识别(文字/图片)专用接收超时:AI 推理 + 中转往返延迟波动大(实测 4~15s+,
+  /// 偶发更久),普通 20s 会**误杀有效请求**导致"识别失败"。给识别单独放宽到 60s。
+  static const int recognizeReceiveTimeoutMs =
+      int.fromEnvironment('API_RECOGNIZE_RECEIVE_TIMEOUT_MS', defaultValue: 60000);
+
   /// 失败重试次数(幂等 GET / 网络抖动)。
   static const int maxRetries =
       int.fromEnvironment('API_MAX_RETRIES', defaultValue: 2);
