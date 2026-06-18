@@ -121,7 +121,9 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      // 此为 push 路由(非 shell 分支),背后无 shell 渐变垫底;若设透明,透明 AppBar/
+      // 状态栏区会露出黑底(bug)。改用渐变顶色,与 body 的 AppGradientBackground 顶端无缝衔接(§5)。
+      backgroundColor: AppColors.gradientTop,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(l10n.goal_title),
