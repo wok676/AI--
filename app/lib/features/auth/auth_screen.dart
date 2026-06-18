@@ -148,14 +148,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // —— Logo:primaryContainer 圆形底 + 柔和阴影(视觉增强)——
+                      // —— Logo:应用品牌图标(圆角 + 柔和阴影,视觉增强)——
                       Center(
                         child: Container(
                           width: 96,
                           height: 96,
+                          clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
-                            color: AppColors.primaryContainer,
-                            shape: BoxShape.circle,
+                            borderRadius: BorderRadius.circular(AppRadius.lg),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                 color: AppColors.primary.withValues(
@@ -166,10 +166,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.restaurant,
-                            size: 48,
-                            color: AppColors.onPrimaryContainer,
+                          child: Image.asset(
+                            'assets/icon/icon.png',
+                            width: 96,
+                            height: 96,
+                            filterQuality: FilterQuality.medium,
                           ),
                         ),
                       ),
