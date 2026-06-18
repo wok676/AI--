@@ -18,9 +18,11 @@ abstract final class AppConfig {
   static String get apiRoot => '$apiBaseUrl/$apiVersion';
 
   /// 网络超时(ms),可由 --dart-define 覆盖。
+  /// 连接超时放宽到 45s:免费 PaaS(如 Render)实例休眠后冷启动需 ~40s 才能接受连接,
+  /// 10s 会导致"休眠后首开必失败(网络异常)";放宽后首开虽慢但能成功(§5 容错)。
   static const int connectTimeoutMs = int.fromEnvironment(
     'API_CONNECT_TIMEOUT_MS',
-    defaultValue: 10000,
+    defaultValue: 45000,
   );
   static const int receiveTimeoutMs = int.fromEnvironment(
     'API_RECEIVE_TIMEOUT_MS',
