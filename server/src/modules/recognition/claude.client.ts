@@ -46,11 +46,25 @@ export class ClaudeClient {
    * 调用 Claude。失败时抛 AppException(TIMEOUT/NETWORK_ERROR/RECOGNIZE_FAILED),
    * 由上层落审计 + 转 i18n。日志绝不打印图片/原文/密钥(§6 脱敏)。
    */
-  async analyze(input: { text?: string; image?: ClaudeImageInput }): Promise<ClaudeRawResult> {
+  async analyze(input: {
+    text?: string;
+    image?: ClaudeImageInput;
+    /** 用户 locale(BCP-47,如 zh / en / ja);指示模型用该语言输出食物名,其余字段不变 */
+    locale?: string;
+  }): Promise<ClaudeRawResult> {
     const apiKey = this.config.get<string>('anthropic.apiKey') ?? '';
     const model = this.config.get<string>('anthropic.model') ?? '';
     const baseUrl = this.config.get<string>('anthropic.baseUrl') ?? 'https://api.anthropic.com';
     const timeoutMs = this.config.get<number>('anthropic.timeoutMs') ?? 20000;
+
+    // 本地化:非英文 locale 时,要求 name 字段用用户语言输出(其余字段/数值/结构不变)。
+    const lang = (input.locale ?? '').trim().toLowerCase();
+    const system =
+      lang && !lang.startsWith('en')
+        ? `${this.systemPrompt} Write the "name" field of every item in the user's language ` +
+          `(BCP-47 code "${lang}"); keep all other fields, numeric values, units, and the exact ` +
+          `JSON structure unchanged.`
+        : this.systemPrompt;
 
     if (!apiKey) {
       // 未配置密钥:视为上游不可用,归一为可识别的失败(不泄露内部配置细节)
@@ -89,7 +103,7 @@ export class ClaudeClient {
         body: JSON.stringify({
           model,
           max_tokens: 1024,
-          system: this.systemPrompt,
+          system,
           messages: [{ role: 'user', content }],
         }),
         signal: controller.signal,

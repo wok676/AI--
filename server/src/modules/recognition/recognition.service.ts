@@ -61,10 +61,23 @@ export class RecognitionService {
     let model: string | null = null;
     let errorCode: string | null = null;
 
+    // 读取用户 locale(本地化识别输出的食物名);失败不影响主流程,退回英文
+    let locale: string | undefined;
+    try {
+      const u = await this.prisma.user.findUnique({
+        where: { id: user.id },
+        select: { locale: true },
+      });
+      locale = u?.locale ?? undefined;
+    } catch {
+      locale = undefined;
+    }
+
     try {
       const raw = await this.claude.analyze({
         text: input.text,
         image: image ?? undefined,
+        locale,
       });
       model = raw.model;
       const items = this.parseAndValidate(raw.text);
