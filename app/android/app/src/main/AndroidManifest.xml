@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 联网:调用后端 API(必需)。注意:Flutter 仅在 debug 清单自动注入 INTERNET,
+         release 主清单必须显式声明,否则 release 包无联网权限、所有网络请求失败。 -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- 按需索取权限(运行时申请,用时再申;前置解释弹窗见 compliance/permission_prompt) -->
     <!-- 相机:拍照识别食物(F1) -->
     <uses-permission android:name="android.permission.CAMERA" />
