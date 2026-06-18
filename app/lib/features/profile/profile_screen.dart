@@ -84,12 +84,7 @@ class ProfileScreen extends ConsumerWidget {
             ),
 
             // —— 设置项 ——
-            ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: Text(l10n.settings_profile),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
-            ),
+            // (移除原"个人资料"行:无对应详情/编辑页,点击空操作;用户资料已在上方头像卡展示。)
             ListTile(
               leading: const Icon(Icons.flag_outlined),
               title: Text(l10n.goal_title),
@@ -197,6 +192,7 @@ class ProfileScreen extends ConsumerWidget {
             onPressed: () => Navigator.of(ctx).pop(false),
             child: Text(l10n.common_cancel),
           ),
+          const SizedBox(width: AppSpacing.sm),
           FilledButton(
             key: const ValueKey<String>(TestKeys.logoutConfirmBtn),
             onPressed: () => Navigator.of(ctx).pop(true),
