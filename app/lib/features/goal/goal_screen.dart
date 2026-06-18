@@ -211,7 +211,8 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                       minimumSize: const Size.fromHeight(
                         AppSizes.buttonHeightCta,
                       ),
-                      elevation: AppElevation.level2,
+                      // 极简专业:主按钮扁平无阴影(elevation 0,UI §3.1)。
+                      elevation: AppElevation.level0,
                     ),
                     child: const SizedBox(
                       width: 20,
@@ -231,7 +232,8 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                       minimumSize: const Size.fromHeight(
                         AppSizes.buttonHeightCta,
                       ),
-                      elevation: AppElevation.level2,
+                      // 极简专业:主按钮扁平无阴影(elevation 0,UI §3.1)。
+                      elevation: AppElevation.level0,
                     ),
                   ),
           ],

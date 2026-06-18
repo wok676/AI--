@@ -76,8 +76,9 @@ class _EmptyIllustration extends StatelessWidget {
     return Container(
       width: 132,
       height: 132,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.45),
+      // 极简专业:极淡绿 primaryContainer 圆底(§11.3),直接用令牌不再叠 alpha。
+      decoration: const BoxDecoration(
+        color: AppColors.primaryContainer,
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,

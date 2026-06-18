@@ -263,10 +263,11 @@ class _MealCard extends StatelessWidget {
                 ],
               ),
             ),
+            // 餐次合计 kcal 是数据不是强调:近黑 onSurface 粗体,不染绿(UI §3.3)。
             Text(
               '${entry.totalKcal.round()} ${l10n.summary_unit_kcal}',
               style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.primary,
+                color: AppColors.onSurface,
               ),
             ),
           ],

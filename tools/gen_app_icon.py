@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-App 图标 / 启动页生成器 · AI 饮食热量记录
-=========================================
+App 图标 / 启动页生成器 · AI 饮食热量记录(风格 v2 ·「极简专业 · 数据导向」)
+================================================================================
 
 宪法 §视觉:**图标必须代码/矢量生成,禁止位图采购**。本脚本仅依赖 Pillow(PIL),
-用纯几何形状 + 径向渐变绘制「新叶环抱暖橙热量火苗」,不引入任何外部图片文件,
-任意分辨率重绘清晰,规避版权 / 授权问题。
+用纯几何形状绘制,不引入任何外部图片文件,任意分辨率重绘清晰,规避版权 / 授权问题。
+
+设计概念(v2):**「热量进度环 + 极简火苗」**
+  - 一个**接近闭合的细进度环**(数据/仪表感),单色克制墨绿强调色;
+  - 环中央一枚**极简两笔火苗**(热量/卡路里语义),同强调色,克制不花哨;
+  - 底:**纯净近白圆角方**(squircle),配少量极浅中性,呼应"近黑白 + 单一强调色";
+  - 去掉旧版的双叶环抱 / 三层暖橙火苗 / 径向立体渐变 —— 干净、专业、数据感。
 
 设计来源:docs/UI-DESIGN.md(§0 气质 / §2.1 配色)、app/lib/theme/app_colors.dart。
 所有颜色为取自 AppColors 的十六进制常量,与全局设计令牌一致,禁另起一套。
 
 输出
 ----
-  app/assets/icon/icon.png            1024x1024  墨绿圆角渐变底 + 图形(商店 / iOS / launcher)
-  app/assets/icon/icon_foreground.png 1024x1024  透明底,仅图形居中 ~70%(Android 自适应前景)
-  app/assets/branding/splash.png       512x512   透明底,仅图形居中 ~82%(启动页中心 logo)
+  app/assets/icon/icon.png            1024x1024  近白圆角底 + 进度环+火苗(商店 / iOS / launcher)
+  app/assets/icon/icon_foreground.png 1024x1024  透明底,仅图形居中 ~64%(Android 自适应前景)
+  app/assets/branding/splash.png       512x512   透明底,仅图形居中 ~78%(启动页中心 logo)
 
 运行方式
 --------
@@ -35,15 +40,13 @@ import os
 from PIL import Image, ImageDraw
 
 # ----------------------------------------------------------------------------
-# 颜色常量(取自 app/lib/theme/app_colors.dart,十六进制,RGB)
+# 颜色常量(取自 app/lib/theme/app_colors.dart,十六进制,RGB)—— 极简专业盘
 # ----------------------------------------------------------------------------
-PRIMARY = (0x2E, 0x7D, 0x5B)            # 品牌主色 墨绿  #2E7D5B
-SECONDARY = (0x4E, 0x8C, 0x7A)          # 次强调 青灰绿  #4E8C7A(底渐变外圈)
-PRIMARY_CONTAINER = (0xB6, 0xE5, 0xCE)  # 叶片主体 浅绿  #B6E5CE
-ON_PRIMARY_CONTAINER = (0x0A, 0x3D, 0x2A)  # 叶脉 / 暗调   #0A3D2A
-TERTIARY = (0xE0, 0x7A, 0x3F)           # 火苗外焰 暖橙  #E07A3F
-MACRO_FAT = (0xE0, 0xB7, 0x3F)          # 火苗内焰 琥珀黄 #E0B73F
-ON_PRIMARY = (0xFF, 0xFF, 0xFF)         # 火苗芯 / 高光   #FFFFFF
+PRIMARY = (0x1F, 0x6E, 0x4E)            # 强调墨绿   #1F6E4E(环 + 火苗)
+PRIMARY_CONTAINER = (0xE3, 0xEF, 0xE9)  # 极淡绿     #E3EFE9(环底轨)
+SURFACE = (0xF7, 0xF8, 0xFA)            # 近白底     #F7F8FA
+SURFACE_LOWEST = (0xFF, 0xFF, 0xFF)     # 纯白       #FFFFFF(图标底)
+OUTLINE_VARIANT = (0xE6, 0xE8, 0xED)    # 极浅中性边 #E6E8ED
 
 # ----------------------------------------------------------------------------
 # 输出路径(相对仓库根)
@@ -57,31 +60,6 @@ OUT_SPLASH = os.path.join(_REPO_ROOT, "app", "assets", "branding", "splash.png")
 SS = 4
 
 
-def _lerp(a, b, t):
-    return tuple(int(round(a[i] + (b[i] - a[i]) * t)) for i in range(3))
-
-
-def radial_gradient(size, inner, outer, center=None, radius=None):
-    """生成 RGBA 径向渐变(中心 inner → 边缘 outer),纯像素计算,不用任何位图。"""
-    w, h = size
-    if center is None:
-        center = (w / 2.0, h / 2.0)
-    if radius is None:
-        radius = math.hypot(w, h) / 2.0
-    cx, cy = center
-    img = Image.new("RGB", size)
-    px = img.load()
-    inv_r = 1.0 / radius
-    for y in range(h):
-        dy2 = (y - cy) ** 2
-        for x in range(w):
-            t = math.sqrt((x - cx) ** 2 + dy2) * inv_r
-            if t > 1.0:
-                t = 1.0
-            px[x, y] = _lerp(inner, outer, t)
-    return img
-
-
 def rounded_mask(size, radius):
     """返回圆角矩形的 L 模式遮罩(255 内 / 0 外)。"""
     m = Image.new("L", size, 0)
@@ -90,68 +68,28 @@ def rounded_mask(size, radius):
     return m
 
 
-def _flame_polygon(cx, cy, w, h, lean=0.0, samples=120):
+def _flame_polygon(cx, cy, w, h, samples=140):
     """
-    生成一簇向上收尖的火苗轮廓点(对称水滴 / 火焰形)。
+    极简对称火苗轮廓(水滴 / 火焰形,直立不摇曳 —— 专业克制)。
     cx,cy = 火苗底部中心;w = 最宽半宽;h = 总高(向上为负 y)。
-    lean = 顶尖向右偏移比例(轻微摇曳,>0 右偏)。
-    曲线:左右两侧用参数化曲线,底部圆鼓、中段外扩、顶端收尖并带一点 S 形摇曳。
+    底部圆鼓、中下最宽、顶端干净收尖。
     """
     pts_right = []
     pts_left = []
     for i in range(samples + 1):
         t = i / samples  # 0=底部 1=顶尖
-        # 半宽随高度变化:底部稍窄→中下最宽→顶端收为 0
         bulge = math.sin(t * math.pi) ** 0.85
-        half = w * bulge * (1.0 - 0.15 * t)
-        # 火苗中线随高度轻微摇曳(S 形)
-        sway = lean * w * (t ** 2) + 0.18 * w * math.sin(t * math.pi) * lean
-        x_center = cx + sway
+        half = w * bulge * (1.0 - 0.12 * t)
+        x = cx
         y = cy - h * t
-        pts_right.append((x_center + half, y))
-        pts_left.append((x_center - half, y))
-    # 右侧自底向顶,左侧自顶向底,闭合
+        pts_right.append((x + half, y))
+        pts_left.append((x - half, y))
     return pts_right + list(reversed(pts_left))
-
-
-def _leaf_polygon(cx, cy, length, width, angle_deg, samples=80):
-    """
-    生成一片叶子的轮廓(对称尖椭圆,两端收尖),围绕 (cx,cy) 旋转 angle_deg。
-    沿叶子长轴方向铺点,半宽用 sin 包络两端收尖。
-    """
-    a = math.radians(angle_deg)
-    ca, sa = math.cos(a), math.sin(a)
-    right = []
-    left = []
-    for i in range(samples + 1):
-        t = i / samples  # 0..1 沿长轴
-        # 沿长轴坐标:-length/2 .. +length/2
-        u = (t - 0.5) * length
-        # 半宽包络:两端收尖,尖端略偏(叶形:一头更尖)
-        env = math.sin(t * math.pi) ** 0.9
-        half = (width / 2.0) * env
-        # 局部坐标 (u, +-half) → 旋转 → 平移
-        for sign, bucket in ((+1, right), (-1, left)):
-            lx, ly = u, sign * half
-            wx = cx + lx * ca - ly * sa
-            wy = cy + lx * sa + ly * ca
-            bucket.append((wx, wy))
-    return right + list(reversed(left))
-
-
-def _leaf_midrib(cx, cy, length, angle_deg):
-    """叶脉:沿叶子长轴的一条直线(返回两端点)。"""
-    a = math.radians(angle_deg)
-    ca, sa = math.cos(a), math.sin(a)
-    half = length * 0.40
-    x0, y0 = cx - half * ca, cy - half * sa
-    x1, y1 = cx + half * ca, cy + half * sa
-    return [(x0, y0), (x1, y1)]
 
 
 def draw_graphic(canvas_px, scale):
     """
-    在透明 RGBA 画布上绘制「新叶环抱火苗」图形,图形整体直径 ≈ canvas_px * scale。
+    在透明 RGBA 画布上绘制「热量进度环 + 极简火苗」,图形整体直径 ≈ canvas_px * scale。
     返回 RGBA Image(透明底)。坐标使用超采样像素。
     """
     px = canvas_px * SS
@@ -162,45 +100,38 @@ def draw_graphic(canvas_px, scale):
     cy = px / 2.0
     R = (px * scale) / 2.0  # 图形外接半径
 
-    # —— 两片叶子:自底部向上、向外环抱火苗 ——
-    leaf_len = R * 1.55
-    leaf_wid = R * 0.62
-    # 左叶:叶心位于画面左下,长轴指向左上;右叶镜像。
-    leaf_specs = [
-        # (相对中心的叶心 x 偏移, y 偏移, 长轴角度°)
-        (-R * 0.46, R * 0.42, -58.0),  # 左叶,向左上伸展
-        (R * 0.46, R * 0.42, 58.0),    # 右叶,向右上伸展
-    ]
-    for ox, oy, ang in leaf_specs:
-        lx, ly = cx + ox, cy + oy
-        poly = _leaf_polygon(lx, ly, leaf_len, leaf_wid, ang)
-        d.polygon(poly, fill=PRIMARY_CONTAINER + (255,))
-        # 叶缘暗调描边(克制,低 alpha)
-        d.line(poly + [poly[0]], fill=ON_PRIMARY_CONTAINER + (70,),
-               width=max(1, int(px * 0.004)), joint="curve")
-        # 叶脉
-        rib = _leaf_midrib(lx, ly, leaf_len, ang)
-        d.line(rib, fill=ON_PRIMARY_CONTAINER + (90,),
-               width=max(1, int(px * 0.006)))
+    # —— 进度环(数据/仪表感)——
+    # 环底轨:整圈极淡绿;进度弧:约 78% 强调墨绿,顶部留一小缺口(进行感)。
+    stroke = R * 0.165                 # 环宽(细,专业)
+    ring_box = [cx - R, cy - R, cx + R, cy + R]
+    # 底轨整圈
+    d.arc(ring_box, start=0, end=360, fill=PRIMARY_CONTAINER + (255,),
+          width=int(stroke))
+    # 进度弧:从顶部(-90°)顺时针扫 ~280°,圆头端帽用小圆补足。
+    sweep = 280.0
+    a0 = -90.0
+    a1 = a0 + sweep
+    d.arc(ring_box, start=a0, end=a1, fill=PRIMARY + (255,), width=int(stroke))
+    # 端帽圆头(让弧两端为圆形,精致)
+    rr = stroke / 2.0
+    rad_mid = (R - stroke / 2.0)
+    for ang in (a0, a1):
+        ex = cx + rad_mid * math.cos(math.radians(ang))
+        ey = cy + rad_mid * math.sin(math.radians(ang))
+        d.ellipse([ex - rr, ey - rr, ex + rr, ey + rr], fill=PRIMARY + (255,))
 
-    # —— 中心火苗:三层(外焰暖橙 → 内焰琥珀黄 → 芯白)——
-    flame_base_y = cy + R * 0.30   # 火苗底部(略低于中心,被叶托起)
-    flame_h = R * 1.18             # 外焰总高
-    flame_w = R * 0.50             # 外焰半宽
+    # —— 中心极简火苗(同强调色,单色,克制)——
+    flame_h = R * 0.92
+    flame_w = R * 0.34
+    flame_base_y = cy + flame_h * 0.46  # 底部略低于圆心,整体视觉居中
+    flame = _flame_polygon(cx, flame_base_y, flame_w, flame_h)
+    d.polygon(flame, fill=PRIMARY + (255,))
+    # 火苗内挖一个近白小水滴(留白 = 内焰),保持单色却有层次。
+    inner = _flame_polygon(cx, flame_base_y - flame_h * 0.06,
+                           flame_w * 0.46, flame_h * 0.56)
+    d.polygon(inner, fill=SURFACE_LOWEST + (255,))
 
-    # 外焰(暖橙)
-    outer = _flame_polygon(cx, flame_base_y, flame_w, flame_h, lean=0.10)
-    d.polygon(outer, fill=TERTIARY + (255,))
-    # 内焰(琥珀黄),更小更窄,底部上抬
-    inner = _flame_polygon(cx, flame_base_y - flame_h * 0.04,
-                           flame_w * 0.58, flame_h * 0.74, lean=0.12)
-    d.polygon(inner, fill=MACRO_FAT + (255,))
-    # 芯(白色高光),小水滴
-    core = _flame_polygon(cx, flame_base_y - flame_h * 0.10,
-                          flame_w * 0.26, flame_h * 0.42, lean=0.10)
-    d.polygon(core, fill=ON_PRIMARY + (235,))
-
-    # 按实际像素包围盒**自动居中**(消除构图的垂直/水平偏移,确保图形在画布正中)
+    # 按实际像素包围盒自动居中(消除构图偏移,确保图形在画布正中)
     bbox = img.getbbox()
     if bbox:
         content = img.crop(bbox)
@@ -209,41 +140,46 @@ def draw_graphic(canvas_px, scale):
         centered.paste(content, ((px - cw) // 2, (px - ch) // 2), content)
         img = centered
 
-    # 缩小回目标尺寸(抗锯齿)
     return img.resize((canvas_px, canvas_px), Image.LANCZOS)
 
 
 def build_full_icon(size=1024):
-    """商店 / iOS / launcher:墨绿圆角渐变底 + 图形(自带圆角,完整不透明)。"""
+    """商店 / iOS / launcher:近白圆角底 + 极浅描边 + 图形(完整不透明)。"""
     px = size * SS
-    # 径向渐变底:中心 secondary(略亮)→ 边缘 primary(深),做轻立体光。
-    bg = radial_gradient((px, px), inner=SECONDARY, outer=PRIMARY,
-                         center=(px * 0.5, px * 0.42))
-    bg = bg.convert("RGBA")
+    # 纯净近白底(无渐变):#FFFFFF 主体,贴极浅中性 1.5% 描边强调边界。
+    bg = Image.new("RGBA", (px, px), SURFACE_LOWEST + (255,))
+    # 极浅内描边(squircle 内圈)增加一点精致边界,克制。
+    bd = ImageDraw.Draw(bg)
+    inset = int(px * 0.012)
+    rad = int(px * 0.2237)
+    bd.rounded_rectangle(
+        [inset, inset, px - 1 - inset, px - 1 - inset],
+        radius=rad, outline=OUTLINE_VARIANT + (255,), width=max(2, int(px * 0.006)),
+    )
     # 圆角遮罩(iOS squircle 近似:半径 ≈ 22.37%)
-    mask = rounded_mask((px, px), radius=int(px * 0.2237))
+    mask = rounded_mask((px, px), radius=rad)
     base = Image.new("RGBA", (px, px), (0, 0, 0, 0))
     base.paste(bg, (0, 0), mask)
     base = base.resize((size, size), Image.LANCZOS)
 
-    # 图形:占画布 ~80%(留四角安全区,避免 squircle 裁切)
-    graphic = draw_graphic(size, scale=0.80)
+    # 图形:占画布 ~62%(进度环+火苗,留充裕白边 —— 极简留白)
+    graphic = draw_graphic(size, scale=0.62)
     base.alpha_composite(graphic)
     return base
 
 
 def build_foreground(size=1024):
-    """Android 自适应前景:透明底,仅图形居中 ~70%(落在 66% 安全圆内有余量)。"""
+    """Android 自适应前景:透明底,仅图形居中 ~64%(落在 66% 安全圆内有余量)。"""
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    graphic = draw_graphic(size, scale=0.70)
+    graphic = draw_graphic(size, scale=0.64)
     canvas.alpha_composite(graphic)
     return canvas
 
 
 def build_splash(size=512):
-    """启动页中心 logo:透明底,仅图形居中 ~82%。"""
+    """启动页中心 logo:透明底,仅图形居中 ~78%。"""
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    graphic = draw_graphic(size, scale=0.82)
+    graphic = draw_graphic(size, scale=0.78)
     canvas.alpha_composite(graphic)
     return canvas
 

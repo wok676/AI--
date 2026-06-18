@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_dimens.dart';
 
-/// 首页核心进度环(UI §3.7):直径 200,环宽 16,圆形端帽。
-/// - 底环 progressRing.track;进度弧 primary;超目标转 progressRing.over(暖橙,不报警)。
+/// 首页核心进度环(UI §3.7,极简专业 · 数据导向):直径 200,环宽 12,圆形端帽。
+/// - 底环 progressRing.track;进度弧**单色 primary**(去 SweepGradient 渐变,极简);
+///   超目标转 progressRing.over(克制琥珀,不报警)。
+/// - 中心 kcal 巨号粗体**近黑 onSurface**(数据本身不上色,克制);辅助文案弱中性灰。
 /// - LTR 从顶部顺时针;RTL 从顶部逆时针(方向镜像,§8.2)。
 /// - 入场 800ms easeOutCubic 从 0 扫到当前值(§9.4)。
 class ProgressRing extends StatelessWidget {
@@ -66,8 +68,9 @@ class ProgressRing extends StatelessWidget {
                     Text(
                       subtitle!,
                       textAlign: TextAlign.center,
+                      // 极简风:辅助「剩余」文案用弱中性灰,不抢中心数字(§3.7 不上色)。
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.primary,
+                        color: AppColors.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -110,24 +113,13 @@ class _RingPainter extends CustomPainter {
     const double start = -math.pi / 2; // 12 点钟
     final double sweep = 2 * math.pi * progress * (clockwise ? 1 : -1);
 
+    // 极简专业 · 数据导向:进度弧用**单色**(去 SweepGradient 渐变,UI §3.7)。
+    // 正常态克制墨绿 primary;超目标转 progressRing.over 克制琥珀(不报警红,不焦虑)。
     final Paint arc = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = AppSizes.progressRingStroke
-      ..strokeCap = StrokeCap.round;
-
-    if (over) {
-      // 超目标:整弧转暖橙(不报警红,UI §3.7)。
-      arc.color = AppColors.progressRingOver;
-    } else {
-      // 描边用 primary → tertiary 渐变(SweepGradient),数值更生动、清晰(视觉增强)。
-      // 渐变从弧起点开始扫,跟随方向(clockwise/RTL);用 GradientRotation 把 0° 对到 12 点。
-      arc.shader = const SweepGradient(
-        colors: <Color>[AppColors.primary, AppColors.tertiary],
-        startAngle: 0,
-        endAngle: 2 * math.pi,
-        transform: GradientRotation(-math.pi / 2),
-      ).createShader(rect);
-    }
+      ..strokeCap = StrokeCap.round
+      ..color = over ? AppColors.progressRingOver : AppColors.primary;
 
     canvas.drawArc(rect, start, sweep, false, arc);
   }

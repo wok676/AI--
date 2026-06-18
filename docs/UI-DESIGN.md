@@ -1,6 +1,8 @@
-# UI/UX 设计规范 · AI 饮食热量记录 v1
+# UI/UX 设计规范 · AI 饮食热量记录 v2(极简专业 · 数据导向)
 
-> 状态:**已出图,待人类确认门(DESIGN REVIEW)**。由 `ui-ux-designer` 产出,下游 `frontend-engineer`(Flutter)在通过人类确认后据此还原。
+> 状态:**v2 视觉重做,待人类确认门(DESIGN REVIEW)**。由 `ui-ux-designer` 产出,下游 `frontend-engineer`(Flutter)在通过人类确认后据此还原。
+>
+> **v2 变更摘要(相对 v1「清新绿健康工具」)**:整套改为**「极简专业 · 数据导向」**——近黑白中性盘 + **单一克制墨绿强调色**(`#1F6E4E`,仅用于关键操作/进度,不大面积铺);**去渐变 / 去柔光色斑**,背景铺干净纯色 `#F7F8FA`;**圆角收小**(卡片 12 / 按钮 10,**不再用大药丸胶囊**);**数据数字大而粗**(进度环中心 40–48sp w700,负字距仪表感),正文克制;卡片**扁平 + 1dp 细边**代替阴影。对标由 Yazio/Cal AI 调整为 **Apple 健康 / MyFitnessPal / Cronometer** 的数据专业气质。**合规视觉不削弱**(注销显著、点按≥48、同意默认不勾)、**不引入 dark pattern**。
 > 上位法:`CLAUDE.md`(宪法,最高效力);需求来源:`docs/PRD.md`(FROZEN,尤其第 5 章视觉提示词 + §4.8 多语言/RTL);数据形态来源:`docs/API.md`(FROZEN,DTO/三态/错误码)。
 > 客户端 = **Flutter 双端**,所有设计令牌映射到 **Material 3 `ThemeData`**(非 React Native Paper);组件按 Flutter Material 3 体系描述。
 > **任何与本规范不符的前端视觉都视为 bug。** 所有视觉数值来自令牌,杜绝逐页 hardcode;所有文字走 i18n key,禁硬编码。
@@ -9,17 +11,19 @@
 
 ## 0. 对标 App 与一句话气质(定基调)
 
-### 0.1 对标 App 与借鉴/取舍
+### 0.1 对标 App 与借鉴/取舍(v2)
 | 对标 App | 借鉴点 | 本 App 如何取舍融合 |
 |---|---|---|
-| **Yazio**(饮食/热量) | 顶部**大号热量进度环**作为情绪锚点;清新色系、圆角卡片、宏量(蛋白/碳水/脂肪)三色小条;空态友好插画 | 沿用「进度环 + 三宏量条」作为首页核心;但弱化其会员付费引导(v1 无付费墙),色调更克制不花哨 |
-| **Cal AI / 同类「拍照识餐」App** | **拍照即录零摩擦**主入口(醒目 FAB);AI 识别结果以**可编辑卡片**呈现而非黑盒 | 沿用拍照主入口 + 可编辑确认卡片;但**强制免责声明条**、低置信度视觉标记,规避「精确医疗数值」合规风险 |
-| **iOS 健康 / Google Fit** | 系统级的**克制留白、清晰信息层级、无暗黑激励**的健康工具气质;分段控件做日/趋势切换 | 沿用「工具感、可信、不焦虑」气质与分段控件;趋势图用品牌色简洁柱状+折线,不堆砌数据 |
+| **Apple 健康(Apple Health)** | 系统级**近黑白中性盘 + 极克制单一强调色**;数据/数字为主角,大号粗体数值 + 细弱单位/标签的强层级对比;扁平卡片、细分隔线、克制留白;无暗黑激励 | 作为**主气质来源**:近黑白 + 单一墨绿强调;进度环中心数字做巨号粗体仪表感;卡片扁平细边、信息密度更高 |
+| **MyFitnessPal / Cronometer**(数据型饮食追踪) | **高信息密度**的列表/汇总条、表格化营养数据、克制配色不靠彩色堆砌;宏量用同档低饱和区分色 | 沿用「数据密实、宏量同档低饱和区分色(蛋白蓝/碳水琥珀/脂肪橄榄)」;但保留拍照零摩擦主入口与可编辑确认卡片(差异化) |
+| **Cal AI / 同类「拍照识餐」App** | **拍照即录零摩擦**主入口;AI 识别结果以**可编辑卡片**呈现而非黑盒 | 沿用拍照主入口 + 可编辑确认卡片 + **强制免责声明条** + 低置信度标记;但视觉去掉其饱和色与大圆角,改极简专业皮 |
 
-### 0.2 一句话设计气质
-> **「清新可信的健康记录工具:大留白、柔和圆角、清新绿主色 + 暖橙食物点缀,进度环为情绪锚点,克制不焦虑、零暗黑模式(指交互层面 dark pattern,且不做深色主题)。」**
+> v1 的 Yazio(清新绿、柔和大圆角、暖橙点缀、柔光渐变)**已下线**为对标,因其偏"消费/激励风",与本次"专业数据感"目标相悖。
 
-后续所有视觉决策回扣这句:清新(绿/青)、可信(免责声明+可编辑)、轻盈(留白+圆角)、不焦虑(正向激励不攻击)。
+### 0.2 一句话设计气质(v2)
+> **「极简专业的数据记录工具:近黑白 + 单一克制墨绿强调色,数据/数字/图表为主角(大号粗体数值 + 细弱标签的强层级),干净纯色背景、小圆角扁平卡片、克制留白、信息密度高;无渐变光斑、无大药丸、无 dark pattern、不做深色主题。」**
+
+后续所有视觉决策回扣这句:专业(中性盘/扁平/细边)、数据(巨号粗数字/同档宏量色)、克制(单一强调色不铺面)、可信(免责声明+可编辑+不焦虑)。
 
 ---
 
@@ -39,37 +43,37 @@
 
 ### 2.1 配色 · Material 3 ColorScheme(Light,Hex)
 
-主色调:清新绿(健康/可信);辅助点缀:暖橙(食物/食欲)。
+主盘:**近黑白中性**;唯一彩色锚点:**克制墨绿强调色 `#1F6E4E`**(仅关键操作/进度,不大面积铺)。
 
 | M3 ColorScheme 角色 | Hex | 用途 |
 |---|---|---|
-| `primary` | `#2E7D5B` | 品牌主色(清新墨绿),主按钮、进度环主弧、选中态 |
-| `onPrimary` | `#FFFFFF` | 主色上文字/图标 |
-| `primaryContainer` | `#B6E5CE` | 主色容器,Chip 选中底、轻强调块 |
-| `onPrimaryContainer` | `#0A3D2A` | 主色容器上文字 |
-| `secondary` | `#4E8C7A` | 次强调(青灰绿),次按钮、辅助标识 |
+| `primary` | `#1F6E4E` | 单一强调色(克制墨绿),主按钮、进度环主弧、选中态 —— **仅关键处用,不铺面** |
+| `onPrimary` | `#FFFFFF` | 强调色上文字/图标 |
+| `primaryContainer` | `#E3EFE9` | 极淡绿,Chip 选中底、轻强调块、进度环底轨可选 |
+| `onPrimaryContainer` | `#103A29` | 极淡绿容器上文字 |
+| `secondary` | `#3A3F46` | 次强调(近黑灰),次按钮文字/辅助标识 —— **不再是第二个彩色** |
 | `onSecondary` | `#FFFFFF` | — |
-| `secondaryContainer` | `#CDE9DF` | 次容器底 |
-| `onSecondaryContainer` | `#10362B` | — |
-| `tertiary` | `#E07A3F` | 暖橙食物点缀色(FAB 可选高亮、碳水宏量条、食物图标点缀) |
+| `secondaryContainer` | `#EDEFF2` | 中性浅灰容器 |
+| `onSecondaryContainer` | `#1F2329` | — |
+| `tertiary` | `#B4671F` | 克制琥珀(**极少量**数据点缀,如超目标提示;不再做大面积暖橙) |
 | `onTertiary` | `#FFFFFF` | — |
-| `tertiaryContainer` | `#FBDEC9` | — |
-| `onTertiaryContainer` | `#4A2410` | — |
-| `error` | `#BA1A1A` | 错误态、表单错误红字、注销危险按钮 |
+| `tertiaryContainer` | `#F4E6D6` | — |
+| `onTertiaryContainer` | `#3D2408` | — |
+| `error` | `#B3261E` | 错误态、表单错误红字、注销危险按钮(克制红) |
 | `onError` | `#FFFFFF` | — |
-| `errorContainer` | `#FFDAD6` | 错误态背景条 |
-| `onErrorContainer` | `#410002` | — |
-| `surface` | `#FCFDFB` | 页面背景(极浅暖白,带一丝绿调,非纯白避免刺眼) |
-| `onSurface` | `#1A1C1A` | 正文主文字 |
-| `surfaceContainerLowest` | `#FFFFFF` | 卡片底(纯白浮起) |
-| `surfaceContainerLow` | `#F4F7F2` | 分组背景 |
-| `surfaceContainer` | `#EEF2EC` | 输入框填充底、骨架屏底 |
-| `surfaceContainerHigh` | `#E8EDE6` | 选中/悬浮容器 |
-| `onSurfaceVariant` | `#414941` | 次要文字、占位、图标(灰绿) |
-| `outline` | `#717971` | 边框、分隔线 |
-| `outlineVariant` | `#C1C9BF` | 浅分隔线 |
-| `inverseSurface` | `#2F312E` | Snackbar 底色 |
-| `onInverseSurface` | `#F0F1EC` | Snackbar 文字 |
+| `errorContainer` | `#F9DEDC` | 错误态背景条 |
+| `onErrorContainer` | `#410E0B` | — |
+| `surface` | `#F7F8FA` | 页面背景(极浅中性灰白,纯净无渐变) |
+| `onSurface` | `#16181D` | 正文主文字(近黑) |
+| `surfaceContainerLowest` | `#FFFFFF` | 卡片底(纯白) |
+| `surfaceContainerLow` | `#F2F3F6` | 分组背景 |
+| `surfaceContainer` | `#EDEFF2` | 输入框填充底、骨架屏底 |
+| `surfaceContainerHigh` | `#E6E8ED` | 选中/悬浮容器 |
+| `onSurfaceVariant` | `#6B7280` | 次要文字、占位、图标(中性灰) |
+| `outline` | `#D2D5DB` | 边框、分隔线(细边,卡片描边) |
+| `outlineVariant` | `#E6E8ED` | 极浅分隔线 |
+| `inverseSurface` | `#22262C` | Snackbar 底色(近黑) |
+| `onInverseSurface` | `#F2F3F6` | Snackbar 文字 |
 | `scrim` | `#000000` @ 40% | 弹窗/抽屉遮罩 |
 
 ### 2.2 中性灰阶(7 级,辅助令牌,Hex)
@@ -77,26 +81,28 @@
 | 令牌 | Hex | 用途 |
 |---|---|---|
 | `neutral.0` | `#FFFFFF` | 纯白(卡片) |
-| `neutral.50` | `#F4F7F2` | 最浅背景 |
-| `neutral.100` | `#EEF2EC` | 填充底 |
-| `neutral.300` | `#C1C9BF` | 浅分隔/禁用边 |
-| `neutral.500` | `#717971` | 边框/图标 |
-| `neutral.700` | `#414941` | 次要文字 |
-| `neutral.900` | `#1A1C1A` | 主文字 |
+| `neutral.50` | `#F7F8FA` | 最浅背景 |
+| `neutral.100` | `#EDEFF2` | 填充底 |
+| `neutral.300` | `#D2D5DB` | 浅分隔/禁用边 |
+| `neutral.500` | `#9CA3AF` | 弱文字/禁用图标 |
+| `neutral.700` | `#6B7280` | 次要文字 |
+| `neutral.900` | `#16181D` | 主文字 |
 
 > 禁用态文字 = `onSurface` @ 38% 不透明度;禁用态容器 = `onSurface` @ 12%(Material 3 标准 disabled token)。
 
 ### 2.3 语义/宏量色(数据可视化专用)
 
+> 数据导向:三宏量用**同档低饱和**区分色,放一起清晰但不刺眼;不靠彩色堆砌。
+
 | 令牌 | Hex | 用途 |
 |---|---|---|
-| `macro.protein` | `#3D7DCA` | 蛋白质宏量条/折线(蓝) |
-| `macro.carbs` | `#E07A3F` | 碳水宏量条/折线(暖橙,= tertiary) |
-| `macro.fat` | `#E0B73F` | 脂肪宏量条/折线(琥珀黄) |
-| `semantic.success` | `#2E7D5B` | 成功(= primary) |
-| `semantic.warning` | `#C98A14` | 低置信度标记、提示 |
-| `progressRing.track` | `#E8EDE6` | 进度环底环(未完成弧) |
-| `progressRing.over` | `#E07A3F` | 超过目标时进度环转暖橙提示(不报警红,不焦虑) |
+| `macro.protein` | `#3B6EA5` | 蛋白质宏量条/折线(钢蓝) |
+| `macro.carbs` | `#B4671F` | 碳水宏量条/折线(克制琥珀,= tertiary) |
+| `macro.fat` | `#8A7A2E` | 脂肪宏量条/折线(克制橄榄黄) |
+| `semantic.success` | `#1F6E4E` | 成功(= primary) |
+| `semantic.warning` | `#9A6A12` | 低置信度标记、提示(克制琥珀) |
+| `progressRing.track` | `#E6E8ED` | 进度环底环(浅中性) |
+| `progressRing.over` | `#B4671F` | 超过目标时进度环转克制琥珀提示(不报警红,不焦虑) |
 
 ### 2.4 字体层级(Typography · 映射 M3 `TextTheme`)
 
@@ -105,16 +111,20 @@
 - 中日韩:`Noto Sans SC`(zh)、`Noto Sans JP`(ja)、`Noto Sans KR`(ko)。
 - Flutter 实现:`fontFamilyFallback` 按当前 locale 动态置顶对应 Noto 字体,保证字形正确不豆腐块。数字优先用拉丁字形(tabular figures)对齐。
 
-| M3 TextStyle | 字号/行高(sp) | 字重 | 用途 |
+> 数据导向 · 强层级:数据数字**大而粗**(w700 + 负字距,仪表感),正文克制 w400,字重对比明确。
+
+| M3 TextStyle | 字号/行高(sp) | 字重 / 字距 | 用途 |
 |---|---|---|---|
-| `displaySmall` | 36 / 44 | 600 | 进度环中心大数字(已摄入 kcal)、目标大数字输入 |
-| `headlineSmall` | 24 / 32 | 600 | 页面主标题 |
-| `titleLarge` | 22 / 28 | 600 | 弹窗标题、卡片大标题 |
-| `titleMedium` | 16 / 24 | 600 | 卡片标题、列表项主文字、按钮文字 |
-| `bodyLarge` | 16 / 24 | 400 | 正文、输入框文字 |
-| `bodyMedium` | 14 / 20 | 400 | 次要正文、列表项副文字 |
+| `displayLarge` | 48 / 52 | 700 / -1.0 | **核心数据巨号**:进度环中心 kcal、关键数值仪表 |
+| `displaySmall` | 40 / 44 | 700 / -0.5 | 进度环中心大数字、目标大数字输入 |
+| `headlineSmall` | 22 / 28 | 700 | 页面主标题(收紧密实) |
+| `titleLarge` | 18 / 24 | 700 | 弹窗标题、卡片大标题 |
+| `titleMedium` | 15 / 22 | 600 | 卡片标题、列表项主文字 |
+| `bodyLarge` | 15 / 22 | 400 | 正文、输入框文字 |
+| `bodyMedium` | 13 / 20 | 400 | 次要正文、列表项副文字 |
 | `bodySmall` | 12 / 16 | 400 | 免责声明、辅助说明、时间戳 |
 | `labelLarge` | 14 / 20 | 600 | 按钮/Chip/Tab 标签 |
+| `labelMedium` | 12 / 16 | 600 | 导航标签、小标签 |
 | `labelSmall` | 11 / 16 | 500 | 角标、单位、置信度标记 |
 
 > **文案弹性**:按钮/标签容器最小高度固定,文字超长时**两行换行或缩字号**而非截断(`maxLines` + `TextOverflow` 禁用 `ellipsis` 用于关键 CTA;关键合规文案绝不截断)。CJK 行高略增(ja/ko/zh 用 1.5×)。
@@ -137,26 +147,26 @@
 
 | 令牌 | 值(dp) | 用途 |
 |---|---|---|
-| `radius.xs` | 8 | 小 Chip、标记 |
-| `radius.sm` | 12 | 输入框、Snackbar |
-| `radius.md` | 16 | **卡片、Bottom Sheet 顶角、列表卡** |
-| `radius.lg` | 24 | 大弹窗、底部抽屉 |
-| `radius.full` | 999 | 主按钮(全圆角胶囊)、FAB、Chip、进度环端帽 |
+| `radius.xs` | 6 | 小 Chip、标记、进度条端 |
+| `radius.sm` | 10 | **输入框、按钮、Snackbar** |
+| `radius.md` | 12 | **卡片、列表卡、FAB** |
+| `radius.lg` | 16 | Bottom Sheet 顶角、大弹窗 |
+| `radius.full` | 12(退化兼容) | **极简风不再用胶囊大药丸**;保名兼容,被引用时退化为 12;进度环端帽用 `StrokeCap.round` 单独处理 |
 
-> 气质要求「柔和圆角」:卡片统一 16,主按钮用胶囊全圆角(亲和、现代)。
+> 极简专业:圆角收小;**主按钮不再是胶囊**,改 10 圆角扁平矩形;卡片统一 12。
 
-### 2.7 阴影(Elevation · M3 tonal elevation 优先)
+### 2.7 阴影(Elevation · 极简专业:阴影极淡,以细边为主)
 
-Material 3 以 **tonal(色调叠加)** 为主、投影为辅。
+Material 3 tonal 为主;本风格**进一步弱化阴影**,卡片用 **1dp 细边(`outlineVariant`)代替投影**,只有浮层(FAB/弹窗)保留极轻阴影。
 
-| 令牌 | M3 Elevation | 视觉 | 用途 |
+| 令牌 | dp | 视觉 | 用途 |
 |---|---|---|---|
 | `elevation.0` | 0 | 无 | 页面背景、贴底元素 |
-| `elevation.1` | 1 | 极轻 tonal + 投影 y1 blur3 @8% | 卡片、列表卡 |
-| `elevation.2` | 3 | tonal + 投影 y2 blur6 @10% | FAB、悬浮主按钮 |
-| `elevation.3` | 6 | tonal + 投影 y4 blur12 @12% | 弹窗、Bottom Sheet |
+| `elevation.1` | 0 | **无阴影 + 1dp `outlineVariant` 细边** | 卡片、列表卡(扁平描边) |
+| `elevation.2` | 1 | 极轻投影 y1 blur2 @6% | FAB、悬浮主按钮 |
+| `elevation.3` | 3 | 投影 y2 blur8 @10% | 弹窗、Bottom Sheet |
 
-> 投影色 `#1A1C1A`(onSurface)按不透明度控制,克制不重。
+> 投影色 `#16181D`(onSurface)按低不透明度控制,克制不重;卡片优先用细边而非阴影。
 
 ### 2.8 暗黑模式说明(Dark Theme)
 - **v1 不提供深色主题**(PRD C8)。`ThemeData` 仅注册 light;`MaterialApp.darkTheme` 留空或指向同一 light theme,`themeMode: ThemeMode.light` 锁定,避免系统深色下出现未设计的反色。
@@ -169,13 +179,15 @@ Material 3 以 **tonal(色调叠加)** 为主、投影为辅。
 > 全部基于 M3 内置组件扩展;给出尺寸/间距/圆角/色彩与各状态。点按目标 **≥48×48dp**(Material 最小,满足 iOS 44pt 要求;合规勾选区另强制 ≥48dp)。
 
 ### 3.1 按钮(M3 Button 家族)
+> 极简专业:按钮**扁平、小圆角(10)、单色实填或描边**,无大药胶囊、无阴影(主按钮 elevation 0)。
+
 | 类型 | Flutter 组件 | 高度 | 圆角 | 色彩 | 用途 |
 |---|---|---|---|---|---|
-| 主按钮 | `FilledButton` | 56(关键 CTA)/ 48(常规) | `radius.full` | bg `primary` / 文字 `onPrimary` | 注册、保存、确认 |
-| 次按钮 | `OutlinedButton` | 48 | `radius.full` | 边 `outline` / 文字 `primary` | 取消、暂不 |
+| 主按钮 | `FilledButton` | 52(关键 CTA)/ 48(常规) | `radius.sm`=10 | bg `primary` / 文字 `onPrimary`,elevation 0 | 注册、保存、确认 |
+| 次按钮 | `OutlinedButton` | 48 | `radius.sm`=10 | 边 `outline` 1dp / 文字 `onSurface`(中性,不抢) | 取消、暂不 |
 | 文字按钮 | `TextButton` | 40 | — | 文字 `primary` | 协议链接、轻操作 |
-| 危险按钮 | `FilledButton`(error 色) | 48 | `radius.full` | bg `error` / 文字 `onError` | 确认注销 |
-| FAB | `FloatingActionButton.extended` | 56 | `radius.full` | bg `primary` / icon+文字 `onPrimary` | 记录一餐 |
+| 危险按钮 | `FilledButton`(error 色) | 48 | `radius.sm`=10 | bg `error` / 文字 `onError` | 确认注销 |
+| FAB | `FloatingActionButton.extended` | 52 | `radius.md`=12 | bg `primary` / icon+文字 `onPrimary`,极轻浮起 | 记录一餐 |
 
 **按钮各状态**(以主 FilledButton 为例):
 - enabled:bg `primary`;
@@ -193,9 +205,9 @@ Material 3 以 **tonal(色调叠加)** 为主、投影为辅。
 - RTL:label、文字、错误提示、尾部图标整体镜像(尾部图标移到 start 侧)。
 
 ### 3.3 卡片(`Card`,列表卡 / 餐次卡 / 食物项卡)
-- bg `surfaceContainerLowest`(白),圆角 `radius.md`,`elevation.1`,内边距 16;
+- bg `surfaceContainerLowest`(白),圆角 `radius.md`=12,**扁平 + 1dp `outlineVariant` 细边**(无阴影),内边距 16;
 - 卡间距 12;卡内主标题 `titleMedium`、副文字 `bodyMedium onSurfaceVariant`;
-- 餐次卡:左缩略图(48×48,圆角 12)+ 中(餐次名 + 条目数)+ 右(该餐合计 kcal,`titleMedium primary`);
+- 餐次卡:左缩略图(44×44,圆角 8)+ 中(餐次名 + 条目数)+ 右(该餐合计 kcal,`titleMedium` 近黑粗体,**仅数字本身不上色**——克制,kcal 是数据不是强调);
 - RTL:缩略图移到 end→start 镜像,kcal 数字保持 LTR 字形但整体块右对齐。
 
 ### 3.4 列表项(`ListTile`)
@@ -206,21 +218,21 @@ Material 3 以 **tonal(色调叠加)** 为主、投影为辅。
 
 ### 3.5 Chip(`FilterChip` / `ChoiceChip`)
 - 用于餐次选择(早/午/晚/加餐)、语言选择、活动量选择;
-- 高度 36,圆角 `radius.full`,内边距水平 12;
-- 未选:边 `outline`、文字 `onSurfaceVariant`、底透明;
-- 选中:底 `primaryContainer`、文字 `onPrimaryContainer`、前置 `check` 图标;
+- 高度 36,圆角 `radius.sm`=10(小圆角非胶囊),内边距水平 12;
+- 未选:边 `outline` 1dp、文字 `onSurfaceVariant`、底透明;
+- 选中:底 `primaryContainer`(极淡绿)、文字 `onPrimaryContainer`、前置 `check` 图标;
 - 点按区扩展到 ≥48dp(透明 padding 补足)。
 
 ### 3.6 Tab / 分段控件
-- 底部主导航:`NavigationBar`(M3),3 项 Today/History/Profile;高度 80;选中项图标填充 + indicator pill(`secondaryContainer`)+ 标签 `labelMedium`;未选 `onSurfaceVariant`;
-- 页内日/趋势切换:`SegmentedButton`(M3),两段(`history.tab.day` / `history.tab.trend`),选中 `secondaryContainer`;
+- 底部主导航:`NavigationBar`(M3),3 项 Today/History/Profile;高度 72,白底 elevation 0;选中项图标填充 + indicator(`primaryContainer` 极淡绿)+ 标签 `labelMedium`;未选 `onSurfaceVariant`;
+- 页内日/趋势切换:`SegmentedButton`(M3),两段(`history.tab.day` / `history.tab.trend`),选中 `primaryContainer`;
 - **RTL:NavigationBar 项顺序与 SegmentedButton 段顺序整体镜像**(Today 在最右起始)。
 
-### 3.7 进度环(自定义 `CustomPainter`,首页核心)
-- 直径 200dp,环宽 16dp,端帽圆形(`StrokeCap.round`);
-- 底环 `progressRing.track`;进度弧 `primary`;超目标时弧色转 `progressRing.over`(暖橙,不报警);
+### 3.7 进度环(自定义 `CustomPainter`,首页核心 —— 数据导向)
+- 直径 200dp,**环宽收细到 12dp**(数字为主、环为辅),端帽圆形(`StrokeCap.round`);
+- 底环 `progressRing.track`(浅中性);进度弧**单色 `primary`**(不再用 sweep 渐变,极简);超目标时弧色转 `progressRing.over`(克制琥珀,不报警);
 - 起始角:LTR 从顶部 12 点钟顺时针;**RTL 从顶部逆时针**(方向镜像);
-- 中心:`displaySmall` 已摄入 kcal + `bodySmall` 「/ 目标 kcal」+ 下方剩余文案 `summary.remaining`;
+- **中心数据巨号**:`displaySmall`(40sp w700,负字距)已摄入 kcal,**纯近黑 `onSurface`**(数据本身不上色,克制);下方 `labelSmall onSurfaceVariant`「/ 目标 kcal」+ 剩余文案 `summary.remaining`;
 - 进度动画:入场 800ms `easeOutCubic` 从 0 扫到当前值。
 
 ### 3.8 宏量条(三色细条)
@@ -608,38 +620,40 @@ settings.language.title
 
 ### 9.1 颜色(Hex,= §2.1/2.2/2.3)
 ```dart
-// ColorScheme(Light)关键值
-primary            #2E7D5B
+// ColorScheme(Light)关键值 —— 极简专业 · 数据导向
+primary            #1F6E4E   // 单一克制墨绿强调,仅关键处用,不铺面
 onPrimary          #FFFFFF
-primaryContainer   #B6E5CE
-secondary          #4E8C7A
-tertiary           #E07A3F   // 暖橙食物点缀
-error              #BA1A1A
-surface            #FCFDFB
-surfaceContainer   #EEF2EC
-onSurface          #1A1C1A
-onSurfaceVariant   #414941
-outline            #717971
-outlineVariant     #C1C9BF
-inverseSurface     #2F312E   // Snackbar
-// 宏量
-macroProtein       #3D7DCA
-macroCarbs         #E07A3F
-macroFat           #E0B73F
-warning            #C98A14   // 低置信度
-progressTrack      #E8EDE6
-progressOver       #E07A3F
+primaryContainer   #E3EFE9   // 极淡绿(选中/轻强调)
+secondary          #3A3F46   // 近黑灰(非彩色)
+tertiary           #B4671F   // 克制琥珀,极少量数据点缀
+error              #B3261E
+surface            #F7F8FA   // 纯净近白背景(无渐变)
+surfaceContainer   #EDEFF2
+onSurface          #16181D   // 主文字近黑
+onSurfaceVariant   #6B7280   // 次要文字中性灰
+outline            #D2D5DB   // 细边(卡片描边)
+outlineVariant     #E6E8ED   // 极浅分隔
+inverseSurface     #22262C   // Snackbar 近黑
+// 宏量(同档低饱和区分色)
+macroProtein       #3B6EA5   // 钢蓝
+macroCarbs         #B4671F   // 克制琥珀
+macroFat           #8A7A2E   // 克制橄榄黄
+warning            #9A6A12   // 低置信度
+progressTrack      #E6E8ED
+progressOver       #B4671F
 ```
 
 ### 9.2 圆角 / 间距 / 字号(= §2.4–2.6)
 ```
-radius:  xs8  sm12  md16  lg24  full999
+radius:  xs6  sm10  md12  lg16  full→12(退化,无大药丸)
 space:   xxs4 xs8 sm12 md16 lg24 xl32 xxl48
-text(sp/lh/w): displaySmall 36/44/600 · headlineSmall 24/32/600 ·
-  titleLarge 22/28/600 · titleMedium 16/24/600 · bodyLarge 16/24/400 ·
-  bodyMedium 14/20/400 · bodySmall 12/16/400 · labelLarge 14/20/600 · labelSmall 11/16/500
-elevation: 0 / 1 / 3 / 6
+text(sp/lh/w/字距): displayLarge 48/52/700/-1.0 · displaySmall 40/44/700/-0.5 ·
+  headlineSmall 22/28/700 · titleLarge 18/24/700 · titleMedium 15/22/600 ·
+  bodyLarge 15/22/400 · bodyMedium 13/20/400 · bodySmall 12/16/400 ·
+  labelLarge 14/20/600 · labelMedium 12/16/600 · labelSmall 11/16/500
+elevation: 0(背景) / 0+1dp细边(卡片) / 1(FAB) / 3(弹窗)
 hitTarget: ≥48dp(合规勾选/弹窗按钮强制)
+progressRing: 直径200 · 环宽12 · 单色primary弧 · 中心40sp w700近黑
 ```
 
 ### 9.3 核心图标列表(Material Symbols / `Icons`)
@@ -695,26 +709,28 @@ hitTarget: ≥48dp(合规勾选/弹窗按钮强制)
 
 ---
 
-## 11. 视觉增强层 v1.1(真机走查后,人类确认方向:清新渐变+柔光色斑+图标)
+## 11. 视觉重做 v2 ·「极简专业 · 数据导向」(本次,**取代** v1.1 渐变+柔光层)
 
-> 背景:首版功能到位但留白偏多。增强原则——**全部代码绘制、零位图素材**(规避版权、可上架、任意分辨率清晰),克制不过度,不破坏对比度(WCAG AA)与「不焦虑」气质。所有色值集中 `app_colors` token,禁逐页 hardcode。
+> 背景:v1.1「清新渐变 + 柔光色斑 + 饱和绿 + 大圆角药丸」显得不够精致。v2 整体改为 **Apple 健康气质的极简专业、数据导向**:干净、克制、信息密度高、数字为主角。**全部代码绘制、零位图素材**;所有色值集中 `app_colors` token,禁逐页 hardcode。
 
-### 11.1 渐变背景 + 柔光色斑(`AppGradientBackground`)
-- 极淡垂直渐变:`surface → primaryContainer`(约 18–25% alpha),作页面底。
-- 2–3 个柔光色斑:`RadialGradient`(中心色→透明,柔边,**不用模糊滤镜**省性能);右上 `primary @ 6–8%`、左下 `tertiary @ 6%`;位于内容下层,`IgnorePointer` 不拦手势。
-- 应用范围:登录/注册、今日、历史、目标、个人中心。
-- token:`gradientTop / gradientBottom / blobPrimary(+Transparent) / blobTertiary(+Transparent)`。
+### 11.1 背景:去渐变 / 去柔光色斑 → 干净纯色(`AppGradientBackground`)
+- **删除**垂直渐变与所有 `RadialGradient` 柔光色斑;`AppGradientBackground` 改为铺 **纯色 `surface` `#F7F8FA`**(`ColoredBox`)。
+- **类名 / 构造接口(`child` + `showBlobs`)保持不变**,frontend 调用处零改动;`showBlobs` 参数保留但不再产生可见差异。
+- 色斑令牌 `blobPrimary/blobTertiary(+Transparent)` 与 `gradientTop/gradientBottom` **保名但置为透明 / = surface**,被引用也呈纯净平面(向后兼容,无需删调用)。
 
-### 11.2 今日页 hero
-- **问候条**:按本地时段「早上好/下午好/晚上好 👋」(i18n `home_greeting_morning/afternoon/evening`)作页面 hero;日期只在顶栏出现一次(避免重复)。
-- **进度环**:描边用 `primary→tertiary` `SweepGradient`(超目标仍转暖橙单色,不报警红)。
-- **宏量行**:每项名称前加对应宏量色小圆点(蛋白蓝/碳水橙/脂肪黄)。
+### 11.2 今日页 hero(数据为主)
+- **问候条**(可保留)按本地时段(i18n `home_greeting_*`);日期只在顶栏出现一次(无重复)。
+- **进度环**:**单色 `primary` 弧**(去掉 `primary→tertiary` SweepGradient,极简);环宽收细 12dp;**中心 kcal 数字做巨号粗体近黑**(40sp w700)= 全页视觉焦点。
+- **宏量行**:每项名称前加对应宏量色小圆点(蛋白钢蓝/碳水琥珀/脂肪橄榄);数字粗、标签弱,强层级。
 
-### 11.3 图标与质感
-- 主操作配图标:记录一餐 `photo_camera`、保存 `check`、目标 `local_fire_department`。
-- logo 置于 `primaryContainer` 圆形底 + 柔阴影;个人中心顶部用户区做浅色卡片。
-- 空态升级:`primaryContainer` 圆底 + 主图标插画组合;CTA 可带图标。
-- 卡片柔和阴影(elevation 1–2)+ 16 圆角,保持一致。
+### 11.3 质感:扁平 + 细边,克制图标
+- 卡片**扁平 + 1dp `outlineVariant` 细边**(代替阴影),12 圆角统一;浮层(FAB/弹窗)才保留极轻阴影。
+- 主操作配图标:记录一餐 `photo_camera`、保存 `check`、目标 `local_fire_department`(单色 `onSurfaceVariant`/`primary`,克制)。
+- logo / 空态:用极淡绿 `primaryContainer` 圆底 + 单色主图标组合(不做花哨插画、不引位图)。
 
-### 11.4 不回退红线(增强不得破坏)
-历史标题=历史/History、注册同意行内联可点链接(无重复)、注销入口居中红色显著可发现、空态隐藏 FAB、合规三项视觉、RTL 方向无关。
+### 11.4 App 图标重做(`tools/gen_app_icon.py`)
+- 新概念:**「热量进度环 + 极简两笔火苗」**——近白圆角底 + 单色 `primary` 接近闭合的细进度环(数据/仪表感)+ 环心一枚极简火苗(内挖近白水滴作内焰),单色克制。
+- 去掉旧版双叶环抱 / 三层暖橙火苗 / 径向立体渐变;保持纯 PIL 代码绘制、零位图、自动居中、留充裕白边(图形占比 ~62%)。
+
+### 11.5 不回退红线(重做不得破坏)
+历史标题=历史/History、注册同意行内联可点链接(无重复)、注销入口红色显著可发现、空态隐藏 FAB、合规三项视觉(同意默认不勾 + 点按≥48 / 注销显著 / 前置授权弹窗)、RTL 方向无关、所有列表/详情三态(骨架优先)。

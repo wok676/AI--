@@ -62,15 +62,35 @@ abstract final class AppTextTheme {
       fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
     );
 
+    // 极简专业 · 数据导向:数据数字大而粗(w700),正文克制(w400),字重对比明确。
     return TextTheme(
-      displaySmall: s(36, 44, FontWeight.w600), // 进度环中心大数字 / 目标大数字
-      headlineSmall: s(24, 32, FontWeight.w600), // 页面主标题
-      titleLarge: s(22, 28, FontWeight.w600), // 弹窗标题 / 卡片大标题
-      titleMedium: s(16, 24, FontWeight.w600), // 卡片标题 / 列表项主文字
-      bodyLarge: s(16, 24, FontWeight.w400), // 正文 / 输入框
-      bodyMedium: s(14, 20, FontWeight.w400), // 次要正文
+      // 数据巨号:进度环中心 kcal / 目标大数字。粗、负字距更"数据仪表"感。
+      displayLarge: TextStyle(
+        fontSize: 48,
+        height: 52 / 48,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -1.0,
+        color: AppColors.onSurface,
+        fontFamilyFallback: fallback,
+        fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+      ),
+      displaySmall: TextStyle(
+        fontSize: 40,
+        height: 44 / 40,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.5,
+        color: AppColors.onSurface,
+        fontFamilyFallback: fallback,
+        fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+      ), // 进度环中心大数字 / 目标大数字
+      headlineSmall: s(22, 28, FontWeight.w700), // 页面主标题(收紧,更密实)
+      titleLarge: s(18, 24, FontWeight.w700), // 弹窗标题 / 卡片大标题
+      titleMedium: s(15, 22, FontWeight.w600), // 卡片标题 / 列表项主文字
+      bodyLarge: s(15, 22, FontWeight.w400), // 正文 / 输入框
+      bodyMedium: s(13, 20, FontWeight.w400), // 次要正文
       bodySmall: s(12, 16, FontWeight.w400), // 免责声明 / 时间戳
       labelLarge: s(14, 20, FontWeight.w600), // 按钮 / Chip / Tab 标签
+      labelMedium: s(12, 16, FontWeight.w600), // 导航标签 / 小标签
       labelSmall: s(11, 16, FontWeight.w500), // 角标 / 单位 / 置信度
     );
   }

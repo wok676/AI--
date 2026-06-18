@@ -148,24 +148,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // —— Logo:应用品牌图标(圆角 + 柔和阴影,视觉增强)——
+                      // —— Logo:应用品牌图标(圆角扁平,无柔光阴影,极简专业)——
                       Center(
-                        child: Container(
-                          width: 96,
-                          height: 96,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppRadius.lg),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.18,
-                                ),
-                                blurRadius: 24,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(AppRadius.lg),
                           child: Image.asset(
                             'assets/icon/icon.png',
                             width: 96,
@@ -264,8 +250,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           minimumSize: const Size.fromHeight(
                             AppSizes.buttonHeightCta,
                           ),
-                          // 胶囊主按钮加轻微浮起,按压有反馈(视觉增强)。
-                          elevation: AppElevation.level2,
+                          // 极简专业:主按钮扁平无阴影(elevation 0,UI §3.1)。
+                          elevation: AppElevation.level0,
                         ),
                         child: _submitting
                             ? const SizedBox(

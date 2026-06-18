@@ -58,20 +58,26 @@ abstract final class AppTheme {
       scaffoldBackgroundColor: _lightScheme.surface,
       textTheme: textTheme,
 
-      // 主按钮:胶囊全圆角,关键 CTA 高 56(各页据需用 minimumSize 覆盖到 56)。
+      // 主按钮:扁平、小圆角(sm=10),实色单色;关键 CTA 高 52(各页可覆盖)。
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(AppSizes.buttonHeight),
-          shape: const StadiumBorder(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
+          elevation: 0,
           textStyle: textTheme.labelLarge,
         ),
       ),
+      // 次按钮:描边 + 小圆角,无填充(克制专业)。
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(AppSizes.buttonHeight),
-          shape: const StadiumBorder(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
           side: const BorderSide(color: AppColors.outline),
-          foregroundColor: AppColors.primary,
+          foregroundColor: AppColors.onSurface,
           textStyle: textTheme.labelLarge,
         ),
       ),
@@ -110,29 +116,34 @@ abstract final class AppTheme {
         errorStyle: textTheme.bodySmall?.copyWith(color: AppColors.error),
       ),
 
-      // 卡片:白底,圆角 md,elevation 1。
+      // 卡片:白底,圆角 md(12),扁平 + 1dp 细边代替阴影(极简专业)。
       cardTheme: CardThemeData(
         color: AppColors.surfaceContainerLowest,
         elevation: AppElevation.level1,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
+          side: const BorderSide(color: AppColors.outlineVariant),
         ),
         clipBehavior: Clip.antiAlias,
       ),
 
-      // FAB:胶囊,primary。
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      // FAB:小圆角方形(非胶囊),primary,极轻浮起。
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.onPrimary,
         elevation: AppElevation.level2,
-        shape: StadiumBorder(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
       ),
 
+      // 底部导航:白底、细顶边感(分隔靠 surface 对比),指示器用极淡绿。
       navigationBarTheme: NavigationBarThemeData(
         height: AppSizes.navBarHeight,
         backgroundColor: AppColors.surfaceContainerLowest,
-        indicatorColor: AppColors.secondaryContainer,
+        elevation: 0,
+        indicatorColor: AppColors.primaryContainer,
         labelTextStyle: WidgetStatePropertyAll<TextStyle?>(
           textTheme.labelMedium,
         ),
@@ -173,9 +184,11 @@ abstract final class AppTheme {
         ),
       ),
 
-      // Chip:胶囊。
+      // Chip:小圆角(sm=10),描边 + 透明底;选中用极淡绿容器。
       chipTheme: ChipThemeData(
-        shape: const StadiumBorder(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+        ),
         side: const BorderSide(color: AppColors.outline),
         backgroundColor: Colors.transparent,
         selectedColor: AppColors.primaryContainer,
