@@ -25,6 +25,10 @@ class PermissionPrompt {
     required AppPermission permission,
     required PermissionService service,
   }) async {
+    // ⓪ 已授权:跳过前置解释弹窗,直接放行(仅首次/未授权时才解释,§7.3)。
+    if (await _isGranted(service, permission)) return true;
+    if (!context.mounted) return false;
+
     final AppLocalizations l10n = AppLocalizations.of(context);
     final (String title, String body) = _copy(l10n, permission);
 
@@ -49,6 +53,18 @@ class PermissionPrompt {
           await _showOpenSettings(context, service);
         }
         return false;
+    }
+  }
+
+  /// 仅查询是否已授权(不触发系统弹窗),用于"仅首次解释"判断。
+  static Future<bool> _isGranted(PermissionService service, AppPermission permission) {
+    switch (permission) {
+      case AppPermission.camera:
+        return service.hasCamera();
+      case AppPermission.photos:
+        return service.hasPhotos();
+      case AppPermission.notifications:
+        return service.hasNotifications();
     }
   }
 
@@ -116,12 +132,14 @@ class _RationaleDialog extends StatelessWidget {
       title: Text(title),
       content: Text(body),
       actionsPadding: const EdgeInsets.all(AppSpacing.md),
+      // 两按钮间留间距,避免「暂不」「允许」粘连(§7.3 点按区清晰)。
       actions: <Widget>[
         // 「暂不」(次)/「允许」(主),点按区由按钮主题保证 ≥48dp(§7.3)。
         OutlinedButton(
           onPressed: () => Navigator.of(context).pop(false),
           child: Text(l10n.perm_notNow),
         ),
+        const SizedBox(width: AppSpacing.sm),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
           child: Text(l10n.perm_allow),

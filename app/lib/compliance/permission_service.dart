@@ -27,6 +27,21 @@ class PermissionService {
   /// 通知权限(开通知开关 / 首次保存后询问一次,Should)。
   Future<PermissionOutcome> requestNotifications() => _request(Permission.notification);
 
+  /// 仅**查询**是否已授权(不触发系统弹窗)。用于"仅首次解释"——
+  /// 已授权则跳过前置解释弹窗,直接走功能(§7.3)。
+  Future<bool> hasCamera() => _isGranted(Permission.camera);
+  Future<bool> hasPhotos() => _isGranted(Permission.photos);
+  Future<bool> hasNotifications() => _isGranted(Permission.notification);
+
+  Future<bool> _isGranted(Permission permission) async {
+    try {
+      final PermissionStatus status = await permission.status;
+      return status.isGranted || status.isLimited;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<PermissionOutcome> _request(Permission permission) async {
     try {
       final PermissionStatus status = await permission.request();
