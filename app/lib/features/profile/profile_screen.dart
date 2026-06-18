@@ -125,12 +125,7 @@ class ProfileScreen extends ConsumerWidget {
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push(AppRoutes.legalPrivacy),
             ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: Text(l10n.settings_about),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
-            ),
+            // (移除原"关于"行:无对应关于页、点击空操作的死交互;隐私/用户协议入口上方已独立提供。)
 
             const Divider(height: 1),
             // —— 退出登录 ——
