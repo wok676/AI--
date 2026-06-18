@@ -97,7 +97,7 @@ services:
       RECOGNITION_MAX_IMAGE_BYTES: ${RECOGNITION_MAX_IMAGE_BYTES:-8388608}
       # 识别功能需要;缺失则仅识别相关端点不可用,其余功能正常
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-4-20250514}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-4-8}
       ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-https://api.anthropic.com}
       ANTHROPIC_TIMEOUT_MS: ${ANTHROPIC_TIMEOUT_MS:-20000}
     volumes:

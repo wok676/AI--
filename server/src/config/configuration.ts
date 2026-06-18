@@ -60,8 +60,9 @@ export default (): AppConfig => ({
   anthropic: {
     // 密钥仅在服务端读取,绝不下发客户端;零硬编码(§1.4 / §6),走 .env
     apiKey: process.env.ANTHROPIC_API_KEY ?? '',
-    // 默认用最新 Claude 模型;可经 .env 覆盖
-    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-4-20250514',
+    // 默认用最新 Claude 模型(claude-opus-4-8,最强且现役);可经 .env 覆盖。
+    // 注意:初代 claude-opus-4-20250514 已于 2026-06-15 退役,勿再使用。
+    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-4-8',
     baseUrl: process.env.ANTHROPIC_BASE_URL ?? 'https://api.anthropic.com',
     timeoutMs: parseInt(process.env.ANTHROPIC_TIMEOUT_MS ?? '20000', 10),
     // 原图大小上限(API.md §4.10 ≤8MB)
