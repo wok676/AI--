@@ -1,0 +1,105 @@
+name: CI
+
+# 每次 push 到 main 与所有 PR 的快速质量门禁(对照宪法 §13 Definition of Done)。
+# 三端各自独立 Job 并行;不依赖真机 / 真实 AI Key（识别 e2e 见 e2e-android.yml）。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 同一分支新推送自动取消旧运行，省额度。
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── 后端：lint + typecheck + 测试（含归属/角色鉴权用例，需真 DB）+ 构建 ──
+  server:
+    name: server (NestJS)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: testai
+          POSTGRES_PASSWORD: testai
+          POSTGRES_DB: testai
+        ports:
+          - 5432:5432
+        # 等 DB healthy 再跑，避免迁移连接竞态。
+        options: >-
+          --health-cmd "pg_isready -U testai -d testai"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      # 集成 spec 以 DATABASE_URL 是否存在为开关（HAS_DB），此处提供真 PG 让其全量执行。
+      DATABASE_URL: postgresql://testai:testai@localhost:5432/testai?schema=public
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npx prisma generate
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  # ── 管理后台：lint + typecheck + 构建 ──
+  admin:
+    name: admin (Vite/React)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: admin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: admin/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+
+  # ── 移动端：静态分析 + 单元/组件测试（test/）。
+  #    integration_test/ 需真机 + 后端 + AI Key，不在此跑（见 e2e-android.yml）。──
+  app:
+    name: app (Flutter)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      # 仅跑 test/（单元/组件）；integration_test/ 是设备级 e2e，单独工作流执行。
+      - run: flutter test test/
+
+  # ── 安全：仓库不得混入密钥/明文（宪法 §6，gitleaks 扫描）──
+  secret-scan:
+    name: secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
