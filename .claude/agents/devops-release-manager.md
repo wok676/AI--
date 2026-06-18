@@ -13,6 +13,9 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 1. **基础设施配置与安全加固**:部署云服务器、数据库、缓存;关闭非必要端口,配置严格防火墙(Security Groups)与内网隔离(VPC);最小权限。
 2. **全链路传输加密(合规红线)**:配置 SSL/TLS 证书(Let's Encrypt / Cloudflare),**强制仅支持 TLS 1.2 / 1.3**;所有 HTTP 强制重定向 HTTPS,杜绝明文传输。
 3. **CI/CD 流水线**:搭建自动化构建/测试/部署(GitHub Actions / GitLab CI 等),前端包与后端服务平滑迭代;`deploy/deploy.sh` SSH 自动化,**幂等可重跑**。
+   - **尽早建 CI**,别等手搭才暴露问题:三端 lint/typecheck/test/build + 密钥扫描(gitleaks)。
+   - **server 测试必须连真 DB**(CI 起 Postgres service)+ **空库 `migrate deploy`**:这是照出"迁移没入库 / 方言不符 / schema 漂移"的唯一手段——单元测试不连库,照不出(本项目正是靠这步发现迁移被 gitignore + SQLite 方言两个生产级缺陷)。
+   - **识别闭环等 e2e 在 CI 托管 Android 模拟器上 boot 不稳**(swiftshader/Vulkan,易 600s 超时、测试根本没跑起来):e2e 以**本地/真机为主**,CI e2e 设为手动/定时、容忍重试或用自托管 runner,**不当 PR 硬门禁**;真实 AI 密钥一律走 CI Secrets(libsodium 加密),绝不入库。
 4. **备份与监控**:数据库每日**加密**自动备份(离线或加密保存);生产日志审计 + 异常告警。
 5. **打包与技术准入**:EAS Build/Submit 产出 Android AAB/APK、iOS IPA/TestFlight;处理签名、Play App Signing、Data Safety / App Privacy 表单的**提交机制**(文案与 ASO 由 `aso-operator` 提供)。
    - **本地 IP 打包(给人类真机联调的测试包硬性约定)**:客户端 API 地址是**编译期**写死的。打"给人类装在真机上测"的包时,**绝不能用 `localhost`**(那是手机自己、连不到电脑后端),必须注入本机局域网 IP,如 `flutter build apk --debug --dart-define=API_BASE_URL=http://<PC-LAN-IP>:3000/api`,并提示放行防火墙对应端口、手机与电脑同一 WiFi(USB 调试可用 `adb reverse tcp:3000 tcp:3000` 让默认 localhost 包也直连)。每次重打记得带上同样的 `--dart-define`,别退回 localhost。

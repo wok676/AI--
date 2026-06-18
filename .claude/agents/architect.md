@@ -32,7 +32,8 @@ model: opus
 
 ### 第四步 · 冻结前后端契约(契约先行)
 1. 制定统一 API 规范(RESTful/GraphQL、统一错误码 `{ code, messageKey, traceId }`、JWT 结构),写入 `docs/API.md`。
-2. 数据模型与字段写入 `docs/DB-Schema.md`;前后端共享类型与 `locales` key 边界一并冻结。
+   - **标注慢/AI 接口**:识别、生成等 AI/LLM 类端点延迟波动大(实测 4~15s+),契约里注明其**期望超时(如 60s)**,前后端据此单独放宽,别套用普通 CRUD 短超时致有效请求被误杀(本项目踩过)。
+2. 数据模型与字段写入 `docs/DB-Schema.md`;前后端共享类型与 `locales` key 边界一并冻结。**迁移须入库且为生产库方言**(见 `docs/WORKFLOW.md §6.1`),作为 backend 交付硬约束。
 3. **测试框架与可测性契约一并冻结**:e2e/集成框架选定且要求初始化跑通示例;test keys 命名规范与注册表位置写明,作为 frontend 交付物、QA 自动化的消费入口(详见 `docs/WORKFLOW.md §2`)。
 4. **这是前后端 agent 不打架的前提**——契约冻结后,前端照契约写不等后端。
 

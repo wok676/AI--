@@ -124,3 +124,22 @@ Rule-Refs: §6.2 鉴权, §3.2 技术栈
 | 起栈后只建了 auth 表、业务表缺失 | 迁移须能**从空库一键建起完整 schema**(全表/枚举/索引);起栈即 `migrate deploy` 并实测 `health` + 全表;降级库(SQLite)不当基线 | backend(迁移)/ devops(起栈) |
 | 界面功能到位但空荡/有重复元素/标签错 | **真机截图逐屏走查**(空荡/重复/标签/标点);视觉增强**优先代码绘制(渐变/柔光斑/图标),禁位图素材**(规避版权、可上架) | ui-ux-designer |
 | 漏定 e2e/集成框架与 test keys,QA 只能 adb 猜坐标手点(慢且脆) | 契约阶段**冻结 e2e 框架并要求跑通示例**;定 test keys 命名+注册表,**前端开发时同步挂 `ValueKey` 交付**,QA 用 `find.byKey` 自动化;缺失视为契约缺口可退回 | architect(冻结)/ frontend(挂 key)/ qa(消费) |
+
+### 6.1 第二版(本项目)新增教训
+
+> 接入 CI 后,一连串"本地能跑、一上线就崩"的问题被照出,固化如下。
+
+| 教训 | 约束 | 责任 agent |
+|---|---|---|
+| 迁移目录被 `.gitignore` 整目录忽略 → CI/生产 `migrate deploy` 报 "No migration found"、一张表都没建 | **迁移 SQL + `migration_lock.toml` 必须 git 入库**;`.gitignore` 只排除本地 `dev.db`,**绝不忽略整个 `prisma/migrations/`** | backend / devops |
+| 提交的是 **SQLite 方言迁移**(`migration_lock.toml=sqlite`)→ 生产 Postgres `migrate deploy` 报 **P3019** | 迁移必须用**生产库方言**生成(对真 Postgres 跑 `migrate dev`);开发期 SQLite 产物**不得当迁移基线**提交 | backend |
+| 集成测试**并行争用同一个库**(各自 `beforeEach` 全表 `deleteMany`)→ 间歇性假失败(record not found / 计数为 0) | 共享库的集成测试**强制串行**(jest `maxWorkers:1`)或按 suite 隔离库 | qa / backend |
+| 项目早期**没有 CI**,迁移/schema 漂移直到手搭 CI 才暴露 | CI 尽早建:三端 lint/typecheck/test/build + gitleaks;**server 测试必须连真 DB + 空库 `migrate deploy`**,才能照出漂移(单元测试不连库,照不出) | devops |
+| **AI 识别接口延迟波动大(实测 4~15s+)**被 20s 统一接收超时误杀 → 误报"识别失败" | **AI/LLM 类接口单独放宽超时**(前端 per-request `receiveTimeout`、后端 `ANTHROPIC_TIMEOUT_MS`),不套用普通 CRUD 的 20s | architect(契约标注慢接口)/ frontend / backend |
+| 文字识别打到图片端点(`/recognition` vs `/recognition/text`)→ 后端报"未上传图片" | 契约对齐不只字段,**method+path 也要逐一核对**;端到端测试能照出此类错配 | frontend / qa |
+| push 路由(非 shell 分支)透明 Scaffold + 透明 AppBar → 顶部/状态栏**黑屏**;识别 loading 弹窗在 shell 嵌套 Navigator 上 pop → 黑屏 | **防黑屏**:push 路由背景填渐变顶色(非 transparent);`showDialog` 开/关统一用 `rootNavigator: true` | frontend / ui 走查 / qa |
+| "个人资料""关于"行 `onTap: () {}` **死交互**(点了没反应) | **禁止死交互**:可点元素必须有行为;无对应页面的入口不上线 | ui / qa 走查 |
+| 权限前置解释弹窗**每次都弹**(没查已授权态) | 前置解释**仅未授权时弹**:弹前先查权限 status,已授权直接放行 | frontend / PM·architect 合规 |
+| 对话框"取消/确认"按钮粘连 | 对话框动作按钮需**显式间距**,别只靠默认 OverflowBar | ui |
+| CI 托管 Android 模拟器 **boot 不稳**(swiftshader/Vulkan,600s 超时,测试根本没跑起来) | 识别闭环 e2e **以本地/真机为主**(像本项目那样);CI e2e 需容忍 boot 超时/重试或用自托管 runner,**不当硬门禁** | devops / qa |
+| 自动化测试把**常驻挂载的 shell 页(`IndexedStack` 分支)**当"已返回"信号 → 误判 | 断言**被 push 页元素的出现/消失**作为导航信号;test key 要挂在**真正可点的控件**上,不是外层容器 | qa |
