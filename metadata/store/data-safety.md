@@ -111,7 +111,7 @@
 
 - [ ] 核实 AI 识别**中转/代理网关**的数据处理条款:是否留存请求内容、是否另作他用。决定 Google Play `Shared` 与隐私政策点名披露口径。
 - [ ] 确认崩溃/性能日志是否上报第三方分析(若有,需在两表补充申报)。
-- [ ] 隐私政策公网 URL(`privacy.html`)、用户协议 URL(`terms.html`)部署完成并填入双端后台。
+- [x] 隐私政策公网 URL 已部署:https://wok676.github.io/AI--/privacy.html ;用户协议:https://wok676.github.io/AI--/terms.html (GitHub Pages,gh-pages 分支)。填入双端后台时直接用。
 - [ ] App Store Connect 账号删除项指向 App 内注销 + 网页通道。
 - [ ] 提审演示账号就绪。
 ```

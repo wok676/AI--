@@ -123,8 +123,8 @@ Free to use. No ads, no subscription, no in-app purchases.
 
 ## 6. 商店审核备注 / 隐私字段(App Store Connect)
 
-- **隐私政策 URL**:`metadata/privacy/privacy.html` 部署后的公网地址(GitHub Pages),交 `devops-release-manager` 托管。
-- **用户协议 / EULA**:可用 Apple 标准 EULA,或指向 `metadata/privacy/terms.html` 公网地址。
+- **隐私政策 URL**(已上线 GitHub Pages):https://wok676.github.io/AI--/privacy.html
+- **用户协议 / EULA**(已上线):https://wok676.github.io/AI--/terms.html
 - **账号删除(Apple 必填)**:App 内「设置 > 注销账号」提供;另在隐私政策页公布网页注销通道(满足 Guideline 5.1.1(v))。
 - **Sign in with Apple**:iOS 端已实现(PRD A4),无需另外提供第三方社交登录即合规;后续接入 Google 登录时 Apple 登录已就位(Guideline 4.8)。
 - **ATT**:v1 无第三方追踪 SDK,不弹 ATT;App Privacy 标签据实勾选"数据不用于追踪"。详见 `metadata/store/data-safety.md`。
