@@ -200,6 +200,15 @@ def draw_graphic(canvas_px, scale):
                           flame_w * 0.26, flame_h * 0.42, lean=0.10)
     d.polygon(core, fill=ON_PRIMARY + (235,))
 
+    # 按实际像素包围盒**自动居中**(消除构图的垂直/水平偏移,确保图形在画布正中)
+    bbox = img.getbbox()
+    if bbox:
+        content = img.crop(bbox)
+        cw, ch = content.size
+        centered = Image.new("RGBA", (px, px), (0, 0, 0, 0))
+        centered.paste(content, ((px - cw) // 2, (px - ch) // 2), content)
+        img = centered
+
     # 缩小回目标尺寸(抗锯齿)
     return img.resize((canvas_px, canvas_px), Image.LANCZOS)
 
