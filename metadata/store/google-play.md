@@ -13,8 +13,8 @@
 
 | 语言 | 文案 | 字符数 |
 |---|---|---|
-| English | `Calorie Tracker: Snap & Log` | 27 |
-| 中文 | `卡路里记录:拍照识别热量` | 12 |
+| English | `Calo: Calorie Tracker Snap&Log` | 30 |
+| 中文 | `Calo 卡路里记录:拍照识别热量` | 16 |
 
 > 备选(英文):`Calorie Tracker — Photo Log`(27)。优先含核心词 "Calorie Tracker" + 差异化动作词 "Snap"。
 

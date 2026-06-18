@@ -13,8 +13,8 @@
 
 | 语言 | 文案 | 字符数 |
 |---|---|---|
-| English | `Calorie Tracker: Snap & Log` | 27 |
-| 中文 | `卡路里记录 - 拍照识别热量` | 13 |
+| English | `Calo: Calorie Tracker` | 21 |
+| 中文 | `Calo 卡路里记录` | 9 |
 
 ---
 

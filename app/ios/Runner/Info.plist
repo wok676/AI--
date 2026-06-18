@@ -30,7 +30,7 @@
 		<!-- v1 不集成任何追踪 SDK,故无需 NSUserTrackingUsageDescription(ATT,§4.4) -->
 		<!-- 不申请定位/麦克风/通讯录等无关权限(§4.3),故不声明其用途字符串 -->
 		<key>CFBundleDisplayName</key>
-		<string>Calorie App</string>
+		<string>Calo</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -38,7 +38,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>calorie_app</string>
+		<string>Calo</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>

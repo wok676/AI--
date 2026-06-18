@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
-        android:label="calorie_app"
+        android:label="Calo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
