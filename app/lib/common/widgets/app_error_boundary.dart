@@ -27,10 +27,12 @@ class _FallbackScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     // l10n 可能在极早期不可用;用 maybeOf 容错。
     // 极早期 localizations 可能不可用,用可空查找容错(绝不二次崩溃)。
-    final AppLocalizations? l10n =
-        Localizations.of<AppLocalizations>(context, AppLocalizations);
-    final String message = l10n?.common_error_generic ??
-        'Something went wrong. Please try again.';
+    final AppLocalizations? l10n = Localizations.of<AppLocalizations>(
+      context,
+      AppLocalizations,
+    );
+    final String message =
+        l10n?.common_error_generic ?? 'Something went wrong. Please try again.';
 
     return Directionality(
       textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,

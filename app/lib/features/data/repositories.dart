@@ -18,7 +18,10 @@ ApiError _toApiError(Object e) {
     final Object? mapped = e.error;
     return mapped is ApiError ? mapped : mapDioException(e);
   }
-  return const ApiError.local(code: 'INTERNAL_ERROR', messageKey: 'common.error.generic');
+  return const ApiError.local(
+    code: 'INTERNAL_ERROR',
+    messageKey: 'common.error.generic',
+  );
 }
 
 /// 把任意 repository 调用统一包一层 try-catch,异常转 [ApiError] 抛出(供 AsyncValue.error 捕获)。
@@ -38,15 +41,17 @@ class AuthRepository {
   Dio get _dio => _client.dio;
 
   /// 公开端点统一打 skipAuth(不注入 Bearer,API §2)。
-  Options get _guestOptions => Options(extra: <String, Object?>{'skipAuth': true});
+  Options get _guestOptions =>
+      Options(extra: <String, Object?>{'skipAuth': true});
 
   Future<AuthSession> login({required String email, required String password}) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/auth/login',
-        data: <String, Object?>{'email': email, 'password': password},
-        options: _guestOptions,
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/auth/login',
+            data: <String, Object?>{'email': email, 'password': password},
+            options: _guestOptions,
+          );
       return AuthSession.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -59,17 +64,18 @@ class AuthRepository {
     required String locale,
   }) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/auth/register',
-        data: <String, Object?>{
-          'email': email,
-          'password': password,
-          'consentAccepted': consentAccepted,
-          'consentVersion': consentVersion,
-          'locale': locale,
-        },
-        options: _guestOptions,
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/auth/register',
+            data: <String, Object?>{
+              'email': email,
+              'password': password,
+              'consentAccepted': consentAccepted,
+              'consentVersion': consentVersion,
+              'locale': locale,
+            },
+            options: _guestOptions,
+          );
       return AuthSession.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -82,16 +88,17 @@ class AuthRepository {
     required String locale,
   }) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/auth/apple',
-        data: <String, Object?>{
-          'identityToken': identityToken,
-          'authorizationCode': authorizationCode,
-          'fullName': ?fullName,
-          'locale': locale,
-        },
-        options: _guestOptions,
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/auth/apple',
+            data: <String, Object?>{
+              'identityToken': identityToken,
+              'authorizationCode': authorizationCode,
+              'fullName': ?fullName,
+              'locale': locale,
+            },
+            options: _guestOptions,
+          );
       return AuthSession.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -110,16 +117,16 @@ class MeRepository {
 
   Future<MeProfile> getMe() {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp =
-          await _dio.get<Map<String, Object?>>('/me');
+      final Response<Map<String, Object?>> resp = await _dio
+          .get<Map<String, Object?>>('/me');
       return MeProfile.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
 
   Future<MeProfile> patchMe(Map<String, Object?> patch) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp =
-          await _dio.patch<Map<String, Object?>>('/me', data: patch);
+      final Response<Map<String, Object?>> resp = await _dio
+          .patch<Map<String, Object?>>('/me', data: patch);
       return MeProfile.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -141,14 +148,17 @@ class MealRepository {
   /// 端点,文字打到那里后端会报"未上传图片"(bug 修复)。
   Future<RecognitionResult> recognizeText(String text) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/recognition/text',
-        data: <String, Object?>{'text': text, 'source': 'TEXT'},
-        // AI 识别延迟波动大,放宽接收超时,避免有效请求被 20s 默认超时误杀。
-        options: Options(
-          receiveTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
-        ),
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/recognition/text',
+            data: <String, Object?>{'text': text, 'source': 'TEXT'},
+            // AI 识别延迟波动大,放宽接收超时,避免有效请求被 20s 默认超时误杀。
+            options: Options(
+              receiveTimeout: const Duration(
+                milliseconds: AppConfig.recognizeReceiveTimeoutMs,
+              ),
+            ),
+          );
       return RecognitionResult.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -163,16 +173,21 @@ class MealRepository {
         'image': await MultipartFile.fromFile(filePath),
         'source': source.toJson(),
       });
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/recognition',
-        data: form,
-        // 图片上传 + AI 识别更慢:放宽发送/接收超时,避免有效请求被默认超时误杀。
-        options: Options(
-          contentType: 'multipart/form-data',
-          sendTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
-          receiveTimeout: const Duration(milliseconds: AppConfig.recognizeReceiveTimeoutMs),
-        ),
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/recognition',
+            data: form,
+            // 图片上传 + AI 识别更慢:放宽发送/接收超时,避免有效请求被默认超时误杀。
+            options: Options(
+              contentType: 'multipart/form-data',
+              sendTimeout: const Duration(
+                milliseconds: AppConfig.recognizeReceiveTimeoutMs,
+              ),
+              receiveTimeout: const Duration(
+                milliseconds: AppConfig.recognizeReceiveTimeoutMs,
+              ),
+            ),
+          );
       return RecognitionResult.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -187,17 +202,20 @@ class MealRepository {
     String? note,
   }) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/meals',
-        data: <String, Object?>{
-          'mealType': mealType.toJson(),
-          'consumedAt': consumedAt,
-          'localDate': localDate,
-          'source': source.toJson(),
-          'note': ?note,
-          'items': items.map((MealItem i) => i.toJson()).toList(growable: false),
-        },
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/meals',
+            data: <String, Object?>{
+              'mealType': mealType.toJson(),
+              'consumedAt': consumedAt,
+              'localDate': localDate,
+              'source': source.toJson(),
+              'note': ?note,
+              'items': items
+                  .map((MealItem i) => i.toJson())
+                  .toList(growable: false),
+            },
+          );
       return MealEntry.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -205,10 +223,11 @@ class MealRepository {
   /// 日视图(API §4.12)。
   Future<List<MealEntry>> mealsByDate(String date) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.get<Map<String, Object?>>(
-        '/meals',
-        queryParameters: <String, Object?>{'date': date},
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .get<Map<String, Object?>>(
+            '/meals',
+            queryParameters: <String, Object?>{'date': date},
+          );
       final Map<String, Object?> data = resp.data ?? const <String, Object?>{};
       return ((data['entries'] as List<Object?>?) ?? const <Object?>[])
           .whereType<Map<String, Object?>>()
@@ -238,20 +257,22 @@ class SummaryRepository {
 
   Future<DailySummary> daily(String date) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.get<Map<String, Object?>>(
-        '/summary/daily',
-        queryParameters: <String, Object?>{'date': date},
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .get<Map<String, Object?>>(
+            '/summary/daily',
+            queryParameters: <String, Object?>{'date': date},
+          );
       return DailySummary.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
 
   Future<List<TrendDay>> trend({int days = 7}) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.get<Map<String, Object?>>(
-        '/summary/trend',
-        queryParameters: <String, Object?>{'days': days},
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .get<Map<String, Object?>>(
+            '/summary/trend',
+            queryParameters: <String, Object?>{'days': days},
+          );
       final Map<String, Object?> data = resp.data ?? const <String, Object?>{};
       return ((data['days'] as List<Object?>?) ?? const <Object?>[])
           .whereType<Map<String, Object?>>()
@@ -273,20 +294,20 @@ class GoalRepository {
   /// 当前生效目标(无则返回 null,API §4.16)。
   Future<Goal?> getGoal() {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp =
-          await _dio.get<Map<String, Object?>>('/goal');
+      final Response<Map<String, Object?>> resp = await _dio
+          .get<Map<String, Object?>>('/goal');
       final Map<String, Object?>? data = resp.data;
-      if (data == null || data.isEmpty || data['targetKcal'] == null) return null;
+      if (data == null || data.isEmpty || data['targetKcal'] == null) {
+        return null;
+      }
       return Goal.fromJson(data);
     });
   }
 
   Future<Goal> putGoal(Goal goal) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.put<Map<String, Object?>>(
-        '/goal',
-        data: goal.toJson(),
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .put<Map<String, Object?>>('/goal', data: goal.toJson());
       return Goal.fromJson(resp.data ?? const <String, Object?>{});
     });
   }
@@ -301,17 +322,18 @@ class GoalRepository {
     required String goalType,
   }) {
     return _guard(() async {
-      final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-        '/goal/estimate',
-        data: <String, Object?>{
-          'sex': sex,
-          'birthYear': birthYear,
-          'heightCm': heightCm,
-          'weightKg': weightKg,
-          'activityLevel': activityLevel,
-          'goalType': goalType,
-        },
-      );
+      final Response<Map<String, Object?>> resp = await _dio
+          .post<Map<String, Object?>>(
+            '/goal/estimate',
+            data: <String, Object?>{
+              'sex': sex,
+              'birthYear': birthYear,
+              'heightCm': heightCm,
+              'weightKg': weightKg,
+              'activityLevel': activityLevel,
+              'goalType': goalType,
+            },
+          );
       final Map<String, Object?> data = resp.data ?? const <String, Object?>{};
       return (data['estimatedKcal'] as num?)?.toInt() ?? 0;
     });

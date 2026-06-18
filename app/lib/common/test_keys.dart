@@ -139,7 +139,8 @@ abstract final class TestKeys {
   static const String deleteAccountBtn = 'profile_delete_account_btn';
 
   /// 注销二次确认弹窗的验密输入框。
-  static const String deleteConfirmPasswordField = 'delete_confirm_password_field';
+  static const String deleteConfirmPasswordField =
+      'delete_confirm_password_field';
 
   /// 注销二次确认弹窗的确认按钮(error 危险色)。
   static const String deleteConfirmBtn = 'delete_confirm_btn';

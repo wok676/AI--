@@ -61,11 +61,15 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     }
     setState(() => _saving = true);
     try {
-      await ref.read(goalRepositoryProvider).putGoal(
+      await ref
+          .read(goalRepositoryProvider)
+          .putGoal(
             Goal(
               targetKcal: target,
               effectiveFrom: DateFmt.iso(DateTime.now()),
-              source: _estimated != null && _estimated == target ? 'estimated' : 'manual',
+              source: _estimated != null && _estimated == target
+                  ? 'estimated'
+                  : 'manual',
             ),
           );
       ref.invalidate(dailySummaryProvider(todayIso()));
@@ -86,12 +90,17 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
     final int? height = int.tryParse(_height.text.trim());
     final int? weight = int.tryParse(_weight.text.trim());
     if (age == null || height == null || weight == null) {
-      AppSnackbar.showMessage(context, AppLocalizations.of(context).common_error_generic);
+      AppSnackbar.showMessage(
+        context,
+        AppLocalizations.of(context).common_error_generic,
+      );
       return;
     }
     setState(() => _estimating = true);
     try {
-      final int kcal = await ref.read(goalRepositoryProvider).estimate(
+      final int kcal = await ref
+          .read(goalRepositoryProvider)
+          .estimate(
             sex: _sex,
             birthYear: DateTime.now().year - age,
             heightCm: height,
@@ -130,91 +139,103 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
       ),
       body: AppGradientBackground(
         child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        children: <Widget>[
-          // —— 大数字输入(卡片质感:白底圆角,带图标说明)——
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.md),
+          children: <Widget>[
+            // —— 大数字输入(卡片质感:白底圆角,带图标说明)——
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.local_fire_department,
+                          color: AppColors.tertiary,
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        Text(
+                          l10n.goal_field_kcal,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                    TextField(
+                      key: const ValueKey<String>(TestKeys.goalKcalField),
+                      controller: _kcal,
+                      keyboardType: TextInputType.number,
+                      style: Theme.of(context).textTheme.displaySmall,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        filled: false,
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+
+            // —— 帮我估算(折叠)——
+            Card(
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      const Icon(Icons.local_fire_department,
-                          color: AppColors.tertiary),
-                      const SizedBox(width: AppSpacing.xs),
-                      Text(l10n.goal_field_kcal,
-                          style: Theme.of(context).textTheme.titleMedium),
-                    ],
-                  ),
-                  TextField(
-                    key: const ValueKey<String>(TestKeys.goalKcalField),
-                    controller: _kcal,
-                    keyboardType: TextInputType.number,
-                    style: Theme.of(context).textTheme.displaySmall,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      filled: false,
-                      border: InputBorder.none,
+                  ListTile(
+                    key: const ValueKey<String>(TestKeys.goalEstimateToggle),
+                    leading: const Icon(Icons.calculate_outlined),
+                    title: Text(l10n.goal_estimate_cta),
+                    trailing: Icon(
+                      _estimateOpen ? Icons.expand_less : Icons.expand_more,
                     ),
+                    onTap: () => setState(() => _estimateOpen = !_estimateOpen),
                   ),
+                  if (_estimateOpen) _buildEstimatePanel(l10n),
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
 
-          // —— 帮我估算(折叠)——
-          Card(
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  key: const ValueKey<String>(TestKeys.goalEstimateToggle),
-                  leading: const Icon(Icons.calculate_outlined),
-                  title: Text(l10n.goal_estimate_cta),
-                  trailing: Icon(_estimateOpen ? Icons.expand_less : Icons.expand_more),
-                  onTap: () => setState(() => _estimateOpen = !_estimateOpen),
-                ),
-                if (_estimateOpen) _buildEstimatePanel(l10n),
-              ],
+            const SizedBox(height: AppSpacing.md),
+            // —— 固定免责声明(§7.4)——
+            DisclaimerBanner(
+              key: const ValueKey<String>(TestKeys.goalDisclaimer),
+              text: l10n.goal_disclaimer,
             ),
-          ),
+            const SizedBox(height: AppSpacing.sm),
 
-          const SizedBox(height: AppSpacing.md),
-          // —— 固定免责声明(§7.4)——
-          DisclaimerBanner(
-            key: const ValueKey<String>(TestKeys.goalDisclaimer),
-            text: l10n.goal_disclaimer,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-
-          _saving
-              ? FilledButton(
-                  key: const ValueKey<String>(TestKeys.goalSaveBtn),
-                  onPressed: null,
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
-                    elevation: AppElevation.level2,
+            _saving
+                ? FilledButton(
+                    key: const ValueKey<String>(TestKeys.goalSaveBtn),
+                    onPressed: null,
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(
+                        AppSizes.buttonHeightCta,
+                      ),
+                      elevation: AppElevation.level2,
+                    ),
+                    child: const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.onPrimary,
+                      ),
+                    ),
+                  )
+                : FilledButton.icon(
+                    key: const ValueKey<String>(TestKeys.goalSaveBtn),
+                    onPressed: _save,
+                    icon: const Icon(Icons.check),
+                    label: Text(l10n.common_save),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(
+                        AppSizes.buttonHeightCta,
+                      ),
+                      elevation: AppElevation.level2,
+                    ),
                   ),
-                  child: const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2, color: AppColors.onPrimary),
-                  ),
-                )
-              : FilledButton.icon(
-                  key: const ValueKey<String>(TestKeys.goalSaveBtn),
-                  onPressed: _save,
-                  icon: const Icon(Icons.check),
-                  label: Text(l10n.common_save),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
-                    elevation: AppElevation.level2,
-                  ),
-                ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
@@ -226,7 +247,10 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // 性别
-          Text(l10n.goal_sex_label, style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            l10n.goal_sex_label,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           const SizedBox(height: AppSpacing.xs),
           Wrap(
             spacing: AppSpacing.xs,
@@ -258,7 +282,9 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 child: TextField(
                   controller: _height,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: l10n.goal_field_height),
+                  decoration: InputDecoration(
+                    labelText: l10n.goal_field_height,
+                  ),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
@@ -266,29 +292,53 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
                 child: TextField(
                   controller: _weight,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: l10n.goal_field_weight),
+                  decoration: InputDecoration(
+                    labelText: l10n.goal_field_weight,
+                  ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
           // 活动量
-          Text(l10n.goal_field_activity, style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            l10n.goal_field_activity,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           const SizedBox(height: AppSpacing.xs),
           DropdownButtonFormField<String>(
             initialValue: _activity,
             items: <DropdownMenuItem<String>>[
-              DropdownMenuItem<String>(value: 'SEDENTARY', child: Text(l10n.goal_activity_sedentary)),
-              DropdownMenuItem<String>(value: 'LIGHT', child: Text(l10n.goal_activity_light)),
-              DropdownMenuItem<String>(value: 'MODERATE', child: Text(l10n.goal_activity_moderate)),
-              DropdownMenuItem<String>(value: 'ACTIVE', child: Text(l10n.goal_activity_active)),
-              DropdownMenuItem<String>(value: 'VERY_ACTIVE', child: Text(l10n.goal_activity_veryActive)),
+              DropdownMenuItem<String>(
+                value: 'SEDENTARY',
+                child: Text(l10n.goal_activity_sedentary),
+              ),
+              DropdownMenuItem<String>(
+                value: 'LIGHT',
+                child: Text(l10n.goal_activity_light),
+              ),
+              DropdownMenuItem<String>(
+                value: 'MODERATE',
+                child: Text(l10n.goal_activity_moderate),
+              ),
+              DropdownMenuItem<String>(
+                value: 'ACTIVE',
+                child: Text(l10n.goal_activity_active),
+              ),
+              DropdownMenuItem<String>(
+                value: 'VERY_ACTIVE',
+                child: Text(l10n.goal_activity_veryActive),
+              ),
             ],
-            onChanged: (String? v) => setState(() => _activity = v ?? _activity),
+            onChanged: (String? v) =>
+                setState(() => _activity = v ?? _activity),
           ),
           const SizedBox(height: AppSpacing.sm),
           // 目标类型
-          Text(l10n.goal_type_label, style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            l10n.goal_type_label,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           const SizedBox(height: AppSpacing.xs),
           Wrap(
             spacing: AppSpacing.xs,
@@ -312,13 +362,17 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
           ),
           const SizedBox(height: AppSpacing.md),
           if (_estimated != null) ...<Widget>[
-            Text(l10n.goal_estimate_result(_estimated!),
-                style: Theme.of(context).textTheme.titleMedium
-                    ?.copyWith(color: AppColors.primary)),
+            Text(
+              l10n.goal_estimate_result(_estimated!),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: AppColors.primary),
+            ),
             const SizedBox(height: AppSpacing.xs),
             OutlinedButton(
               key: const ValueKey<String>(TestKeys.goalEstimateApplyBtn),
-              onPressed: () => setState(() => _kcal.text = _estimated!.toString()),
+              onPressed: () =>
+                  setState(() => _kcal.text = _estimated!.toString()),
               child: Text(l10n.goal_estimate_apply),
             ),
           ] else
@@ -327,7 +381,10 @@ class _GoalScreenState extends ConsumerState<GoalScreen> {
               onPressed: _estimating ? null : _estimate,
               child: _estimating
                   ? const SizedBox(
-                      width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Text(l10n.goal_estimate_cta),
             ),
         ],

@@ -36,10 +36,10 @@ class AccountDeletionService {
     required TokenStore tokenStore,
     required SecureStorage secureStorage,
     required ConsentGate consentGate,
-  })  : _apiClient = apiClient,
-        _tokenStore = tokenStore,
-        _secureStorage = secureStorage,
-        _consentGate = consentGate;
+  }) : _apiClient = apiClient,
+       _tokenStore = tokenStore,
+       _secureStorage = secureStorage,
+       _consentGate = consentGate;
 
   final ApiClient _apiClient;
   final TokenStore _tokenStore;
@@ -49,17 +49,20 @@ class AccountDeletionService {
   /// 邮箱用户:传 password 二次验证(Apple 用户由 UI 传 re-auth 凭证,后端校验)。
   Future<AccountDeletionResult> deleteAccount({String? password}) async {
     try {
-      final Response<Map<String, Object?>> resp =
-          await _apiClient.dio.delete<Map<String, Object?>>(
-        '/account',
-        data: <String, Object?>{'password': ?password},
-      );
+      final Response<Map<String, Object?>> resp = await _apiClient.dio
+          .delete<Map<String, Object?>>(
+            '/account',
+            data: <String, Object?>{'password': ?password},
+          );
 
       final Map<String, Object?> data = resp.data ?? const <String, Object?>{};
       final bool ok = data['ok'] == true;
       if (!ok) {
         return const AccountDeletionResult.failure(
-          ApiError.local(code: 'INTERNAL_ERROR', messageKey: 'common.error.generic'),
+          ApiError.local(
+            code: 'INTERNAL_ERROR',
+            messageKey: 'common.error.generic',
+          ),
         );
       }
 
@@ -72,11 +75,16 @@ class AccountDeletionService {
     } on DioException catch (e) {
       // 拦截器已把 error 映射为 ApiError;兜底再映射一次。
       final Object? mapped = e.error;
-      final ApiError apiError = mapped is ApiError ? mapped : mapDioException(e);
+      final ApiError apiError = mapped is ApiError
+          ? mapped
+          : mapDioException(e);
       return AccountDeletionResult.failure(apiError);
     } catch (_) {
       return const AccountDeletionResult.failure(
-        ApiError.local(code: 'INTERNAL_ERROR', messageKey: 'common.error.generic'),
+        ApiError.local(
+          code: 'INTERNAL_ERROR',
+          messageKey: 'common.error.generic',
+        ),
       );
     }
   }
@@ -107,7 +115,9 @@ class AccountDeletionService {
   }
 }
 
-final accountDeletionServiceProvider = Provider<AccountDeletionService>((Ref ref) {
+final accountDeletionServiceProvider = Provider<AccountDeletionService>((
+  Ref ref,
+) {
   return AccountDeletionService(
     apiClient: ref.watch(apiClientProvider),
     tokenStore: ref.watch(tokenStoreProvider),

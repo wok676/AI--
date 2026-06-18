@@ -38,7 +38,8 @@ class RecognitionConfirmScreen extends ConsumerStatefulWidget {
       _RecognitionConfirmScreenState();
 }
 
-class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScreen> {
+class _RecognitionConfirmScreenState
+    extends ConsumerState<RecognitionConfirmScreen> {
   late List<MealItem> _items;
   late MealType _mealType;
   bool _saving = false;
@@ -52,7 +53,8 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
     _mealType = widget.args.result.suggestedMealType;
   }
 
-  num get _totalKcal => _items.fold<num>(0, (num sum, MealItem i) => sum + i.kcal);
+  num get _totalKcal =>
+      _items.fold<num>(0, (num sum, MealItem i) => sum + i.kcal);
 
   Future<void> _save() async {
     final AppLocalizations l10n = AppLocalizations.of(context);
@@ -63,7 +65,9 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
     setState(() => _saving = true);
     try {
       final DateTime now = DateTime.now();
-      await ref.read(mealRepositoryProvider).saveMeal(
+      await ref
+          .read(mealRepositoryProvider)
+          .saveMeal(
             mealType: _mealType,
             consumedAt: now.toUtc().toIso8601String(),
             localDate: DateFmt.iso(now),
@@ -149,7 +153,10 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
           const SizedBox(height: AppSpacing.md),
 
           // —— 餐次选择(ChoiceChip,默认 suggestedMealType)——
-          Text(l10n.recognize_mealType_label, style: theme.textTheme.titleMedium),
+          Text(
+            l10n.recognize_mealType_label,
+            style: theme.textTheme.titleMedium,
+          ),
           const SizedBox(height: AppSpacing.xs),
           Wrap(
             spacing: AppSpacing.xs,
@@ -158,7 +165,9 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
                 ChoiceChip(
                   label: Text(l10n.mealTypeLabel(t)),
                   selected: _mealType == t,
-                  onSelected: _saving ? null : (_) => setState(() => _mealType = t),
+                  onSelected: _saving
+                      ? null
+                      : (_) => setState(() => _mealType = t),
                 ),
             ],
           ),
@@ -166,7 +175,9 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
           const Divider(height: AppSpacing.lg),
 
           // —— 固定免责声明条(常驻,§7.4)——
-          DisclaimerBanner(text: l10n.byMessageKey(widget.args.result.disclaimerKey)),
+          DisclaimerBanner(
+            text: l10n.byMessageKey(widget.args.result.disclaimerKey),
+          ),
           const SizedBox(height: AppSpacing.sm),
 
           // —— 保存 ——
@@ -181,9 +192,13 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
-                        strokeWidth: 2, color: AppColors.onPrimary),
+                      strokeWidth: 2,
+                      color: AppColors.onPrimary,
+                    ),
                   )
-                : Text('${l10n.common_save}  ·  ${_totalKcal.round()} ${l10n.summary_unit_kcal}'),
+                : Text(
+                    '${l10n.common_save}  ·  ${_totalKcal.round()} ${l10n.summary_unit_kcal}',
+                  ),
           ),
         ],
       ),
@@ -192,7 +207,11 @@ class _RecognitionConfirmScreenState extends ConsumerState<RecognitionConfirmScr
 }
 
 class _ItemCard extends StatelessWidget {
-  const _ItemCard({required this.item, required this.onEdit, required this.onDelete});
+  const _ItemCard({
+    required this.item,
+    required this.onEdit,
+    required this.onDelete,
+  });
 
   final MealItem item;
   final VoidCallback onEdit;
@@ -233,8 +252,9 @@ class _ItemCard extends StatelessWidget {
             ),
             Text(
               '${l10n.recognize_item_serving}: ${item.quantity} ${l10n.unitLabel(item.unit)}',
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: AppColors.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: AppSpacing.xxs),
             // 数值用 LTR 局部包裹避免 BiDi 乱序(UI §8.3)。
@@ -250,13 +270,18 @@ class _ItemCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.xs),
               Row(
                 children: <Widget>[
-                  const Icon(Icons.warning_amber, size: 16, color: AppColors.warning),
+                  const Icon(
+                    Icons.warning_amber,
+                    size: 16,
+                    color: AppColors.warning,
+                  ),
                   const SizedBox(width: AppSpacing.xxs),
                   Expanded(
                     child: Text(
                       l10n.recognize_lowConfidence,
-                      style: theme.textTheme.labelSmall
-                          ?.copyWith(color: AppColors.warning),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: AppColors.warning,
+                      ),
                     ),
                   ),
                 ],
@@ -279,21 +304,28 @@ class _ItemEditorSheet extends StatefulWidget {
 }
 
 class _ItemEditorSheetState extends State<_ItemEditorSheet> {
-  late final TextEditingController _name =
-      TextEditingController(text: widget.item.name);
-  late final TextEditingController _qty =
-      TextEditingController(text: _trimNum(widget.item.quantity));
-  late final TextEditingController _kcal =
-      TextEditingController(text: _trimNum(widget.item.kcal));
-  late final TextEditingController _protein =
-      TextEditingController(text: _trimNum(widget.item.proteinG));
-  late final TextEditingController _carbs =
-      TextEditingController(text: _trimNum(widget.item.carbsG));
-  late final TextEditingController _fat =
-      TextEditingController(text: _trimNum(widget.item.fatG));
+  late final TextEditingController _name = TextEditingController(
+    text: widget.item.name,
+  );
+  late final TextEditingController _qty = TextEditingController(
+    text: _trimNum(widget.item.quantity),
+  );
+  late final TextEditingController _kcal = TextEditingController(
+    text: _trimNum(widget.item.kcal),
+  );
+  late final TextEditingController _protein = TextEditingController(
+    text: _trimNum(widget.item.proteinG),
+  );
+  late final TextEditingController _carbs = TextEditingController(
+    text: _trimNum(widget.item.carbsG),
+  );
+  late final TextEditingController _fat = TextEditingController(
+    text: _trimNum(widget.item.fatG),
+  );
   late String _unit = widget.item.unit.isEmpty ? 'serving' : widget.item.unit;
 
-  static String _trimNum(num v) => v == v.roundToDouble() ? v.round().toString() : v.toString();
+  static String _trimNum(num v) =>
+      v == v.roundToDouble() ? v.round().toString() : v.toString();
 
   @override
   void dispose() {
@@ -338,8 +370,10 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(l10n.recognize_editItem_title,
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              l10n.recognize_editItem_title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: AppSpacing.md),
             TextField(
               controller: _name,
@@ -352,14 +386,18 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
                   child: TextField(
                     controller: _qty,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: l10n.recognize_field_quantity),
+                    decoration: InputDecoration(
+                      labelText: l10n.recognize_field_quantity,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     initialValue: units.contains(_unit) ? _unit : 'serving',
-                    decoration: InputDecoration(labelText: l10n.recognize_field_unit),
+                    decoration: InputDecoration(
+                      labelText: l10n.recognize_field_unit,
+                    ),
                     items: <DropdownMenuItem<String>>[
                       for (final String u in units)
                         DropdownMenuItem<String>(
@@ -367,7 +405,8 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
                           child: Text(l10n.unitLabel(u)),
                         ),
                     ],
-                    onChanged: (String? v) => setState(() => _unit = v ?? _unit),
+                    onChanged: (String? v) =>
+                        setState(() => _unit = v ?? _unit),
                   ),
                 ),
               ],
@@ -376,7 +415,9 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
             TextField(
               controller: _kcal,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: l10n.recognize_item_calories),
+              decoration: InputDecoration(
+                labelText: l10n.recognize_item_calories,
+              ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Row(
@@ -385,7 +426,9 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
                   child: TextField(
                     controller: _protein,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: l10n.recognize_item_protein),
+                    decoration: InputDecoration(
+                      labelText: l10n.recognize_item_protein,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
@@ -393,7 +436,9 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
                   child: TextField(
                     controller: _carbs,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: l10n.recognize_item_carbs),
+                    decoration: InputDecoration(
+                      labelText: l10n.recognize_item_carbs,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
@@ -401,7 +446,9 @@ class _ItemEditorSheetState extends State<_ItemEditorSheet> {
                   child: TextField(
                     controller: _fat,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: l10n.recognize_item_fat),
+                    decoration: InputDecoration(
+                      labelText: l10n.recognize_item_fat,
+                    ),
                   ),
                 ),
               ],

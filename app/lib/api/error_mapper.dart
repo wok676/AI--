@@ -43,19 +43,19 @@ ApiError mapDioException(DioException e) {
 }
 
 String _codeForStatus(int status) => switch (status) {
-      401 => 'AUTH_UNAUTHORIZED',
-      403 => 'AUTH_FORBIDDEN',
-      404 => 'RESOURCE_NOT_FOUND',
-      504 => 'TIMEOUT',
-      503 => 'NETWORK_ERROR',
-      _ => 'INTERNAL_ERROR',
-    };
+  401 => 'AUTH_UNAUTHORIZED',
+  403 => 'AUTH_FORBIDDEN',
+  404 => 'RESOURCE_NOT_FOUND',
+  504 => 'TIMEOUT',
+  503 => 'NETWORK_ERROR',
+  _ => 'INTERNAL_ERROR',
+};
 
 String _messageKeyForStatus(int status) => switch (status) {
-      401 => 'errors.unauthorized',
-      403 => 'errors.forbidden',
-      404 => 'errors.notFound',
-      504 => 'common.error.timeout',
-      503 => 'common.error.network',
-      _ => 'common.error.generic',
-    };
+  401 => 'errors.unauthorized',
+  403 => 'errors.forbidden',
+  404 => 'errors.notFound',
+  504 => 'common.error.timeout',
+  503 => 'common.error.network',
+  _ => 'common.error.generic',
+};

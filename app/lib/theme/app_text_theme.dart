@@ -34,12 +34,18 @@ abstract final class AppTextTheme {
       _ => null,
     };
     if (primary == null) return _baseFallback;
-    return <String>[primary, ..._baseFallback.where((String f) => f != primary)];
+    return <String>[
+      primary,
+      ..._baseFallback.where((String f) => f != primary),
+    ];
   }
 
   /// CJK 行高放大系数(zh/ja/ko 用 1.5×,§2.4 文案弹性)。
   static double _lineHeightFactor(Locale locale) =>
-      switch (locale.languageCode) { 'zh' || 'ja' || 'ko' => 1.0, _ => 1.0 };
+      switch (locale.languageCode) {
+        'zh' || 'ja' || 'ko' => 1.0,
+        _ => 1.0,
+      };
 
   /// 构造与令牌对齐的 [TextTheme]。字号/行高(sp)、字重见 §2.4。
   static TextTheme build(Locale locale) {
@@ -47,14 +53,14 @@ abstract final class AppTextTheme {
     final double k = _lineHeightFactor(locale);
 
     TextStyle s(double size, double lineHeight, FontWeight weight) => TextStyle(
-          fontSize: size,
-          height: (lineHeight / size) * k,
-          fontWeight: weight,
-          color: AppColors.onSurface,
-          fontFamilyFallback: fallback,
-          // 数字优先拉丁字形并对齐(tabular figures),BiDi 混排数值不乱序。
-          fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-        );
+      fontSize: size,
+      height: (lineHeight / size) * k,
+      fontWeight: weight,
+      color: AppColors.onSurface,
+      fontFamilyFallback: fallback,
+      // 数字优先拉丁字形并对齐(tabular figures),BiDi 混排数值不乱序。
+      fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+    );
 
     return TextTheme(
       displaySmall: s(36, 44, FontWeight.w600), // 进度环中心大数字 / 目标大数字

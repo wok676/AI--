@@ -25,12 +25,17 @@ class TodayScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final String date = todayIso();
-    final String localeCode = ref.watch(localeControllerProvider).effective.languageCode;
+    final String localeCode = ref
+        .watch(localeControllerProvider)
+        .effective
+        .languageCode;
     final DateTime now = DateTime.now();
 
     // 避免同屏出现两个同义主操作(空态中部 CTA + 右下 FAB):
     // 空态(当日无记录)只保留中部 CTA、隐藏 FAB;有数据/加载/错误时保留 FAB。
-    final AsyncValue<List<MealEntry>> mealsForFab = ref.watch(mealsByDateProvider(date));
+    final AsyncValue<List<MealEntry>> mealsForFab = ref.watch(
+      mealsByDateProvider(date),
+    );
     final bool showFab = mealsForFab.maybeWhen(
       data: (List<MealEntry> list) => list.isNotEmpty,
       orElse: () => true,
@@ -59,8 +64,13 @@ class TodayScreen extends ConsumerWidget {
             ref.invalidate(mealsByDateProvider(date));
             await ref.read(dailySummaryProvider(date).future).catchError((_) {
               return const DailySummary(
-                date: '', goalKcal: 0, consumedKcal: 0, remainingKcal: 0,
-                proteinG: 0, carbsG: 0, fatG: 0,
+                date: '',
+                goalKcal: 0,
+                consumedKcal: 0,
+                remainingKcal: 0,
+                proteinG: 0,
+                carbsG: 0,
+                fatG: 0,
               );
             });
           },
@@ -97,8 +107,8 @@ class _GreetingBar extends StatelessWidget {
     final String greeting = h >= 5 && h < 12
         ? l10n.home_greeting_morning
         : (h >= 12 && h < 18
-            ? l10n.home_greeting_afternoon
-            : l10n.home_greeting_evening);
+              ? l10n.home_greeting_afternoon
+              : l10n.home_greeting_evening);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -106,8 +116,9 @@ class _GreetingBar extends StatelessWidget {
         const SizedBox(height: AppSpacing.xxs),
         Text(
           DateFmt.medium(now, localeCode),
-          style: theme.textTheme.bodyMedium
-              ?.copyWith(color: AppColors.onSurfaceVariant),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: AppColors.onSurfaceVariant,
+          ),
         ),
       ],
     );
@@ -121,7 +132,9 @@ class _SummarySection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<DailySummary> summary = ref.watch(dailySummaryProvider(date));
+    final AsyncValue<DailySummary> summary = ref.watch(
+      dailySummaryProvider(date),
+    );
 
     return summary.when(
       skipLoadingOnReload: true,
@@ -172,7 +185,9 @@ class _MealsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<List<MealEntry>> meals = ref.watch(mealsByDateProvider(date));
+    final AsyncValue<List<MealEntry>> meals = ref.watch(
+      mealsByDateProvider(date),
+    );
 
     return meals.when(
       skipLoadingOnReload: true,
@@ -225,24 +240,34 @@ class _MealCard extends StatelessWidget {
                 color: AppColors.surfaceContainer,
                 borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
-              child: const Icon(Icons.restaurant, color: AppColors.onSurfaceVariant),
+              child: const Icon(
+                Icons.restaurant,
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(l10n.mealTypeLabel(entry.mealType),
-                      style: theme.textTheme.titleMedium),
-                  Text(l10n.today_mealItemCount(entry.items.length),
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.onSurfaceVariant)),
+                  Text(
+                    l10n.mealTypeLabel(entry.mealType),
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  Text(
+                    l10n.today_mealItemCount(entry.items.length),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),
             Text(
               '${entry.totalKcal.round()} ${l10n.summary_unit_kcal}',
-              style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.primary),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
             ),
           ],
         ),

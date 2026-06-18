@@ -50,7 +50,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     super.dispose();
   }
 
-  String _localeCode() => ref.read(localeControllerProvider).effective.languageCode;
+  String _localeCode() =>
+      ref.read(localeControllerProvider).effective.languageCode;
 
   Future<void> _submit() async {
     final AppLocalizations l10n = AppLocalizations.of(context);
@@ -64,7 +65,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     setState(() => _submitting = true);
     try {
-      final AuthController controller = ref.read(authControllerProvider.notifier);
+      final AuthController controller = ref.read(
+        authControllerProvider.notifier,
+      );
       if (_isSignup) {
         await controller.register(
           email: _email.text.trim(),
@@ -73,7 +76,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           locale: _localeCode(),
         );
       } else {
-        await controller.login(email: _email.text.trim(), password: _password.text);
+        await controller.login(
+          email: _email.text.trim(),
+          password: _password.text,
+        );
       }
       // 成功后由 router redirect 自动跳 Today。
     } catch (e) {
@@ -88,17 +94,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     try {
       final AuthorizationCredentialAppleID cred =
           await SignInWithApple.getAppleIDCredential(
-        scopes: <AppleIDAuthorizationScopes>[
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
+            scopes: <AppleIDAuthorizationScopes>[
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+          );
       final String? fullName = <String?>[cred.givenName, cred.familyName]
           .where((String? s) => s != null && s.isNotEmpty)
           .join(' ')
           .trim()
           .nullIfEmpty();
-      await ref.read(authControllerProvider.notifier).signInWithApple(
+      await ref
+          .read(authControllerProvider.notifier)
+          .signInWithApple(
             identityToken: cred.identityToken ?? '',
             authorizationCode: cred.authorizationCode,
             fullName: fullName,
@@ -117,7 +125,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final String cta = _isSignup ? l10n.auth_signup_title : l10n.auth_login_title;
+    final String cta = _isSignup
+        ? l10n.auth_signup_title
+        : l10n.auth_login_title;
     final bool ctaEnabled = !_submitting && (!_isSignup || _consent);
 
     return Scaffold(
@@ -125,154 +135,182 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       body: AppGradientBackground(
         child: SafeArea(
           child: SingleChildScrollView(
-          // 顶对齐 + 适度顶部留白:logo 上移、垂直更平衡;内容仍可滚动适配小屏。
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.xl,
-          ),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 440),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    // —— Logo:primaryContainer 圆形底 + 柔和阴影(视觉增强)——
-                    Center(
-                      child: Container(
-                        width: 96,
-                        height: 96,
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryContainer,
-                          shape: BoxShape.circle,
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.18),
-                              blurRadius: 24,
-                              offset: const Offset(0, 8),
+            // 顶对齐 + 适度顶部留白:logo 上移、垂直更平衡;内容仍可滚动适配小屏。
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.xl,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 440),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // —— Logo:primaryContainer 圆形底 + 柔和阴影(视觉增强)——
+                      Center(
+                        child: Container(
+                          width: 96,
+                          height: 96,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryContainer,
+                            shape: BoxShape.circle,
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.18,
+                                ),
+                                blurRadius: 24,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.restaurant,
+                            size: 48,
+                            color: AppColors.onPrimaryContainer,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        l10n.appTitle,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: AppSpacing.xxs),
+                      Text(
+                        l10n.brandTagline,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: AppSpacing.xl),
+
+                      // —— 邮箱 ——
+                      TextFormField(
+                        key: const ValueKey<String>(TestKeys.loginEmailField),
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
+                        enabled: !_submitting,
+                        decoration: InputDecoration(
+                          labelText: l10n.auth_field_email,
+                          hintText: l10n.auth_field_emailHint,
+                        ),
+                        validator: (String? v) => _validateEmail(v, l10n),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+
+                      // —— 密码 ——
+                      TextFormField(
+                        key: const ValueKey<String>(
+                          TestKeys.loginPasswordField,
+                        ),
+                        controller: _password,
+                        obscureText: _obscure,
+                        enabled: !_submitting,
+                        decoration: InputDecoration(
+                          labelText: l10n.auth_field_password,
+                          suffixIcon: IconButton(
+                            key: const ValueKey<String>(
+                              TestKeys.loginPasswordToggle,
                             ),
-                          ],
+                            onPressed: () =>
+                                setState(() => _obscure = !_obscure),
+                            icon: Icon(
+                              _obscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                          ),
                         ),
-                        child: const Icon(Icons.restaurant,
-                            size: 48, color: AppColors.onPrimaryContainer),
+                        validator: (String? v) => _validatePassword(v, l10n),
                       ),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(l10n.appTitle,
-                        textAlign: TextAlign.center, style: theme.textTheme.headlineSmall),
-                    const SizedBox(height: AppSpacing.xxs),
-                    Text(l10n.brandTagline,
-                        textAlign: TextAlign.center, style: theme.textTheme.bodyMedium),
-                    const SizedBox(height: AppSpacing.xl),
 
-                    // —— 邮箱 ——
-                    TextFormField(
-                      key: const ValueKey<String>(TestKeys.loginEmailField),
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      enabled: !_submitting,
-                      decoration: InputDecoration(
-                        labelText: l10n.auth_field_email,
-                        hintText: l10n.auth_field_emailHint,
-                      ),
-                      validator: (String? v) => _validateEmail(v, l10n),
-                    ),
-                    const SizedBox(height: AppSpacing.md),
-
-                    // —— 密码 ——
-                    TextFormField(
-                      key: const ValueKey<String>(TestKeys.loginPasswordField),
-                      controller: _password,
-                      obscureText: _obscure,
-                      enabled: !_submitting,
-                      decoration: InputDecoration(
-                        labelText: l10n.auth_field_password,
-                        suffixIcon: IconButton(
-                          key: const ValueKey<String>(TestKeys.loginPasswordToggle),
-                          onPressed: () => setState(() => _obscure = !_obscure),
-                          icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                      if (!_isSignup) ...<Widget>[
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: TextButton(
+                            key: const ValueKey<String>(
+                              TestKeys.forgotPasswordBtn,
+                            ),
+                            onPressed: _submitting ? null : () {},
+                            child: Text(l10n.auth_forgotPassword),
+                          ),
                         ),
-                      ),
-                      validator: (String? v) => _validatePassword(v, l10n),
-                    ),
+                      ],
 
-                    if (!_isSignup) ...<Widget>[
-                      Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: TextButton(
-                          key: const ValueKey<String>(TestKeys.forgotPasswordBtn),
-                          onPressed: _submitting ? null : () {},
-                          child: Text(l10n.auth_forgotPassword),
+                      // —— 知情同意(仅注册;默认不勾,热区≥48dp,§7.1)——
+                      if (_isSignup) ...<Widget>[
+                        const SizedBox(height: AppSpacing.sm),
+                        _ConsentRow(
+                          key: const ValueKey<String>(TestKeys.consentCheckbox),
+                          value: _consent,
+                          onChanged: _submitting
+                              ? null
+                              : (bool v) => setState(() => _consent = v),
                         ),
-                      ),
-                    ],
+                      ],
 
-                    // —— 知情同意(仅注册;默认不勾,热区≥48dp,§7.1)——
-                    if (_isSignup) ...<Widget>[
-                      const SizedBox(height: AppSpacing.sm),
-                      _ConsentRow(
-                        key: const ValueKey<String>(TestKeys.consentCheckbox),
-                        value: _consent,
-                        onChanged: _submitting
+                      const SizedBox(height: AppSpacing.md),
+
+                      // —— 主 CTA(注册未勾选 = disabled 灰)——
+                      FilledButton(
+                        key: const ValueKey<String>(TestKeys.loginSubmitBtn),
+                        onPressed: ctaEnabled ? _submit : null,
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(
+                            AppSizes.buttonHeightCta,
+                          ),
+                          // 胶囊主按钮加轻微浮起,按压有反馈(视觉增强)。
+                          elevation: AppElevation.level2,
+                        ),
+                        child: _submitting
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.onPrimary,
+                                ),
+                              )
+                            : Text(cta),
+                      ),
+
+                      // —— Apple 登录(iOS Must)——
+                      if (_isApplePlatform) ...<Widget>[
+                        const SizedBox(height: AppSpacing.md),
+                        _OrDivider(label: l10n.auth_orDivider),
+                        const SizedBox(height: AppSpacing.md),
+                        SignInWithAppleButton(
+                          key: const ValueKey<String>(TestKeys.appleSignInBtn),
+                          onPressed: _submitting ? () {} : _signInWithApple,
+                          style: SignInWithAppleButtonStyle.black,
+                          height: AppSizes.buttonHeightCta,
+                          borderRadius: BorderRadius.circular(AppRadius.full),
+                        ),
+                      ],
+
+                      const SizedBox(height: AppSpacing.lg),
+
+                      // —— 登录/注册切换 ——
+                      TextButton(
+                        key: const ValueKey<String>(TestKeys.authModeSwitch),
+                        onPressed: _submitting
                             ? null
-                            : (bool v) => setState(() => _consent = v),
+                            : () => setState(() => _isSignup = !_isSignup),
+                        child: Text(
+                          _isSignup
+                              ? l10n.auth_signup_switchToLogin
+                              : l10n.auth_login_switchToSignup,
+                        ),
                       ),
                     ],
-
-                    const SizedBox(height: AppSpacing.md),
-
-                    // —— 主 CTA(注册未勾选 = disabled 灰)——
-                    FilledButton(
-                      key: const ValueKey<String>(TestKeys.loginSubmitBtn),
-                      onPressed: ctaEnabled ? _submit : null,
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(AppSizes.buttonHeightCta),
-                        // 胶囊主按钮加轻微浮起,按压有反馈(视觉增强)。
-                        elevation: AppElevation.level2,
-                      ),
-                      child: _submitting
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                  strokeWidth: 2, color: AppColors.onPrimary),
-                            )
-                          : Text(cta),
-                    ),
-
-                    // —— Apple 登录(iOS Must)——
-                    if (_isApplePlatform) ...<Widget>[
-                      const SizedBox(height: AppSpacing.md),
-                      _OrDivider(label: l10n.auth_orDivider),
-                      const SizedBox(height: AppSpacing.md),
-                      SignInWithAppleButton(
-                        key: const ValueKey<String>(TestKeys.appleSignInBtn),
-                        onPressed: _submitting ? () {} : _signInWithApple,
-                        style: SignInWithAppleButtonStyle.black,
-                        height: AppSizes.buttonHeightCta,
-                        borderRadius: BorderRadius.circular(AppRadius.full),
-                      ),
-                    ],
-
-                    const SizedBox(height: AppSpacing.lg),
-
-                    // —— 登录/注册切换 ——
-                    TextButton(
-                      key: const ValueKey<String>(TestKeys.authModeSwitch),
-                      onPressed: _submitting
-                          ? null
-                          : () => setState(() => _isSignup = !_isSignup),
-                      child: Text(_isSignup
-                          ? l10n.auth_signup_switchToLogin
-                          : l10n.auth_login_switchToSignup),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
           ),
         ),
       ),
@@ -292,7 +330,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       return value.isEmpty ? l10n.auth_field_password : null;
     }
     // 注册:≥8 含字母+数字(对齐 API §4.1)。
-    final bool ok = value.length >= 8 &&
+    final bool ok =
+        value.length >= 8 &&
         RegExp(r'[A-Za-z]').hasMatch(value) &&
         RegExp(r'\d').hasMatch(value);
     return ok ? null : l10n.auth_password_weak;
@@ -331,7 +370,9 @@ class _ConsentRow extends StatelessWidget {
           children: <Widget>[
             Checkbox(
               value: value,
-              onChanged: onChanged == null ? null : (bool? v) => onChanged!(v ?? false),
+              onChanged: onChanged == null
+                  ? null
+                  : (bool? v) => onChanged!(v ?? false),
             ),
             Expanded(
               child: Text.rich(
@@ -351,10 +392,14 @@ class _ConsentRow extends StatelessWidget {
   /// zh 的《用户协议》《隐私政策》书名号会被保留为普通文本,仅词本身高亮可点。
   /// 注:recognizer 随 TextSpan 一同被 RichText 持有,page dispose 时一并回收,无需手动管理。
   InlineSpan _consentSpan(
-      BuildContext context, ThemeData theme, AppLocalizations l10n) {
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
     final TextStyle linkStyle = theme.textTheme.bodyMedium!.copyWith(
-        color: theme.colorScheme.primary,
-        decoration: TextDecoration.underline);
+      color: theme.colorScheme.primary,
+      decoration: TextDecoration.underline,
+    );
 
     // 两个内联链接词及其各自的目标路由,按在文案中出现的位置排序后切片。
     final List<_ConsentLink> links = <_ConsentLink>[
@@ -385,12 +430,14 @@ class _ConsentRow extends StatelessWidget {
       if (nextIndex > cursor) {
         spans.add(TextSpan(text: label.substring(cursor, nextIndex)));
       }
-      spans.add(TextSpan(
-        text: nextLink.word,
-        style: linkStyle,
-        recognizer: TapGestureRecognizer()
-          ..onTap = () => context.push(nextLink!.route),
-      ));
+      spans.add(
+        TextSpan(
+          text: nextLink.word,
+          style: linkStyle,
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => context.push(nextLink!.route),
+        ),
+      );
       cursor = nextIndex + nextLink.word.length;
     }
 

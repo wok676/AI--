@@ -43,32 +43,37 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       ),
       body: AppGradientBackground(
         child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: SegmentedButton<_HistoryTab>(
-              key: const ValueKey<String>(TestKeys.historyTabSwitch),
-              segments: <ButtonSegment<_HistoryTab>>[
-                ButtonSegment<_HistoryTab>(
-                    value: _HistoryTab.day, label: Text(l10n.history_tab_day)),
-                ButtonSegment<_HistoryTab>(
-                    value: _HistoryTab.trend, label: Text(l10n.history_tab_trend)),
-              ],
-              selected: <_HistoryTab>{_tab},
-              onSelectionChanged: (Set<_HistoryTab> s) =>
-                  setState(() => _tab = s.first),
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: SegmentedButton<_HistoryTab>(
+                key: const ValueKey<String>(TestKeys.historyTabSwitch),
+                segments: <ButtonSegment<_HistoryTab>>[
+                  ButtonSegment<_HistoryTab>(
+                    value: _HistoryTab.day,
+                    label: Text(l10n.history_tab_day),
+                  ),
+                  ButtonSegment<_HistoryTab>(
+                    value: _HistoryTab.trend,
+                    label: Text(l10n.history_tab_trend),
+                  ),
+                ],
+                selected: <_HistoryTab>{_tab},
+                onSelectionChanged: (Set<_HistoryTab> s) =>
+                    setState(() => _tab = s.first),
+              ),
             ),
-          ),
-          Expanded(
-            child: _tab == _HistoryTab.day
-                ? _DayView(
-                    day: _selectedDay,
-                    onChangeDay: (DateTime d) => setState(() => _selectedDay = d),
-                  )
-                : const _TrendView(),
-          ),
-        ],
-      ),
+            Expanded(
+              child: _tab == _HistoryTab.day
+                  ? _DayView(
+                      day: _selectedDay,
+                      onChangeDay: (DateTime d) =>
+                          setState(() => _selectedDay = d),
+                    )
+                  : const _TrendView(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -82,9 +87,14 @@ class _DayView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final String localeCode = ref.watch(localeControllerProvider).effective.languageCode;
+    final String localeCode = ref
+        .watch(localeControllerProvider)
+        .effective
+        .languageCode;
     final String date = DateFmt.iso(day);
-    final AsyncValue<List<MealEntry>> meals = ref.watch(mealsByDateProvider(date));
+    final AsyncValue<List<MealEntry>> meals = ref.watch(
+      mealsByDateProvider(date),
+    );
 
     return Column(
       children: <Widget>[
@@ -94,12 +104,15 @@ class _DayView extends ConsumerWidget {
           children: <Widget>[
             IconButton(
               key: const ValueKey<String>(TestKeys.historyPrevDay),
-              onPressed: () => onChangeDay(day.subtract(const Duration(days: 1))),
+              onPressed: () =>
+                  onChangeDay(day.subtract(const Duration(days: 1))),
               icon: const Icon(Icons.chevron_left),
               tooltip: l10n.history_prevDay,
             ),
-            Text(DateFmt.medium(day, localeCode),
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              DateFmt.medium(day, localeCode),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             IconButton(
               key: const ValueKey<String>(TestKeys.historyNextDay),
               onPressed: () => onChangeDay(day.add(const Duration(days: 1))),
@@ -125,10 +138,8 @@ class _DayView extends ConsumerWidget {
                 itemCount: list.length,
                 separatorBuilder: (BuildContext _, int _) =>
                     const SizedBox(height: AppSpacing.sm),
-                itemBuilder: (BuildContext ctx, int i) => _DayMealCard(
-                  entry: list[i],
-                  date: date,
-                ),
+                itemBuilder: (BuildContext ctx, int i) =>
+                    _DayMealCard(entry: list[i], date: date),
               );
             },
           ),
@@ -167,7 +178,9 @@ class _DayMealCard extends ConsumerWidget {
       await ref.read(mealRepositoryProvider).deleteMeal(entry.id);
       ref.invalidate(mealsByDateProvider(date));
       ref.invalidate(dailySummaryProvider(date));
-      if (context.mounted) AppSnackbar.showMessage(context, l10n.meal_delete_success);
+      if (context.mounted) {
+        AppSnackbar.showMessage(context, l10n.meal_delete_success);
+      }
     } catch (e) {
       if (context.mounted) AppSnackbar.showError(context, e);
     }
@@ -186,17 +199,25 @@ class _DayMealCard extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(l10n.mealTypeLabel(entry.mealType),
-                      style: theme.textTheme.titleMedium),
-                  Text(l10n.today_mealItemCount(entry.items.length),
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.onSurfaceVariant)),
+                  Text(
+                    l10n.mealTypeLabel(entry.mealType),
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  Text(
+                    l10n.today_mealItemCount(entry.items.length),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),
-            Text('${entry.totalKcal.round()} ${l10n.summary_unit_kcal}',
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(color: theme.colorScheme.primary)),
+            Text(
+              '${entry.totalKcal.round()} ${l10n.summary_unit_kcal}',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
+            ),
             IconButton(
               onPressed: () => _delete(context, ref),
               icon: const Icon(Icons.delete_outline, color: AppColors.error),
@@ -215,7 +236,10 @@ class _TrendView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final String localeCode = ref.watch(localeControllerProvider).effective.languageCode;
+    final String localeCode = ref
+        .watch(localeControllerProvider)
+        .effective
+        .languageCode;
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     final AsyncValue<List<TrendDay>> trend = ref.watch(trendProvider(7));
 
@@ -223,7 +247,11 @@ class _TrendView extends ConsumerWidget {
       skipLoadingOnReload: true,
       loading: () => const Padding(
         padding: EdgeInsets.all(AppSpacing.md),
-        child: Skeleton(width: double.infinity, height: 220, radius: AppRadius.md),
+        child: Skeleton(
+          width: double.infinity,
+          height: 220,
+          radius: AppRadius.md,
+        ),
       ),
       error: (Object e, _) =>
           ErrorView(error: e, onRetry: () => ref.invalidate(trendProvider(7))),
@@ -231,7 +259,8 @@ class _TrendView extends ConsumerWidget {
         if (days.isEmpty) return EmptyView(message: l10n.common_empty);
         // RTL:X 轴右→左(最近在 start),反转展示顺序(UI §8.2)。
         final List<TrendDay> ordered = isRtl ? days.reversed.toList() : days;
-        final double maxY = ordered.fold<double>(
+        final double maxY =
+            ordered.fold<double>(
               0,
               (double m, TrendDay d) =>
                   d.consumedKcal > m ? d.consumedKcal.toDouble() : m,
@@ -243,8 +272,10 @@ class _TrendView extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(l10n.history_trend_title,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.history_trend_title,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: AppSpacing.md),
               SizedBox(
                 key: const ValueKey<String>(TestKeys.historyTrendChart),
@@ -255,11 +286,14 @@ class _TrendView extends ConsumerWidget {
                     alignment: BarChartAlignment.spaceAround,
                     titlesData: FlTitlesData(
                       leftTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                       topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                       rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
@@ -268,12 +302,17 @@ class _TrendView extends ConsumerWidget {
                             if (idx < 0 || idx >= ordered.length) {
                               return const SizedBox.shrink();
                             }
-                            final DateTime? d =
-                                DateTime.tryParse(ordered[idx].date);
+                            final DateTime? d = DateTime.tryParse(
+                              ordered[idx].date,
+                            );
                             return Padding(
-                              padding: const EdgeInsets.only(top: AppSpacing.xxs),
+                              padding: const EdgeInsets.only(
+                                top: AppSpacing.xxs,
+                              ),
                               child: Text(
-                                d == null ? '' : DateFmt.shortDay(d, localeCode),
+                                d == null
+                                    ? ''
+                                    : DateFmt.shortDay(d, localeCode),
                                 style: Theme.of(context).textTheme.labelSmall,
                               ),
                             );
@@ -303,7 +342,10 @@ class _TrendView extends ConsumerWidget {
               const SizedBox(height: AppSpacing.md),
               Row(
                 children: <Widget>[
-                  _LegendDot(color: AppColors.primary, label: l10n.history_trend_caloriesLegend),
+                  _LegendDot(
+                    color: AppColors.primary,
+                    label: l10n.history_trend_caloriesLegend,
+                  ),
                 ],
               ),
             ],
@@ -324,8 +366,14 @@ class _LegendDot extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Container(width: 12, height: 12, decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.circular(AppRadius.xs))),
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(AppRadius.xs),
+          ),
+        ),
         const SizedBox(width: AppSpacing.xs),
         Text(label, style: Theme.of(context).textTheme.bodySmall),
       ],

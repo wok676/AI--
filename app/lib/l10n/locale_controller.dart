@@ -75,5 +75,5 @@ class LocaleController extends StateNotifier<LocaleState> {
 
 final localeControllerProvider =
     StateNotifierProvider<LocaleController, LocaleState>((Ref ref) {
-  return LocaleController(ref.watch(secureStorageProvider));
-});
+      return LocaleController(ref.watch(secureStorageProvider));
+    });

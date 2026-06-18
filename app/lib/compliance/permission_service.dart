@@ -25,7 +25,8 @@ class PermissionService {
   Future<PermissionOutcome> requestPhotos() => _request(Permission.photos);
 
   /// 通知权限(开通知开关 / 首次保存后询问一次,Should)。
-  Future<PermissionOutcome> requestNotifications() => _request(Permission.notification);
+  Future<PermissionOutcome> requestNotifications() =>
+      _request(Permission.notification);
 
   /// 仅**查询**是否已授权(不触发系统弹窗)。用于"仅首次解释"——
   /// 已授权则跳过前置解释弹窗,直接走功能(§7.3)。
@@ -45,7 +46,9 @@ class PermissionService {
   Future<PermissionOutcome> _request(Permission permission) async {
     try {
       final PermissionStatus status = await permission.request();
-      if (status.isGranted || status.isLimited) return PermissionOutcome.granted;
+      if (status.isGranted || status.isLimited) {
+        return PermissionOutcome.granted;
+      }
       if (status.isPermanentlyDenied || status.isRestricted) {
         return PermissionOutcome.permanentlyDenied;
       }
@@ -66,5 +69,6 @@ class PermissionService {
   }
 }
 
-final permissionServiceProvider =
-    Provider<PermissionService>((Ref ref) => const PermissionService());
+final permissionServiceProvider = Provider<PermissionService>(
+  (Ref ref) => const PermissionService(),
+);

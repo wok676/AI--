@@ -27,7 +27,8 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   // 唯一测试账号(本地测试专用口令,满足后端 ≥8 含字母+数字)。
-  final String email = 'qa_it_${DateTime.now().millisecondsSinceEpoch}@test.local';
+  final String email =
+      'qa_it_${DateTime.now().millisecondsSinceEpoch}@test.local';
   const String password = 'QaItPass123';
 
   /// 反复 pump 直到 [finder] 命中或超时(承载真网络往返,不依赖固定时长)。
@@ -54,8 +55,9 @@ void main() {
     await tester.tap(finder);
   }
 
-  testWidgets('register -> home -> logout -> login -> home (+ cleanup)',
-      (WidgetTester tester) async {
+  testWidgets('register -> home -> logout -> login -> home (+ cleanup)', (
+    WidgetTester tester,
+  ) async {
     void step(String s) => debugPrint('IT_STEP: $s');
 
     await tester.pumpWidget(const ProviderScope(child: CalorieApp()));
@@ -122,7 +124,10 @@ void main() {
     await pumpUntil(tester, byKey(TestKeys.deleteAccountBtn));
     await tapWhenVisible(tester, byKey(TestKeys.deleteAccountBtn));
     await pumpUntil(tester, byKey(TestKeys.deleteConfirmPasswordField));
-    await tester.enterText(byKey(TestKeys.deleteConfirmPasswordField), password);
+    await tester.enterText(
+      byKey(TestKeys.deleteConfirmPasswordField),
+      password,
+    );
     await tester.pump(const Duration(milliseconds: 200));
     await tester.tap(byKey(TestKeys.deleteConfirmBtn));
 

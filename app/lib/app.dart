@@ -19,7 +19,8 @@ class CalorieApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context).appTitle,
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
 
       // 仅浅色模式(PRD C8):light/dark 同源,锁 light,避免系统深色反色。

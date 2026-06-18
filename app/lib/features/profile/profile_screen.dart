@@ -35,7 +35,8 @@ class ProfileScreen extends ConsumerWidget {
     final LocaleState localeState = ref.watch(localeControllerProvider);
     final String currentLang = localeState.isFollowingSystem
         ? l10n.settings_language_systemDefault
-        : (SupportedLocales.nativeNames[localeState.effective.languageCode] ?? '');
+        : (SupportedLocales.nativeNames[localeState.effective.languageCode] ??
+              '');
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -45,127 +46,150 @@ class ProfileScreen extends ConsumerWidget {
       ),
       body: AppGradientBackground(
         child: me.when(
-        skipLoadingOnReload: true,
-        loading: () => const _ProfileSkeleton(),
-        error: (Object e, _) =>
-            ErrorView(error: e, onRetry: () => ref.invalidate(meProvider)),
-        data: (MeProfile profile) => ListView(
-          key: const ValueKey<String>(TestKeys.profileScreen),
-          children: <Widget>[
-            // —— 头像 + 昵称:浅色卡片质感(头像圆底 + 名称),视觉增强 ——
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 56,
-                        height: 56,
-                        decoration: const BoxDecoration(
-                          color: AppColors.primaryContainer,
-                          shape: BoxShape.circle,
+          skipLoadingOnReload: true,
+          loading: () => const _ProfileSkeleton(),
+          error: (Object e, _) =>
+              ErrorView(error: e, onRetry: () => ref.invalidate(meProvider)),
+          data: (MeProfile profile) => ListView(
+            key: const ValueKey<String>(TestKeys.profileScreen),
+            children: <Widget>[
+              // —— 头像 + 昵称:浅色卡片质感(头像圆底 + 名称),视觉增强 ——
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.md,
+                  AppSpacing.md,
+                  AppSpacing.md,
+                  AppSpacing.sm,
+                ),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 56,
+                          height: 56,
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryContainer,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.person,
+                            color: AppColors.onPrimaryContainer,
+                            size: 28,
+                          ),
                         ),
-                        alignment: Alignment.center,
-                        child: const Icon(Icons.person,
-                            color: AppColors.onPrimaryContainer, size: 28),
-                      ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
-                        child: Text(profile.username,
-                            style: Theme.of(context).textTheme.titleLarge),
-                      ),
-                    ],
+                        const SizedBox(width: AppSpacing.md),
+                        Expanded(
+                          child: Text(
+                            profile.username,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            // —— 设置项 ——
-            // (移除原"个人资料"行:无对应详情/编辑页,点击空操作;用户资料已在上方头像卡展示。)
-            ListTile(
-              leading: const Icon(Icons.flag_outlined),
-              title: Text(l10n.goal_title),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(AppRoutes.goal),
-            ),
-            SwitchListTile(
-              secondary: const Icon(Icons.notifications_outlined),
-              title: Text(l10n.settings_notifications),
-              value: profile.notifyEnabled,
-              onChanged: (bool v) => _toggleNotify(context, ref, v),
-            ),
-            _UnitsTile(profile: profile),
-            ListTile(
-              key: const ValueKey<String>(TestKeys.languageEntry),
-              leading: const Icon(Icons.language),
-              title: Text(l10n.settings_language),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(currentLang,
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.onSurfaceVariant)),
-                  const Icon(Icons.chevron_right),
-                ],
+              // —— 设置项 ——
+              // (移除原"个人资料"行:无对应详情/编辑页,点击空操作;用户资料已在上方头像卡展示。)
+              ListTile(
+                leading: const Icon(Icons.flag_outlined),
+                title: Text(l10n.goal_title),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.goal),
               ),
-              onTap: () => context.push(AppRoutes.language),
-            ),
-            ListTile(
-              leading: const Icon(Icons.description_outlined),
-              title: Text(l10n.settings_terms),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(AppRoutes.legalTerms),
-            ),
-            ListTile(
-              leading: const Icon(Icons.lock_outline),
-              title: Text(l10n.settings_privacy),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(AppRoutes.legalPrivacy),
-            ),
-            // (移除原"关于"行:无对应关于页、点击空操作的死交互;隐私/用户协议入口上方已独立提供。)
-
-            const Divider(height: 1),
-            // —— 退出登录 ——
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: OutlinedButton(
-                key: const ValueKey<String>(TestKeys.logoutBtn),
-                onPressed: () => _logout(context, ref),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(AppSizes.buttonHeight),
+              SwitchListTile(
+                secondary: const Icon(Icons.notifications_outlined),
+                title: Text(l10n.settings_notifications),
+                value: profile.notifyEnabled,
+                onChanged: (bool v) => _toggleNotify(context, ref, v),
+              ),
+              _UnitsTile(profile: profile),
+              ListTile(
+                key: const ValueKey<String>(TestKeys.languageEntry),
+                leading: const Icon(Icons.language),
+                title: Text(l10n.settings_language),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      currentLang,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                    const Icon(Icons.chevron_right),
+                  ],
                 ),
-                child: Text(l10n.auth_logout),
+                onTap: () => context.push(AppRoutes.language),
               ),
-            ),
+              ListTile(
+                leading: const Icon(Icons.description_outlined),
+                title: Text(l10n.settings_terms),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.legalTerms),
+              ),
+              ListTile(
+                leading: const Icon(Icons.lock_outline),
+                title: Text(l10n.settings_privacy),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.legalPrivacy),
+              ),
 
-            // —— 注销账号(error 色,显著不隐藏,§7.2;居中略小,仍带警告图标保持可发现)——
-            Center(
-              child: TextButton.icon(
-                key: const ValueKey<String>(TestKeys.deleteAccountBtn),
-                onPressed: () => AccountDeleteFlow.show(context, ref),
-                icon: const Icon(Icons.warning_amber, size: 18, color: AppColors.error),
-                label: Text(
-                  l10n.account_delete_entry,
-                  style: Theme.of(context).textTheme.bodyMedium
-                      ?.copyWith(color: AppColors.error),
+              // (移除原"关于"行:无对应关于页、点击空操作的死交互;隐私/用户协议入口上方已独立提供。)
+              const Divider(height: 1),
+              // —— 退出登录 ——
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.md),
+                child: OutlinedButton(
+                  key: const ValueKey<String>(TestKeys.logoutBtn),
+                  onPressed: () => _logout(context, ref),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(AppSizes.buttonHeight),
+                  ),
+                  child: Text(l10n.auth_logout),
                 ),
-                style: TextButton.styleFrom(foregroundColor: AppColors.error),
               ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-          ],
+
+              // —— 注销账号(error 色,显著不隐藏,§7.2;居中略小,仍带警告图标保持可发现)——
+              Center(
+                child: TextButton.icon(
+                  key: const ValueKey<String>(TestKeys.deleteAccountBtn),
+                  onPressed: () => AccountDeleteFlow.show(context, ref),
+                  icon: const Icon(
+                    Icons.warning_amber,
+                    size: 18,
+                    color: AppColors.error,
+                  ),
+                  label: Text(
+                    l10n.account_delete_entry,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: AppColors.error),
+                  ),
+                  style: TextButton.styleFrom(foregroundColor: AppColors.error),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
 
-  Future<void> _toggleNotify(BuildContext context, WidgetRef ref, bool value) async {
+  Future<void> _toggleNotify(
+    BuildContext context,
+    WidgetRef ref,
+    bool value,
+  ) async {
     try {
-      await ref.read(meRepositoryProvider).patchMe(<String, Object?>{'notifyEnabled': value});
+      await ref.read(meRepositoryProvider).patchMe(<String, Object?>{
+        'notifyEnabled': value,
+      });
       ref.invalidate(meProvider);
     } catch (e) {
       if (context.mounted) AppSnackbar.showError(context, e);
@@ -226,7 +250,8 @@ class _UnitsTile extends ConsumerWidget {
             ('kJ', l10n.settings_units_kj),
           ],
           current: profile.unitEnergy,
-          onSelect: (String v) => _patch(context, ref, <String, Object?>{'unitEnergy': v}),
+          onSelect: (String v) =>
+              _patch(context, ref, <String, Object?>{'unitEnergy': v}),
         ),
         _UnitRow(
           label: l10n.settings_units_mass,
@@ -235,7 +260,8 @@ class _UnitsTile extends ConsumerWidget {
             ('oz', l10n.settings_units_oz),
           ],
           current: profile.unitMass,
-          onSelect: (String v) => _patch(context, ref, <String, Object?>{'unitMass': v}),
+          onSelect: (String v) =>
+              _patch(context, ref, <String, Object?>{'unitMass': v}),
         ),
         const SizedBox(height: AppSpacing.sm),
       ],
@@ -243,7 +269,10 @@ class _UnitsTile extends ConsumerWidget {
   }
 
   Future<void> _patch(
-      BuildContext context, WidgetRef ref, Map<String, Object?> patch) async {
+    BuildContext context,
+    WidgetRef ref,
+    Map<String, Object?> patch,
+  ) async {
     try {
       await ref.read(meRepositoryProvider).patchMe(patch);
       ref.invalidate(meProvider);

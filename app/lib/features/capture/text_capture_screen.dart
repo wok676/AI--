@@ -35,12 +35,16 @@ class _TextCaptureScreenState extends ConsumerState<TextCaptureScreen> {
     if (text.isEmpty) return;
     setState(() => _submitting = true);
     try {
-      final RecognitionResult result =
-          await ref.read(mealRepositoryProvider).recognizeText(text);
+      final RecognitionResult result = await ref
+          .read(mealRepositoryProvider)
+          .recognizeText(text);
       if (mounted) {
         context.pushReplacement(
           AppRoutes.recognitionConfirm,
-          extra: RecognitionConfirmArgs(result: result, source: RecognitionSource.text),
+          extra: RecognitionConfirmArgs(
+            result: result,
+            source: RecognitionSource.text,
+          ),
         );
       }
     } catch (e) {
@@ -86,7 +90,9 @@ class _TextCaptureScreenState extends ConsumerState<TextCaptureScreen> {
                       width: 20,
                       height: 20,
                       child: CircularProgressIndicator(
-                          strokeWidth: 2, color: AppColors.onPrimary),
+                        strokeWidth: 2,
+                        color: AppColors.onPrimary,
+                      ),
                     )
                   : Text(l10n.capture_cta_recognize),
             ),

@@ -32,7 +32,9 @@ class ProgressRing extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     final double goalSafe = goal <= 0 ? 0 : goal.toDouble();
-    final double ratio = goalSafe <= 0 ? 0 : (consumed / goalSafe).clamp(0.0, 1.0).toDouble();
+    final double ratio = goalSafe <= 0
+        ? 0
+        : (consumed / goalSafe).clamp(0.0, 1.0).toDouble();
     final bool over = goalSafe > 0 && consumed > goalSafe;
 
     return SizedBox(
@@ -64,8 +66,9 @@ class ProgressRing extends StatelessWidget {
                     Text(
                       subtitle!,
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(color: theme.colorScheme.primary),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ],
                 ],
@@ -79,7 +82,11 @@ class ProgressRing extends StatelessWidget {
 }
 
 class _RingPainter extends CustomPainter {
-  _RingPainter({required this.progress, required this.over, required this.clockwise});
+  _RingPainter({
+    required this.progress,
+    required this.over,
+    required this.clockwise,
+  });
 
   final double progress;
   final bool over;
@@ -127,5 +134,7 @@ class _RingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RingPainter old) =>
-      old.progress != progress || old.over != over || old.clockwise != clockwise;
+      old.progress != progress ||
+      old.over != over ||
+      old.clockwise != clockwise;
 }

@@ -26,7 +26,10 @@ class TokenStore {
     await _storage.write(_kRefresh, session.refreshToken);
     await _storage.write(_kUserId, session.user.id);
     await _storage.write(_kUsername, session.user.username);
-    await _storage.write(_kRole, session.user.role == UserRole.admin ? 'ADMIN' : 'USER');
+    await _storage.write(
+      _kRole,
+      session.user.role == UserRole.admin ? 'ADMIN' : 'USER',
+    );
   }
 
   /// 仅更新 access(刷新轮换时,refresh 也会一并轮换则用 saveSession)。

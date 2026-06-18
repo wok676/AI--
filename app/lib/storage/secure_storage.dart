@@ -7,11 +7,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// 所有读写包 try-catch,失败降级为 null/no-op,绝不抛到 UI 层(宪法 §1.2)。
 class SecureStorage {
   SecureStorage([FlutterSecureStorage? backend])
-      : _backend = backend ??
-            const FlutterSecureStorage(
-              aOptions: AndroidOptions(encryptedSharedPreferences: true),
-              iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
-            );
+    : _backend =
+          backend ??
+          const FlutterSecureStorage(
+            aOptions: AndroidOptions(encryptedSharedPreferences: true),
+            iOptions: IOSOptions(
+              accessibility: KeychainAccessibility.first_unlock,
+            ),
+          );
 
   final FlutterSecureStorage _backend;
 
@@ -45,4 +48,6 @@ class SecureStorage {
   }
 }
 
-final secureStorageProvider = Provider<SecureStorage>((Ref ref) => SecureStorage());
+final secureStorageProvider = Provider<SecureStorage>(
+  (Ref ref) => SecureStorage(),
+);

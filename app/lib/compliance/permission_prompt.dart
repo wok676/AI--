@@ -57,7 +57,10 @@ class PermissionPrompt {
   }
 
   /// 仅查询是否已授权(不触发系统弹窗),用于"仅首次解释"判断。
-  static Future<bool> _isGranted(PermissionService service, AppPermission permission) {
+  static Future<bool> _isGranted(
+    PermissionService service,
+    AppPermission permission,
+  ) {
     switch (permission) {
       case AppPermission.camera:
         return service.hasCamera();
@@ -82,7 +85,10 @@ class PermissionPrompt {
     }
   }
 
-  static (String, String) _copy(AppLocalizations l10n, AppPermission permission) {
+  static (String, String) _copy(
+    AppLocalizations l10n,
+    AppPermission permission,
+  ) {
     switch (permission) {
       case AppPermission.camera:
         return (l10n.perm_camera_title, l10n.perm_camera_body);

@@ -42,7 +42,8 @@ class AsyncValueView<T> extends StatelessWidget {
     return value.when(
       skipLoadingOnReload: true,
       skipLoadingOnRefresh: true,
-      loading: () => skeleton ?? const Center(child: CircularProgressIndicator()),
+      loading: () =>
+          skeleton ?? const Center(child: CircularProgressIndicator()),
       error: (Object e, _) => ErrorView(error: e, onRetry: onRetry),
       data: (T d) {
         if (isEmpty != null && isEmpty!(d)) {

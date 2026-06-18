@@ -27,7 +27,8 @@ import 'package:integration_test/integration_test.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  final String email = 'qa_it_recog_${DateTime.now().millisecondsSinceEpoch}@test.local';
+  final String email =
+      'qa_it_recog_${DateTime.now().millisecondsSinceEpoch}@test.local';
   const String password = 'QaItPass123';
 
   Finder byKey(String key) => find.byKey(ValueKey<String>(key));
@@ -68,80 +69,88 @@ void main() {
     await tester.tap(finder);
   }
 
-  testWidgets('register -> record text meal -> recognize -> confirm -> save (+ cleanup)',
-      (WidgetTester tester) async {
-    void step(String s) => debugPrint('IT_STEP: $s');
+  testWidgets(
+    'register -> record text meal -> recognize -> confirm -> save (+ cleanup)',
+    (WidgetTester tester) async {
+      void step(String s) => debugPrint('IT_STEP: $s');
 
-    await tester.pumpWidget(const ProviderScope(child: CalorieApp()));
+      await tester.pumpWidget(const ProviderScope(child: CalorieApp()));
 
-    // ── 1. 注册(未登录 → 登录页 → 切注册 → 填表 → 勾同意 → 提交)──
-    step('await auth screen');
-    await pumpUntil(tester, find.byType(AuthScreen));
-    await tester.tap(byKey(TestKeys.authModeSwitch));
-    await tester.pump(const Duration(milliseconds: 400));
-    expect(byKey(TestKeys.consentCheckbox), findsOneWidget);
-    await tester.enterText(byKey(TestKeys.loginEmailField), email);
-    await tester.enterText(byKey(TestKeys.loginPasswordField), password);
-    await tester.pump(const Duration(milliseconds: 200));
-    await tester.tap(byKey(TestKeys.consentCheckbox));
-    await tester.pump(const Duration(milliseconds: 200));
-    await tester.tap(byKey(TestKeys.loginSubmitBtn));
+      // ── 1. 注册(未登录 → 登录页 → 切注册 → 填表 → 勾同意 → 提交)──
+      step('await auth screen');
+      await pumpUntil(tester, find.byType(AuthScreen));
+      await tester.tap(byKey(TestKeys.authModeSwitch));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(byKey(TestKeys.consentCheckbox), findsOneWidget);
+      await tester.enterText(byKey(TestKeys.loginEmailField), email);
+      await tester.enterText(byKey(TestKeys.loginPasswordField), password);
+      await tester.pump(const Duration(milliseconds: 200));
+      await tester.tap(byKey(TestKeys.consentCheckbox));
+      await tester.pump(const Duration(milliseconds: 200));
+      await tester.tap(byKey(TestKeys.loginSubmitBtn));
 
-    step('await today after register');
-    await pumpUntil(tester, byKey(TestKeys.todayScreen));
+      step('await today after register');
+      await pumpUntil(tester, byKey(TestKeys.todayScreen));
 
-    // ── 2. 记一餐 ──
-    // 空态(新账号当日无记录):FAB 被刻意隐藏(避免与中部 CTA 双主操作),
-    //   须点空态视图**内部的动作按钮** stateEmptyAction(其 key 在按钮本身,可点中);
-    //   todayEmptyCta 的 key 在整张 EmptyView 上,tap 其中心会落在图标/文案区而点不到按钮。
-    // 有数据态:点右下角 FAB recordMealBtn。两者必有其一。
-    step('open capture method sheet');
-    final Finder emptyAction = byKey(TestKeys.stateEmptyAction);
-    final Finder fab = byKey(TestKeys.recordMealBtn);
-    await tester.tap(emptyAction.evaluate().isNotEmpty ? emptyAction : fab);
-    await pumpUntil(tester, byKey(TestKeys.captureOptionText));
+      // ── 2. 记一餐 ──
+      // 空态(新账号当日无记录):FAB 被刻意隐藏(避免与中部 CTA 双主操作),
+      //   须点空态视图**内部的动作按钮** stateEmptyAction(其 key 在按钮本身,可点中);
+      //   todayEmptyCta 的 key 在整张 EmptyView 上,tap 其中心会落在图标/文案区而点不到按钮。
+      // 有数据态:点右下角 FAB recordMealBtn。两者必有其一。
+      step('open capture method sheet');
+      final Finder emptyAction = byKey(TestKeys.stateEmptyAction);
+      final Finder fab = byKey(TestKeys.recordMealBtn);
+      await tester.tap(emptyAction.evaluate().isNotEmpty ? emptyAction : fab);
+      await pumpUntil(tester, byKey(TestKeys.captureOptionText));
 
-    // ── 3. 选「文字」→ 输入 → 识别 ──
-    step('choose text capture');
-    await tester.tap(byKey(TestKeys.captureOptionText));
-    await pumpUntil(tester, byKey(TestKeys.captureTextField));
-    await tester.enterText(
-      byKey(TestKeys.captureTextField),
-      'two boiled eggs and a bowl of white rice',
-    );
-    await tester.pump(const Duration(milliseconds: 200));
-    step('submit recognize');
-    // 用 tapWhenVisible(ensureVisible + 点击):识别按钮在 Expanded 文本框下方,
-    // 直接 tap 其中心偶发 warnIfMissed(命中坐标落在视口边缘),先滚动确保可见再点。
-    await tapWhenVisible(tester, byKey(TestKeys.captureRecognizeBtn));
+      // ── 3. 选「文字」→ 输入 → 识别 ──
+      step('choose text capture');
+      await tester.tap(byKey(TestKeys.captureOptionText));
+      await pumpUntil(tester, byKey(TestKeys.captureTextField));
+      await tester.enterText(
+        byKey(TestKeys.captureTextField),
+        'two boiled eggs and a bowl of white rice',
+      );
+      await tester.pump(const Duration(milliseconds: 200));
+      step('submit recognize');
+      // 用 tapWhenVisible(ensureVisible + 点击):识别按钮在 Expanded 文本框下方,
+      // 直接 tap 其中心偶发 warnIfMissed(命中坐标落在视口边缘),先滚动确保可见再点。
+      await tapWhenVisible(tester, byKey(TestKeys.captureRecognizeBtn));
 
-    // ── 4. 等确认页(真实 AI 调用 + 中转站往返,放宽到 60s)──
-    step('await confirm screen');
-    await pumpUntil(tester, byKey(TestKeys.recognitionSaveBtn),
-        timeout: const Duration(seconds: 60));
+      // ── 4. 等确认页(真实 AI 调用 + 中转站往返,放宽到 60s)──
+      step('await confirm screen');
+      await pumpUntil(
+        tester,
+        byKey(TestKeys.recognitionSaveBtn),
+        timeout: const Duration(seconds: 60),
+      );
 
-    // ── 5. 保存 → 回今日(确认页栈弹出)──
-    step('save meal');
-    await tapWhenVisible(tester, byKey(TestKeys.recognitionSaveBtn));
-    // 保存成功后确认页 context.pop() 弹出 → 回到今日。
-    // 注意:todayScreen 由 StatefulShellRoute.indexedStack 常驻挂载,push 确认页时它仍在树中,
-    //   故不能用"todayScreen 出现"判断已返回;改等**保存键消失**(= 确认页已弹出)作为可靠信号。
-    step('await leave confirm after save');
-    await pumpUntilGone(tester, byKey(TestKeys.recognitionSaveBtn));
-    // 闭环完成:已离开确认页,今日页仍在(未崩溃)。
-    expect(byKey(TestKeys.todayScreen), findsOneWidget);
+      // ── 5. 保存 → 回今日(确认页栈弹出)──
+      step('save meal');
+      await tapWhenVisible(tester, byKey(TestKeys.recognitionSaveBtn));
+      // 保存成功后确认页 context.pop() 弹出 → 回到今日。
+      // 注意:todayScreen 由 StatefulShellRoute.indexedStack 常驻挂载,push 确认页时它仍在树中,
+      //   故不能用"todayScreen 出现"判断已返回;改等**保存键消失**(= 确认页已弹出)作为可靠信号。
+      step('await leave confirm after save');
+      await pumpUntilGone(tester, byKey(TestKeys.recognitionSaveBtn));
+      // 闭环完成:已离开确认页,今日页仍在(未崩溃)。
+      expect(byKey(TestKeys.todayScreen), findsOneWidget);
 
-    // ── 6. 自清理:资料 → 注销(二次验密)──
-    step('go profile, delete account');
-    await tester.tap(byKey(TestKeys.tabProfile));
-    await pumpUntil(tester, byKey(TestKeys.deleteAccountBtn));
-    await tapWhenVisible(tester, byKey(TestKeys.deleteAccountBtn));
-    await pumpUntil(tester, byKey(TestKeys.deleteConfirmPasswordField));
-    await tester.enterText(byKey(TestKeys.deleteConfirmPasswordField), password);
-    await tester.pump(const Duration(milliseconds: 200));
-    await tester.tap(byKey(TestKeys.deleteConfirmBtn));
-    await pumpUntil(tester, find.byType(AuthScreen));
-    expect(find.byType(AuthScreen), findsOneWidget);
-    step('DONE');
-  });
+      // ── 6. 自清理:资料 → 注销(二次验密)──
+      step('go profile, delete account');
+      await tester.tap(byKey(TestKeys.tabProfile));
+      await pumpUntil(tester, byKey(TestKeys.deleteAccountBtn));
+      await tapWhenVisible(tester, byKey(TestKeys.deleteAccountBtn));
+      await pumpUntil(tester, byKey(TestKeys.deleteConfirmPasswordField));
+      await tester.enterText(
+        byKey(TestKeys.deleteConfirmPasswordField),
+        password,
+      );
+      await tester.pump(const Duration(milliseconds: 200));
+      await tester.tap(byKey(TestKeys.deleteConfirmBtn));
+      await pumpUntil(tester, find.byType(AuthScreen));
+      expect(find.byType(AuthScreen), findsOneWidget);
+      step('DONE');
+    },
+  );
 }

@@ -40,7 +40,11 @@ class EmptyView extends StatelessWidget {
             // 更精致的图标插画:图标 + 浅色强调圆底组合(视觉增强,纯代码绘制)。
             _EmptyIllustration(icon: icon),
             const SizedBox(height: AppSpacing.lg),
-            Text(message, textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium,
+            ),
             if (actionLabel != null && onAction != null) ...<Widget>[
               const SizedBox(height: AppSpacing.lg),
               FilledButton.icon(
@@ -118,7 +122,11 @@ class ErrorView extends StatelessWidget {
           children: <Widget>[
             Icon(Icons.error_outline, size: 56, color: theme.colorScheme.error),
             const SizedBox(height: AppSpacing.md),
-            Text(message, textAlign: TextAlign.center, style: theme.textTheme.bodyLarge),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyLarge,
+            ),
             if (onRetry != null) ...<Widget>[
               const SizedBox(height: AppSpacing.lg),
               OutlinedButton.icon(

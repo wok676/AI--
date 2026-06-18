@@ -7,8 +7,10 @@ abstract final class AppConfig {
 
   /// 后端 API 基址(含到 /api 前缀);版本前缀 /v1 由 client 拼接(API §0)。
   /// 默认指向本地开发后端,生产由 --dart-define 覆盖。
-  static const String apiBaseUrl =
-      String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:3000/api');
+  static const String apiBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://localhost:3000/api',
+  );
 
   static const String apiVersion = 'v1';
 
@@ -16,17 +18,25 @@ abstract final class AppConfig {
   static String get apiRoot => '$apiBaseUrl/$apiVersion';
 
   /// 网络超时(ms),可由 --dart-define 覆盖。
-  static const int connectTimeoutMs =
-      int.fromEnvironment('API_CONNECT_TIMEOUT_MS', defaultValue: 10000);
-  static const int receiveTimeoutMs =
-      int.fromEnvironment('API_RECEIVE_TIMEOUT_MS', defaultValue: 20000);
+  static const int connectTimeoutMs = int.fromEnvironment(
+    'API_CONNECT_TIMEOUT_MS',
+    defaultValue: 10000,
+  );
+  static const int receiveTimeoutMs = int.fromEnvironment(
+    'API_RECEIVE_TIMEOUT_MS',
+    defaultValue: 20000,
+  );
 
   /// AI 识别(文字/图片)专用接收超时:AI 推理 + 中转往返延迟波动大(实测 4~15s+,
   /// 偶发更久),普通 20s 会**误杀有效请求**导致"识别失败"。给识别单独放宽到 60s。
-  static const int recognizeReceiveTimeoutMs =
-      int.fromEnvironment('API_RECOGNIZE_RECEIVE_TIMEOUT_MS', defaultValue: 60000);
+  static const int recognizeReceiveTimeoutMs = int.fromEnvironment(
+    'API_RECOGNIZE_RECEIVE_TIMEOUT_MS',
+    defaultValue: 60000,
+  );
 
   /// 失败重试次数(幂等 GET / 网络抖动)。
-  static const int maxRetries =
-      int.fromEnvironment('API_MAX_RETRIES', defaultValue: 2);
+  static const int maxRetries = int.fromEnvironment(
+    'API_MAX_RETRIES',
+    defaultValue: 2,
+  );
 }

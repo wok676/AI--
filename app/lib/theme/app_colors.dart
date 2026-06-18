@@ -72,7 +72,9 @@ abstract final class AppColors {
   /// 起点用 surface 原色,终点用 primaryContainer @ ~22% 叠在 surface 上的近似浅绿,
   /// 保证整体仍极浅、文字清晰。
   static const Color gradientTop = surface; // #FCFDFB
-  static const Color gradientBottom = Color(0xFFEAF4EE); // surface 上叠 primaryContainer ~22%
+  static const Color gradientBottom = Color(
+    0xFFEAF4EE,
+  ); // surface 上叠 primaryContainer ~22%
 
   /// 柔光色斑(RadialGradient 中心色 → 透明,做柔边,不用模糊滤镜省性能)。
   /// 右上斑:primary @ ~7%;左下斑:tertiary @ ~6%。透明端为同色 0 alpha。

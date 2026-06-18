@@ -37,11 +37,11 @@ class AuthController extends StateNotifier<AuthState> {
     required TokenStore tokenStore,
     required ConsentGate consentGate,
     required AccountDeletionService deletionService,
-  })  : _authRepo = authRepo,
-        _tokenStore = tokenStore,
-        _consentGate = consentGate,
-        _deletionService = deletionService,
-        super(AuthState.unknown) {
+  }) : _authRepo = authRepo,
+       _tokenStore = tokenStore,
+       _consentGate = consentGate,
+       _deletionService = deletionService,
+       super(AuthState.unknown) {
     _restore();
   }
 
@@ -64,7 +64,10 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> login({required String email, required String password}) async {
-    final AuthSession session = await _authRepo.login(email: email, password: password);
+    final AuthSession session = await _authRepo.login(
+      email: email,
+      password: password,
+    );
     await _onSession(session);
   }
 
@@ -115,8 +118,9 @@ class AuthController extends StateNotifier<AuthState> {
 
   /// 【账号注销】成功后切到未登录(本地凭证清除由 [AccountDeletionService] 完成)。
   Future<AccountDeletionResult> deleteAccount({String? password}) async {
-    final AccountDeletionResult result =
-        await _deletionService.deleteAccount(password: password);
+    final AccountDeletionResult result = await _deletionService.deleteAccount(
+      password: password,
+    );
     if (result.isSuccess) {
       state = const AuthState(status: AuthStatus.unauthenticated);
     }
@@ -124,12 +128,13 @@ class AuthController extends StateNotifier<AuthState> {
   }
 }
 
-final authControllerProvider =
-    StateNotifierProvider<AuthController, AuthState>((Ref ref) {
-  return AuthController(
-    authRepo: ref.watch(authRepositoryProvider),
-    tokenStore: ref.watch(tokenStoreProvider),
-    consentGate: ref.watch(consentGateProvider),
-    deletionService: ref.watch(accountDeletionServiceProvider),
-  );
-});
+final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
+  (Ref ref) {
+    return AuthController(
+      authRepo: ref.watch(authRepositoryProvider),
+      tokenStore: ref.watch(tokenStoreProvider),
+      consentGate: ref.watch(consentGateProvider),
+      deletionService: ref.watch(accountDeletionServiceProvider),
+    );
+  },
+);

@@ -104,7 +104,9 @@ abstract final class AppTheme {
           borderRadius: BorderRadius.circular(AppRadius.sm),
           borderSide: const BorderSide(color: AppColors.error, width: 2),
         ),
-        hintStyle: textTheme.bodyLarge?.copyWith(color: AppColors.onSurfaceVariant),
+        hintStyle: textTheme.bodyLarge?.copyWith(
+          color: AppColors.onSurfaceVariant,
+        ),
         errorStyle: textTheme.bodySmall?.copyWith(color: AppColors.error),
       ),
 
@@ -131,7 +133,9 @@ abstract final class AppTheme {
         height: AppSizes.navBarHeight,
         backgroundColor: AppColors.surfaceContainerLowest,
         indicatorColor: AppColors.secondaryContainer,
-        labelTextStyle: WidgetStatePropertyAll<TextStyle?>(textTheme.labelMedium),
+        labelTextStyle: WidgetStatePropertyAll<TextStyle?>(
+          textTheme.labelMedium,
+        ),
       ),
 
       // Bottom Sheet:顶角 lg。
@@ -139,7 +143,9 @@ abstract final class AppTheme {
         backgroundColor: AppColors.surfaceContainerLowest,
         elevation: AppElevation.level3,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.lg),
+          ),
         ),
       ),
 
@@ -157,7 +163,9 @@ abstract final class AppTheme {
       // Snackbar:inverseSurface 底,圆角 sm,浮起。
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.inverseSurface,
-        contentTextStyle: textTheme.bodyMedium?.copyWith(color: AppColors.onInverseSurface),
+        contentTextStyle: textTheme.bodyMedium?.copyWith(
+          color: AppColors.onInverseSurface,
+        ),
         actionTextColor: AppColors.primaryContainer,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(

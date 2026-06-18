@@ -27,7 +27,8 @@ abstract final class SupportedLocales {
   /// RTL 语言集合(整体镜像布局,PRD §4.8.2 / UI §8)。
   static const Set<String> rtlLanguageCodes = <String>{'ar', 'ur'};
 
-  static bool isRtl(Locale locale) => rtlLanguageCodes.contains(locale.languageCode);
+  static bool isRtl(Locale locale) =>
+      rtlLanguageCodes.contains(locale.languageCode);
 
   /// 各语言自显名(语言选择器展示,不走 i18n —— 语言名以本语言书写)。
   static const Map<String, String> nativeNames = <String, String>{

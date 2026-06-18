@@ -22,7 +22,10 @@ import 'recognition_confirm_screen.dart';
 abstract final class CaptureFlow {
   CaptureFlow._();
 
-  static Future<void> showMethodSheet(BuildContext context, WidgetRef ref) async {
+  static Future<void> showMethodSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final AppLocalizations l10n = AppLocalizations.of(context);
     await showModalBottomSheet<void>(
       context: context,
@@ -89,7 +92,9 @@ abstract final class CaptureFlow {
       if (context.mounted) {
         AppSnackbar.showMessage(
           context,
-          isCamera ? l10n.capture_camera_unavailable : l10n.capture_gallery_unavailable,
+          isCamera
+              ? l10n.capture_camera_unavailable
+              : l10n.capture_gallery_unavailable,
         );
       }
       return;
@@ -111,7 +116,9 @@ abstract final class CaptureFlow {
       if (context.mounted) {
         AppSnackbar.showMessage(
           context,
-          isCamera ? l10n.capture_camera_unavailable : l10n.capture_gallery_unavailable,
+          isCamera
+              ? l10n.capture_camera_unavailable
+              : l10n.capture_gallery_unavailable,
         );
       }
       return;
@@ -123,7 +130,9 @@ abstract final class CaptureFlow {
       context,
       ref,
       source: source,
-      future: ref.read(mealRepositoryProvider).recognizeImage(filePath: path, source: source),
+      future: ref
+          .read(mealRepositoryProvider)
+          .recognizeImage(filePath: path, source: source),
     );
   }
 
@@ -159,8 +168,12 @@ abstract final class CaptureFlow {
 }
 
 class _MethodTile extends StatelessWidget {
-  const _MethodTile(
-      {super.key, required this.icon, required this.label, required this.onTap});
+  const _MethodTile({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
   final String label;

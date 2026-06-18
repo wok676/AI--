@@ -16,10 +16,10 @@ class Skeleton extends StatefulWidget {
 
   /// 圆形骨架(如进度环占位)。
   const Skeleton.circle({super.key, required double diameter})
-      : width = diameter,
-        height = diameter,
-        radius = 0,
-        shape = BoxShape.circle;
+    : width = diameter,
+      height = diameter,
+      radius = 0,
+      shape = BoxShape.circle;
 
   final double width;
   final double height;
@@ -30,7 +30,8 @@ class Skeleton extends StatefulWidget {
   State<Skeleton> createState() => _SkeletonState();
 }
 
-class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin {
+class _SkeletonState extends State<Skeleton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: AppMotion.shimmer,

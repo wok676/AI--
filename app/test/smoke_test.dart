@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('App boots into splash without crashing', (WidgetTester tester) async {
+  testWidgets('App boots into splash without crashing', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const ProviderScope(child: CalorieApp()));
     await tester.pump();
     // 根渲染成功即说明 ErrorBoundary/i18n/router 接线无致命错误。

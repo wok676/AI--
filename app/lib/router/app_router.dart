@@ -36,7 +36,10 @@ final _rootKey = GlobalKey<NavigatorState>();
 /// 把 Riverpod 的 [AuthState] 变化转成 [Listenable],驱动 go_router 重算 redirect。
 class _AuthRefresh extends ChangeNotifier {
   _AuthRefresh(Ref ref) {
-    ref.listen(authControllerProvider, (AuthState? _, AuthState _) => notifyListeners());
+    ref.listen(
+      authControllerProvider,
+      (AuthState? _, AuthState _) => notifyListeners(),
+    );
   }
 }
 
@@ -80,16 +83,19 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
     routes: <RouteBase>[
       GoRoute(
         path: AppRoutes.splash,
-        builder: (BuildContext context, GoRouterState state) => const SplashScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const SplashScreen(),
       ),
       GoRoute(
         path: AppRoutes.auth,
-        builder: (BuildContext context, GoRouterState state) => const AuthScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const AuthScreen(),
       ),
       // 录入文字页(root 栈,带返回)。
       GoRoute(
         path: AppRoutes.textCapture,
-        builder: (BuildContext context, GoRouterState state) => const TextCaptureScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const TextCaptureScreen(),
       ),
       // AI 识别结果确认页:extra 携带 RecognitionResult + 来源。
       GoRoute(
@@ -105,31 +111,39 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.goal,
-        builder: (BuildContext context, GoRouterState state) => const GoalScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const GoalScreen(),
       ),
       GoRoute(
         path: AppRoutes.language,
-        builder: (BuildContext context, GoRouterState state) => const LanguagePickerScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const LanguagePickerScreen(),
       ),
       // 应用内法律文档(公开,游客/已登录均可访问)。
       GoRoute(
         path: AppRoutes.legalTerms,
-        builder: (BuildContext context, GoRouterState state) => const TermsScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const TermsScreen(),
       ),
       GoRoute(
         path: AppRoutes.legalPrivacy,
-        builder: (BuildContext context, GoRouterState state) => const PrivacyScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const PrivacyScreen(),
       ),
       StatefulShellRoute.indexedStack(
-        builder: (BuildContext context, GoRouterState state,
-                StatefulNavigationShell navigationShell) =>
-            AppShell(navigationShell: navigationShell),
+        builder:
+            (
+              BuildContext context,
+              GoRouterState state,
+              StatefulNavigationShell navigationShell,
+            ) => AppShell(navigationShell: navigationShell),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
                 path: AppRoutes.today,
-                builder: (BuildContext context, GoRouterState state) => const TodayScreen(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const TodayScreen(),
               ),
             ],
           ),
@@ -137,7 +151,8 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
             routes: <RouteBase>[
               GoRoute(
                 path: AppRoutes.history,
-                builder: (BuildContext context, GoRouterState state) => const HistoryScreen(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const HistoryScreen(),
               ),
             ],
           ),
@@ -145,7 +160,8 @@ final routerProvider = Provider<GoRouter>((Ref ref) {
             routes: <RouteBase>[
               GoRoute(
                 path: AppRoutes.profile,
-                builder: (BuildContext context, GoRouterState state) => const ProfileScreen(),
+                builder: (BuildContext context, GoRouterState state) =>
+                    const ProfileScreen(),
               ),
             ],
           ),

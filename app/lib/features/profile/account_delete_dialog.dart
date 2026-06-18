@@ -36,7 +36,8 @@ class _DeleteConfirmDialog extends ConsumerStatefulWidget {
   const _DeleteConfirmDialog();
 
   @override
-  ConsumerState<_DeleteConfirmDialog> createState() => _DeleteConfirmDialogState();
+  ConsumerState<_DeleteConfirmDialog> createState() =>
+      _DeleteConfirmDialogState();
 }
 
 class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
@@ -53,10 +54,9 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     setState(() => _busy = true);
     try {
-      final AccountDeletionResult result =
-          await ref.read(authControllerProvider.notifier).deleteAccount(
-                password: _password.text,
-              );
+      final AccountDeletionResult result = await ref
+          .read(authControllerProvider.notifier)
+          .deleteAccount(password: _password.text);
       if (!mounted) return;
       if (result.isSuccess) {
         // 成功:本地凭证已被服务清除,关闭弹窗,router redirect 回登录页。
@@ -102,13 +102,18 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
             obscureText: true,
             enabled: !_busy,
             onChanged: (_) => setState(() {}),
-            decoration: InputDecoration(labelText: l10n.account_delete_confirmHint),
+            decoration: InputDecoration(
+              labelText: l10n.account_delete_confirmHint,
+            ),
           ),
           const SizedBox(height: AppSpacing.sm),
           // 网页端注销通道(Apple 要求,清晰可见)。
-          Text(l10n.account_delete_web,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: AppColors.onSurfaceVariant)),
+          Text(
+            l10n.account_delete_web,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
         ],
       ),
       actionsPadding: const EdgeInsets.all(AppSpacing.md),
@@ -128,8 +133,13 @@ class _DeleteConfirmDialogState extends ConsumerState<_DeleteConfirmDialog> {
           onPressed: canConfirm ? _confirm : null,
           child: _busy
               ? const SizedBox(
-                  width: 18, height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.onError))
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.onError,
+                  ),
+                )
               : Text(l10n.account_delete_confirmBtn),
         ),
       ],

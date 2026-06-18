@@ -62,8 +62,9 @@ class _LegalDocScreen extends StatelessWidget {
             // —— 最后更新时间(占位)——
             Text(
               lastUpdated,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: AppColors.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             // —— 章节正文 ——
@@ -72,8 +73,9 @@ class _LegalDocScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xs),
               Text(
                 section.body,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(height: 1.5), // 长文行高更舒适(CJK/拉丁通用)。
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  height: 1.5,
+                ), // 长文行高更舒适(CJK/拉丁通用)。
               ),
               const SizedBox(height: AppSpacing.lg),
             ],
@@ -102,14 +104,18 @@ class _DraftNotice extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Icon(Icons.info_outline,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.info_outline,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(
               text,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
         ],
@@ -130,19 +136,33 @@ class TermsScreen extends StatelessWidget {
       lastUpdated: l10n.legal_lastUpdated,
       sections: <_LegalSection>[
         _LegalSection(
-            heading: l10n.legal_terms_s1_h, body: l10n.legal_terms_s1_b),
+          heading: l10n.legal_terms_s1_h,
+          body: l10n.legal_terms_s1_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_terms_s2_h, body: l10n.legal_terms_s2_b),
+          heading: l10n.legal_terms_s2_h,
+          body: l10n.legal_terms_s2_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_terms_s3_h, body: l10n.legal_terms_s3_b),
+          heading: l10n.legal_terms_s3_h,
+          body: l10n.legal_terms_s3_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_terms_s4_h, body: l10n.legal_terms_s4_b),
+          heading: l10n.legal_terms_s4_h,
+          body: l10n.legal_terms_s4_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_terms_s5_h, body: l10n.legal_terms_s5_b),
+          heading: l10n.legal_terms_s5_h,
+          body: l10n.legal_terms_s5_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_terms_s6_h, body: l10n.legal_terms_s6_b),
+          heading: l10n.legal_terms_s6_h,
+          body: l10n.legal_terms_s6_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_contact_h, body: l10n.legal_contact_b),
+          heading: l10n.legal_contact_h,
+          body: l10n.legal_contact_b,
+        ),
       ],
     );
   }
@@ -160,19 +180,33 @@ class PrivacyScreen extends StatelessWidget {
       lastUpdated: l10n.legal_lastUpdated,
       sections: <_LegalSection>[
         _LegalSection(
-            heading: l10n.legal_privacy_s1_h, body: l10n.legal_privacy_s1_b),
+          heading: l10n.legal_privacy_s1_h,
+          body: l10n.legal_privacy_s1_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_privacy_s2_h, body: l10n.legal_privacy_s2_b),
+          heading: l10n.legal_privacy_s2_h,
+          body: l10n.legal_privacy_s2_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_privacy_s3_h, body: l10n.legal_privacy_s3_b),
+          heading: l10n.legal_privacy_s3_h,
+          body: l10n.legal_privacy_s3_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_privacy_s4_h, body: l10n.legal_privacy_s4_b),
+          heading: l10n.legal_privacy_s4_h,
+          body: l10n.legal_privacy_s4_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_privacy_s5_h, body: l10n.legal_privacy_s5_b),
+          heading: l10n.legal_privacy_s5_h,
+          body: l10n.legal_privacy_s5_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_privacy_s6_h, body: l10n.legal_privacy_s6_b),
+          heading: l10n.legal_privacy_s6_h,
+          body: l10n.legal_privacy_s6_b,
+        ),
         _LegalSection(
-            heading: l10n.legal_contact_h, body: l10n.legal_contact_b),
+          heading: l10n.legal_contact_h,
+          body: l10n.legal_contact_b,
+        ),
       ],
     );
   }

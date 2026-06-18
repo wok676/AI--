@@ -23,19 +23,19 @@ enum MealType {
   snack;
 
   String toJson() => switch (this) {
-        MealType.breakfast => 'BREAKFAST',
-        MealType.lunch => 'LUNCH',
-        MealType.dinner => 'DINNER',
-        MealType.snack => 'SNACK',
-      };
+    MealType.breakfast => 'BREAKFAST',
+    MealType.lunch => 'LUNCH',
+    MealType.dinner => 'DINNER',
+    MealType.snack => 'SNACK',
+  };
 
   static MealType fromJson(Object? v) => switch (v) {
-        'BREAKFAST' => MealType.breakfast,
-        'LUNCH' => MealType.lunch,
-        'DINNER' => MealType.dinner,
-        'SNACK' => MealType.snack,
-        _ => MealType.snack,
-      };
+    'BREAKFAST' => MealType.breakfast,
+    'LUNCH' => MealType.lunch,
+    'DINNER' => MealType.dinner,
+    'SNACK' => MealType.snack,
+    _ => MealType.snack,
+  };
 }
 
 /// 录入来源(API §4.10/§4.11)。
@@ -45,10 +45,10 @@ enum RecognitionSource {
   text;
 
   String toJson() => switch (this) {
-        RecognitionSource.photo => 'PHOTO',
-        RecognitionSource.gallery => 'GALLERY',
-        RecognitionSource.text => 'TEXT',
-      };
+    RecognitionSource.photo => 'PHOTO',
+    RecognitionSource.gallery => 'GALLERY',
+    RecognitionSource.text => 'TEXT',
+  };
 }
 
 // ───────────────────────── JWT 结构(强耦合点③ · API §1) ─────────────────────────
@@ -56,17 +56,21 @@ enum RecognitionSource {
 /// 对齐 JWT 返回的 user 子对象:{ id, username, role }。
 @immutable
 class AuthUser {
-  const AuthUser({required this.id, required this.username, required this.role});
+  const AuthUser({
+    required this.id,
+    required this.username,
+    required this.role,
+  });
 
   final String id;
   final String username;
   final UserRole role;
 
   factory AuthUser.fromJson(Map<String, Object?> json) => AuthUser(
-        id: json['id'] as String? ?? '',
-        username: json['username'] as String? ?? '',
-        role: UserRole.fromJson(json['role']),
-      );
+    id: json['id'] as String? ?? '',
+    username: json['username'] as String? ?? '',
+    role: UserRole.fromJson(json['role']),
+  );
 }
 
 /// 登录/注册/Apple/刷新 成功返回:{ accessToken, refreshToken, user }(API §1,不可改)。
@@ -83,12 +87,12 @@ class AuthSession {
   final AuthUser user;
 
   factory AuthSession.fromJson(Map<String, Object?> json) => AuthSession(
-        accessToken: json['accessToken'] as String? ?? '',
-        refreshToken: json['refreshToken'] as String? ?? '',
-        user: AuthUser.fromJson(
-          (json['user'] as Map<String, Object?>?) ?? const <String, Object?>{},
-        ),
-      );
+    accessToken: json['accessToken'] as String? ?? '',
+    refreshToken: json['refreshToken'] as String? ?? '',
+    user: AuthUser.fromJson(
+      (json['user'] as Map<String, Object?>?) ?? const <String, Object?>{},
+    ),
+  );
 }
 
 // ───────────────────────── 统一错误响应(API §0.2/§0.3) ─────────────────────────
@@ -110,8 +114,10 @@ class ApiError implements Exception {
   final String? traceId;
   final Map<String, Object?>? details;
 
-  factory ApiError.fromJson(Map<String, Object?> json, {int? fallbackStatus}) => ApiError(
-        statusCode: (json['statusCode'] as num?)?.toInt() ?? fallbackStatus ?? 500,
+  factory ApiError.fromJson(Map<String, Object?> json, {int? fallbackStatus}) =>
+      ApiError(
+        statusCode:
+            (json['statusCode'] as num?)?.toInt() ?? fallbackStatus ?? 500,
         code: json['code'] as String? ?? 'INTERNAL_ERROR',
         messageKey: json['messageKey'] as String? ?? 'common.error.generic',
         traceId: json['traceId'] as String?,
@@ -159,28 +165,28 @@ class RecognizedItem {
   final bool isManual;
 
   factory RecognizedItem.fromJson(Map<String, Object?> json) => RecognizedItem(
-        name: json['name'] as String? ?? '',
-        quantity: json['quantity'] as num? ?? 1,
-        unit: json['unit'] as String? ?? '',
-        kcal: json['kcal'] as num? ?? 0,
-        proteinG: json['proteinG'] as num? ?? 0,
-        carbsG: json['carbsG'] as num? ?? 0,
-        fatG: json['fatG'] as num? ?? 0,
-        confidence: (json['confidence'] as num?)?.toDouble(),
-        isManual: json['isManual'] as bool? ?? false,
-      );
+    name: json['name'] as String? ?? '',
+    quantity: json['quantity'] as num? ?? 1,
+    unit: json['unit'] as String? ?? '',
+    kcal: json['kcal'] as num? ?? 0,
+    proteinG: json['proteinG'] as num? ?? 0,
+    carbsG: json['carbsG'] as num? ?? 0,
+    fatG: json['fatG'] as num? ?? 0,
+    confidence: (json['confidence'] as num?)?.toDouble(),
+    isManual: json['isManual'] as bool? ?? false,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'name': name,
-        'quantity': quantity,
-        'unit': unit,
-        'kcal': kcal,
-        'proteinG': proteinG,
-        'carbsG': carbsG,
-        'fatG': fatG,
-        if (confidence != null) 'confidence': confidence,
-        'isManual': isManual,
-      };
+    'name': name,
+    'quantity': quantity,
+    'unit': unit,
+    'kcal': kcal,
+    'proteinG': proteinG,
+    'carbsG': carbsG,
+    'fatG': fatG,
+    if (confidence != null) 'confidence': confidence,
+    'isManual': isManual,
+  };
 }
 
 /// 识别响应(未入库,供结果确认页编辑,API §4.10)。
@@ -196,13 +202,15 @@ class RecognitionResult {
   final MealType suggestedMealType;
   final String disclaimerKey; // 固定 recognize.disclaimer(F6 免责声明)
 
-  factory RecognitionResult.fromJson(Map<String, Object?> json) => RecognitionResult(
+  factory RecognitionResult.fromJson(Map<String, Object?> json) =>
+      RecognitionResult(
         items: ((json['items'] as List<Object?>?) ?? const <Object?>[])
             .whereType<Map<String, Object?>>()
             .map(RecognizedItem.fromJson)
             .toList(growable: false),
         suggestedMealType: MealType.fromJson(json['suggestedMealType']),
-        disclaimerKey: json['disclaimerKey'] as String? ?? 'recognize.disclaimer',
+        disclaimerKey:
+            json['disclaimerKey'] as String? ?? 'recognize.disclaimer',
       );
 }
 
@@ -234,42 +242,42 @@ class MealItem {
   final bool isManual;
 
   factory MealItem.fromJson(Map<String, Object?> json) => MealItem(
-        id: json['id'] as String?,
-        name: json['name'] as String? ?? '',
-        quantity: json['quantity'] as num? ?? 1,
-        unit: json['unit'] as String? ?? '',
-        kcal: json['kcal'] as num? ?? 0,
-        proteinG: json['proteinG'] as num? ?? 0,
-        carbsG: json['carbsG'] as num? ?? 0,
-        fatG: json['fatG'] as num? ?? 0,
-        confidence: (json['confidence'] as num?)?.toDouble(),
-        isManual: json['isManual'] as bool? ?? false,
-      );
+    id: json['id'] as String?,
+    name: json['name'] as String? ?? '',
+    quantity: json['quantity'] as num? ?? 1,
+    unit: json['unit'] as String? ?? '',
+    kcal: json['kcal'] as num? ?? 0,
+    proteinG: json['proteinG'] as num? ?? 0,
+    carbsG: json['carbsG'] as num? ?? 0,
+    fatG: json['fatG'] as num? ?? 0,
+    confidence: (json['confidence'] as num?)?.toDouble(),
+    isManual: json['isManual'] as bool? ?? false,
+  );
 
   /// 由识别项构造(确认页保存用)。
   factory MealItem.fromRecognized(RecognizedItem r) => MealItem(
-        name: r.name,
-        quantity: r.quantity,
-        unit: r.unit,
-        kcal: r.kcal,
-        proteinG: r.proteinG,
-        carbsG: r.carbsG,
-        fatG: r.fatG,
-        confidence: r.confidence,
-        isManual: r.isManual,
-      );
+    name: r.name,
+    quantity: r.quantity,
+    unit: r.unit,
+    kcal: r.kcal,
+    proteinG: r.proteinG,
+    carbsG: r.carbsG,
+    fatG: r.fatG,
+    confidence: r.confidence,
+    isManual: r.isManual,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'name': name,
-        'quantity': quantity,
-        'unit': unit,
-        'kcal': kcal,
-        'proteinG': proteinG,
-        'carbsG': carbsG,
-        'fatG': fatG,
-        if (confidence != null) 'confidence': confidence,
-        'isManual': isManual,
-      };
+    'name': name,
+    'quantity': quantity,
+    'unit': unit,
+    'kcal': kcal,
+    'proteinG': proteinG,
+    'carbsG': carbsG,
+    'fatG': fatG,
+    if (confidence != null) 'confidence': confidence,
+    'isManual': isManual,
+  };
 
   MealItem copyWith({
     String? name,
@@ -279,19 +287,18 @@ class MealItem {
     num? proteinG,
     num? carbsG,
     num? fatG,
-  }) =>
-      MealItem(
-        id: id,
-        name: name ?? this.name,
-        quantity: quantity ?? this.quantity,
-        unit: unit ?? this.unit,
-        kcal: kcal ?? this.kcal,
-        proteinG: proteinG ?? this.proteinG,
-        carbsG: carbsG ?? this.carbsG,
-        fatG: fatG ?? this.fatG,
-        confidence: confidence,
-        isManual: isManual,
-      );
+  }) => MealItem(
+    id: id,
+    name: name ?? this.name,
+    quantity: quantity ?? this.quantity,
+    unit: unit ?? this.unit,
+    kcal: kcal ?? this.kcal,
+    proteinG: proteinG ?? this.proteinG,
+    carbsG: carbsG ?? this.carbsG,
+    fatG: fatG ?? this.fatG,
+    confidence: confidence,
+    isManual: isManual,
+  );
 }
 
 /// 一餐记录(API §4.11/§4.12)。
@@ -316,17 +323,17 @@ class MealEntry {
   final String? note;
 
   factory MealEntry.fromJson(Map<String, Object?> json) => MealEntry(
-        id: json['id'] as String? ?? '',
-        mealType: MealType.fromJson(json['mealType']),
-        consumedAt: json['consumedAt'] as String? ?? '',
-        localDate: json['localDate'] as String? ?? '',
-        totalKcal: json['totalKcal'] as num? ?? 0,
-        note: json['note'] as String?,
-        items: ((json['items'] as List<Object?>?) ?? const <Object?>[])
-            .whereType<Map<String, Object?>>()
-            .map(MealItem.fromJson)
-            .toList(growable: false),
-      );
+    id: json['id'] as String? ?? '',
+    mealType: MealType.fromJson(json['mealType']),
+    consumedAt: json['consumedAt'] as String? ?? '',
+    localDate: json['localDate'] as String? ?? '',
+    totalKcal: json['totalKcal'] as num? ?? 0,
+    note: json['note'] as String?,
+    items: ((json['items'] as List<Object?>?) ?? const <Object?>[])
+        .whereType<Map<String, Object?>>()
+        .map(MealItem.fromJson)
+        .toList(growable: false),
+  );
 }
 
 /// 趋势单日(API §4.15 days[])。
@@ -349,13 +356,13 @@ class TrendDay {
   final num fatG;
 
   factory TrendDay.fromJson(Map<String, Object?> json) => TrendDay(
-        date: json['date'] as String? ?? '',
-        consumedKcal: json['consumedKcal'] as num? ?? 0,
-        goalKcal: json['goalKcal'] as num? ?? 0,
-        proteinG: json['proteinG'] as num? ?? 0,
-        carbsG: json['carbsG'] as num? ?? 0,
-        fatG: json['fatG'] as num? ?? 0,
-      );
+    date: json['date'] as String? ?? '',
+    consumedKcal: json['consumedKcal'] as num? ?? 0,
+    goalKcal: json['goalKcal'] as num? ?? 0,
+    proteinG: json['proteinG'] as num? ?? 0,
+    carbsG: json['carbsG'] as num? ?? 0,
+    fatG: json['fatG'] as num? ?? 0,
+  );
 }
 
 /// 每日目标(API §4.16)。
@@ -372,16 +379,16 @@ class Goal {
   final String source; // manual | estimated
 
   factory Goal.fromJson(Map<String, Object?> json) => Goal(
-        targetKcal: json['targetKcal'] as num? ?? 0,
-        effectiveFrom: json['effectiveFrom'] as String? ?? '',
-        source: json['source'] as String? ?? 'manual',
-      );
+    targetKcal: json['targetKcal'] as num? ?? 0,
+    effectiveFrom: json['effectiveFrom'] as String? ?? '',
+    source: json['source'] as String? ?? 'manual',
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'targetKcal': targetKcal,
-        'effectiveFrom': effectiveFrom,
-        'source': source,
-      };
+    'targetKcal': targetKcal,
+    'effectiveFrom': effectiveFrom,
+    'source': source,
+  };
 }
 
 /// 当前用户 + 偏好 + profile(API §4.9 GET /me)。
@@ -408,15 +415,15 @@ class MeProfile {
   final bool notifyEnabled;
 
   factory MeProfile.fromJson(Map<String, Object?> json) => MeProfile(
-        id: json['id'] as String? ?? '',
-        username: json['username'] as String? ?? '',
-        role: UserRole.fromJson(json['role']),
-        email: json['email'] as String?,
-        locale: json['locale'] as String?,
-        unitEnergy: json['unitEnergy'] as String? ?? 'kcal',
-        unitMass: json['unitMass'] as String? ?? 'g',
-        notifyEnabled: json['notifyEnabled'] as bool? ?? false,
-      );
+    id: json['id'] as String? ?? '',
+    username: json['username'] as String? ?? '',
+    role: UserRole.fromJson(json['role']),
+    email: json['email'] as String?,
+    locale: json['locale'] as String?,
+    unitEnergy: json['unitEnergy'] as String? ?? 'kcal',
+    unitMass: json['unitMass'] as String? ?? 'g',
+    notifyEnabled: json['notifyEnabled'] as bool? ?? false,
+  );
 }
 
 /// 每日汇总(进度环,API §4.14)。

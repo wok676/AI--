@@ -18,20 +18,21 @@ class ApiClient {
     required TokenStore tokenStore,
     required String Function() acceptLanguage,
     Dio? dio,
-  })  : _tokenStore = tokenStore,
-        _acceptLanguage = acceptLanguage,
-        _dio = dio ?? Dio() {
+  }) : _tokenStore = tokenStore,
+       _acceptLanguage = acceptLanguage,
+       _dio = dio ?? Dio() {
     _dio.options
       ..baseUrl = AppConfig.apiRoot
-      ..connectTimeout = const Duration(milliseconds: AppConfig.connectTimeoutMs)
-      ..receiveTimeout = const Duration(milliseconds: AppConfig.receiveTimeoutMs)
+      ..connectTimeout = const Duration(
+        milliseconds: AppConfig.connectTimeoutMs,
+      )
+      ..receiveTimeout = const Duration(
+        milliseconds: AppConfig.receiveTimeoutMs,
+      )
       ..headers['Content-Type'] = 'application/json';
 
     _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: _onRequest,
-        onError: _onError,
-      ),
+      InterceptorsWrapper(onRequest: _onRequest, onError: _onError),
     );
   }
 
@@ -60,15 +61,14 @@ class ApiClient {
     handler.next(options);
   }
 
-  Future<void> _onError(
-    DioException e,
-    ErrorInterceptorHandler handler,
-  ) async {
+  Future<void> _onError(DioException e, ErrorInterceptorHandler handler) async {
     final RequestOptions req = e.requestOptions;
 
     // ④ 401 且非刷新请求本身 → 尝试刷新一次并重放。
     final bool isAuthEndpoint = req.path.startsWith('/auth/');
-    if (e.response?.statusCode == 401 && !isAuthEndpoint && req.extra['retried401'] != true) {
+    if (e.response?.statusCode == 401 &&
+        !isAuthEndpoint &&
+        req.extra['retried401'] != true) {
       final bool ok = await _refreshToken();
       if (ok) {
         try {
@@ -97,14 +97,13 @@ class ApiClient {
     }
 
     // ⑤ 统一转 ApiError(messageKey)。
-    handler.reject(
-      e.copyWith(error: mapDioException(e)),
-    );
+    handler.reject(e.copyWith(error: mapDioException(e)));
   }
 
   bool _shouldRetry(DioException e) {
     final bool idempotent = e.requestOptions.method.toUpperCase() == 'GET';
-    final bool transient = e.type == DioExceptionType.connectionTimeout ||
+    final bool transient =
+        e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout ||
         e.type == DioExceptionType.connectionError ||
         (e.response?.statusCode == 503);
@@ -117,12 +116,14 @@ class ApiClient {
       try {
         final String? refresh = await _tokenStore.readRefreshToken();
         if (refresh == null || refresh.isEmpty) return false;
-        final Response<Map<String, Object?>> resp = await _dio.post<Map<String, Object?>>(
-          '/auth/refresh',
-          data: <String, Object?>{'refreshToken': refresh},
-          options: Options(extra: <String, Object?>{'skipAuth': true}),
-        );
-        final Map<String, Object?> data = resp.data ?? const <String, Object?>{};
+        final Response<Map<String, Object?>> resp = await _dio
+            .post<Map<String, Object?>>(
+              '/auth/refresh',
+              data: <String, Object?>{'refreshToken': refresh},
+              options: Options(extra: <String, Object?>{'skipAuth': true}),
+            );
+        final Map<String, Object?> data =
+            resp.data ?? const <String, Object?>{};
         final AuthSession session = AuthSession.fromJson(data);
         if (session.accessToken.isEmpty) return false;
         await _tokenStore.saveSession(session);
@@ -145,6 +146,7 @@ class ApiClient {
 final apiClientProvider = Provider<ApiClient>((Ref ref) {
   return ApiClient(
     tokenStore: ref.watch(tokenStoreProvider),
-    acceptLanguage: () => ref.read(localeControllerProvider).effective.languageCode,
+    acceptLanguage: () =>
+        ref.read(localeControllerProvider).effective.languageCode,
   );
 });

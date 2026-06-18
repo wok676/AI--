@@ -18,13 +18,19 @@ class DisclaimerBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Icon(Icons.info_outline, size: 16, color: AppColors.onSurfaceVariant),
+          const Icon(
+            Icons.info_outline,
+            size: 16,
+            color: AppColors.onSurfaceVariant,
+          ),
           const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Text(
               text,
               // 关键合规文案绝不截断(UI §2.4 / §7.4)。
-              style: theme.textTheme.bodySmall?.copyWith(color: AppColors.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
           ),
         ],

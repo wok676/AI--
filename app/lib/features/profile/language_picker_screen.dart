@@ -16,7 +16,9 @@ class LanguagePickerScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final LocaleState state = ref.watch(localeControllerProvider);
-    final LocaleController controller = ref.read(localeControllerProvider.notifier);
+    final LocaleController controller = ref.read(
+      localeControllerProvider.notifier,
+    );
     final bool followingSystem = state.isFollowingSystem;
     final String currentCode = state.effective.languageCode;
 
@@ -34,8 +36,12 @@ class LanguagePickerScreen extends ConsumerWidget {
           const Divider(height: 1),
           for (final Locale locale in SupportedLocales.all)
             _LangTile(
-              key: ValueKey<String>(TestKeys.languageOption(locale.languageCode)),
-              label: SupportedLocales.nativeNames[locale.languageCode] ?? locale.languageCode,
+              key: ValueKey<String>(
+                TestKeys.languageOption(locale.languageCode),
+              ),
+              label:
+                  SupportedLocales.nativeNames[locale.languageCode] ??
+                  locale.languageCode,
               selected: !followingSystem && currentCode == locale.languageCode,
               onTap: () => controller.setLocale(locale),
             ),
@@ -46,11 +52,12 @@ class LanguagePickerScreen extends ConsumerWidget {
 }
 
 class _LangTile extends StatelessWidget {
-  const _LangTile(
-      {super.key,
-      required this.label,
-      required this.selected,
-      required this.onTap});
+  const _LangTile({
+    super.key,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String label;
   final bool selected;
