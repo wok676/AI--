@@ -20,6 +20,8 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 5. **打包与技术准入**:EAS Build/Submit 产出 Android AAB/APK、iOS IPA/TestFlight;处理签名、Play App Signing、Data Safety / App Privacy 表单的**提交机制**(文案与 ASO 由 `aso-operator` 提供)。
    - **本地 IP 打包(给人类真机联调的测试包硬性约定)**:客户端 API 地址是**编译期**写死的。打"给人类装在真机上测"的包时,**绝不能用 `localhost`**(那是手机自己、连不到电脑后端),必须注入本机局域网 IP,如 `flutter build apk --debug --dart-define=API_BASE_URL=http://<PC-LAN-IP>:3000/api`,并提示放行防火墙对应端口、手机与电脑同一 WiFi(USB 调试可用 `adb reverse tcp:3000 tcp:3000` 让默认 localhost 包也直连)。每次重打记得带上同样的 `--dart-define`,别退回 localhost。
 6. **DB 起栈即建库建表 + 实测**:起任何后端栈(本地 dev 或生产)都要保证数据库**从空库自动建好完整 schema** —— 容器 entrypoint 跑 `prisma migrate deploy`(迁移须覆盖全部表,见 backend-engineer 约定),起栈后**亲自验证**:`curl /health` 正常 + 查到全部预期表,贴证据;不要"理论上能起"就交付。容器内若依赖宿主文件(如 `/locales` 语言包)要正确挂载。
+7. **零成本公网部署兜底(无服务器/不愿备案时)**:用**免费 PaaS**(Render 等)连仓库或镜像 + 托管 Postgres + env 拿公网 HTTPS;隐私政策/用户协议用 **GitHub Pages** 托管静态页拿公网 URL(满足商店隐私 URL)。注意免费档**闲置即休眠**(冷启动 ~40s):演示前 `curl /health` 唤醒或挂保活 ping;客户端连接超时需 ≥45s(提醒 frontend)。密钥一律走 **CI Secrets / PaaS env**(API 注入、不回显、不入库)。
+8. **显示名 vs 包名**:改应用名只动 `android:label` / iOS `CFBundleDisplayName`;**包名(`applicationId`/Bundle ID)绝不轻改** —— 会破坏签名标识与已部署/已上架记录。
 
 ## 约束
 - **绝不**允许任何接口服务暴露在明文 HTTP 下;全站 HTTPS。

@@ -28,7 +28,9 @@ PM 的 PRD 与合规说明、UI 设计师的页面布局与设计令牌(Design T
 
 ## 约束
 - 零手写痕迹,小步提交;**防崩溃**:所有异步/IO 包 try-catch;三态 UI(加载/空/错误)齐全;根挂 ErrorBoundary。
-- **防黑屏(本项目踩过两次)**:① push 路由(非 shell 分支)若 Scaffold + AppBar 都透明,顶部/状态栏区会露黑底 → 背景填渐变顶色而非 `transparent`;② `showDialog` 默认挂根 Navigator,关它必须 `Navigator.of(ctx, rootNavigator: true).pop()`,否则命中 shell 嵌套 Navigator 致黑屏。
+- **release 联网权限(经典坑,务必)**:`AndroidManifest.xml` 主清单**必须显式声明 `android.permission.INTERNET`** —— Flutter 只在 debug 清单自动注入,**release 不加则所有网络请求失败**(表现为"网络异常",且 debug 包正常)。凡"debug 通 / release 必败"的网络问题先查权限清单。
+- **防黑屏(本项目踩过多次)**:① push 路由(非 shell 分支)若 Scaffold + AppBar 都透明,顶部/状态栏区会露黑底 → 背景填底色而非 `transparent`;② `showDialog` 默认挂根 Navigator,关它必须 `Navigator.of(ctx, rootNavigator: true).pop()`;③ 全屏背景组件必须**填满约束**(`Stack(fit: expand)`/`SizedBox.expand`),`ColoredBox(child:)` 会随内容收缩、不满屏处露黑底。
+- **连接超时容忍冷启动**:后端在免费 PaaS(Render 等)时,休眠后冷启动 ~40s,默认 10s `connectTimeout` 会让首开必失败 → 放宽到 ≥45s。
 - **AI/慢接口单独放宽超时**:识别/生成等 AI 接口延迟波动大(实测 4~15s+),给该请求单独设较长 `receiveTimeout`(如 60s),不套用全局 CRUD 短超时,否则有效请求被误杀报"失败"(本项目踩过)。
 - **交付即验证(实测优于声称,铁律)**:报"完成"前必须**亲自跑通并贴证据**——`analyze`/`test` 通过 + **构建出包 + 真机/模拟器装机验证目标功能确实可用**(尤其登录注册等主流程、改了原生配置/权限时)。**严禁"理论上应该好了"就交付**(本项目曾出现构建实际失败却报完成、localhost 包真机连不上)。验证不了要如实说明,不得谎报。
 - **零硬编码文本**:所有文案走 `t('ns.key')`,同步更新 `locales/zh.json`、`en.json`(i18n 并入前端职责)。

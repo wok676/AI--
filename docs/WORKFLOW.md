@@ -143,3 +143,18 @@ Rule-Refs: §6.2 鉴权, §3.2 技术栈
 | 对话框"取消/确认"按钮粘连 | 对话框动作按钮需**显式间距**,别只靠默认 OverflowBar | ui |
 | CI 托管 Android 模拟器 **boot 不稳**(swiftshader/Vulkan,600s 超时,测试根本没跑起来) | 识别闭环 e2e **以本地/真机为主**(像本项目那样);CI e2e 需容忍 boot 超时/重试或用自托管 runner,**不当硬门禁** | devops / qa |
 | 自动化测试把**常驻挂载的 shell 页(`IndexedStack` 分支)**当"已返回"信号 → 误判 | 断言**被 push 页元素的出现/消失**作为导航信号;test key 要挂在**真正可点的控件**上,不是外层容器 | qa |
+
+### 6.2 真机发布 / 部署 / 视觉(本轮新增)
+
+> 把 App 真正装到真机 + 部署公网 + 视觉重做时踩的坑,固化如下。
+
+| 教训 | 约束 | 责任 agent |
+|---|---|---|
+| **release 包缺 `INTERNET` 权限** → 所有网络请求失败("网络异常");debug 包正常(Flutter 只在 debug 清单自动注入 INTERNET) | **主清单(`AndroidManifest.xml`)必须显式声明 `android.permission.INTERNET`**;凡 debug 通 / release 必败的网络问题,先查权限清单合并差异 | frontend |
+| 免费 PaaS(Render)实例**休眠后冷启动 ~40s**,撑爆默认 10s 连接超时 → 首开"网络异常" | 连接超时放宽(≥45s 容忍冷启动);演示前先 `curl /health` 唤醒,或挂保活定时 ping | frontend / devops |
+| 透明 `Scaffold` + 背景组件用 `ColoredBox(child:)` **未铺满** → 内容不满屏处露黑底 | 全屏背景组件必须**填满约束**(`Stack(fit: expand)` / `SizedBox.expand` / 填充),不能让尺寸跟随子组件 | frontend |
+| 想改应用名却怕动到包名 | **显示名**改 `android:label` / iOS `CFBundleDisplayName` 即可;**包名**(`applicationId`/Bundle ID)绝不轻改(破坏签名标识与已部署/已上架记录) | frontend / devops |
+| 无服务器 / 不愿备案也要满足"公网可访问 + 隐私协议 URL" | **Render 免费档**(连仓库或镜像 + 托管 Postgres + env)0 成本拿公网 HTTPS;**GitHub Pages** 托管隐私政策/用户协议静态页拿公网 URL;密钥一律走 GitHub Secrets / PaaS env(API 注入、不回显、不入库) | devops |
+| 给真机/评委的包要指向不同后端 | 用 `--dart-define=API_BASE_URL=...` 区分:本地联调用**电脑局域网 IP**(同 WiFi,免插线;放行防火墙 3000),生产用 **PaaS 公网域名**;别退回 `localhost`(手机连不到) | devops |
+| 图标/视觉需重做且禁位图 | App 图标**纯代码(PIL/矢量)生成 + 按 alpha 包围盒自动居中**;视觉风格切换优先**只改设计令牌值(常量名不变)**,多数屏随主题自动更新,再逐屏收尾数据呈现 | ui-ux-designer |
+| Data Safety / 隐私表单填写 | 按**真实数据流**填(读后端识别/存储代码确认:是否留存、是否第三方共享、是否加密、是否可删),不臆测;第三方 AI 中转须如实披露 | aso-operator |
